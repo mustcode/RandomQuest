@@ -1,28 +1,7 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+Binaries/
+Intermediate/
+Saved/
+RandomQuest.opensdf
+RandomQuest.sdf
+RandomQuest.sln
+RandomQuest.v12.suo
