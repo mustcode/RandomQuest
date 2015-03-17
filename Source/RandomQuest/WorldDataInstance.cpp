@@ -90,6 +90,21 @@ ULocationObject* UWorldDataInstance::GetCurrentDungeon() const
 	return currentDungeon;
 }
 
+void UWorldDataInstance::AddConsequence(FName name)
+{
+	consequences.Add(name, 1);
+}
+
+void UWorldDataInstance::RemoveConsequence(FName name)
+{
+	consequences.Remove(name);
+}
+
+bool UWorldDataInstance::HasConsequence(FName name) const
+{
+	return consequences.Find(name) != nullptr;
+}
+
 ULocationObject* UWorldDataInstance::FindLocationByName(TArray<ULocationObject*> locations, const FName& name) const
 {
 	for (auto location : locations)

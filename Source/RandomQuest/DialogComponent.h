@@ -6,6 +6,8 @@
 #include "DialogComponent.generated.h"
 
 
+class UWorldDataInstance;
+
 USTRUCT(BlueprintType)
 struct FDialogPhrase
 {
@@ -54,7 +56,7 @@ public:
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FName> triggerConsequences;
+	TArray<FName> requiredConsequences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FDialogPhrase> phrases;
@@ -76,6 +78,9 @@ public:
 	FName topic;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> requiredConsequences;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FConversation> conversations;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -93,8 +98,15 @@ class RANDOMQUEST_API UDialogComponent : public UActorComponent
 public:	
 	UDialogComponent();
 
-	virtual void InitializeComponent() override;
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool StartConversation(const UWorldDataInstance* worldDataInstance);
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FTopic> topics;
+
+private:
+	bool CanStartTopic(const UWorldDataInstance* worldDataInstance, const FTopic& topic) const;
+	bool CanStartConversation(const UWorldDataInstance* worldDataInstance, const FConversation& conversation) const;
+	FTopic* currentTopic;
+	FConversation* currentConversation;
 };

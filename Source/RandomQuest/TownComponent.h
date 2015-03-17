@@ -7,9 +7,6 @@
 
 class ULocationObject;
 
-/**
- * 
- */
 UCLASS(ClassGroup = RPG, EditInlineNew, meta = (BlueprintSpawnableComponent))
 class RANDOMQUEST_API UTownComponent : public UActorComponent
 {

@@ -51,6 +51,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	ULocationObject* GetCurrentDungeon() const;
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddConsequence(FName name);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void RemoveConsequence(FName name);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool HasConsequence(FName name) const;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	uint32 masterSeed;
 
@@ -73,4 +82,5 @@ private:
 	ULocationObject* FindLocationByName(TArray<ULocationObject*> locations, const FName& name) const;
 	ULocationObject* currentTown;
 	ULocationObject* currentDungeon;
+	TMap<FName, int32> consequences;
 };
