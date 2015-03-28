@@ -94,19 +94,59 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class RANDOMQUEST_API UDialogComponent : public UActorComponent
 {
 	GENERATED_BODY()
+public:
 
-public:	
 	UDialogComponent();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool StartConversation(const UWorldDataInstance* worldDataInstance);
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool SetCurrentConversation(FName conversationName);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	FDialogPhrase NextPhrase();
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	FDialogPhrase GetCurrentPhrase() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool IsLastPhrase() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool ShouldAutoSelectFirstChoice() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	int32 GetNumberOfChoices() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	FText GetChoiceText(int32 index) const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool MakeChoice(int32 index);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FTopic> topics;
 
 private:
-	bool CanStartTopic(const UWorldDataInstance* worldDataInstance, const FTopic& topic) const;
-	bool CanStartConversation(const UWorldDataInstance* worldDataInstance, const FConversation& conversation) const;
+
+	template <typename T>
+	bool IsAvailable(const T& subject) const
+	{
+		ensure(worldData);
+		bool canStart = true;
+		for (auto consequence : subject.requiredConsequences)
+		{
+			if (worldData->HasConsequence(consequence))
+				continue;
+			canStart;
+			break;
+		}
+		return canStart;
+	}
+
+	const UWorldDataInstance* worldData;
 	FTopic* currentTopic;
 	FConversation* currentConversation;
+	int currentPhrase;
 };

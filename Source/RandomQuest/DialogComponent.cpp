@@ -4,7 +4,11 @@
 #include "DialogComponent.h"
 #include "WorldDataInstance.h"
 
-UDialogComponent::UDialogComponent() : currentTopic(nullptr)
+UDialogComponent::UDialogComponent() 
+	: worldData(nullptr)
+	, currentTopic(nullptr)
+	, currentConversation(nullptr)
+	, currentPhrase(0)
 {
 	bWantsInitializeComponent = false;
 	PrimaryComponentTick.bCanEverTick = false;
@@ -12,15 +16,17 @@ UDialogComponent::UDialogComponent() : currentTopic(nullptr)
 
 bool UDialogComponent::StartConversation(const UWorldDataInstance* worldDataInstance)
 {
+	worldData = worldDataInstance;
 	currentTopic = nullptr;
 	currentConversation = nullptr;
+	currentPhrase = 0;
 
 	for (int i = 0; i < topics.Num(); ++i)
 	{
 		FTopic& topic = topics[i];
 		if (topic.discussed)
 			continue;
-		if (!CanStartTopic(worldDataInstance, topic))
+		if (!IsAvailable<FTopic>(topic))
 			continue;
 		currentTopic = &topics[i];
 		break;
@@ -33,7 +39,7 @@ bool UDialogComponent::StartConversation(const UWorldDataInstance* worldDataInst
 			FTopic& topic = topics[i];
 			if (!topic.discussed || !topic.repeatable)
 				continue;
-			if (!CanStartTopic(worldDataInstance, topic))
+			if (!IsAvailable<FTopic>(topic))
 				continue;
 			currentTopic = &topics[i];
 			break;
@@ -45,7 +51,7 @@ bool UDialogComponent::StartConversation(const UWorldDataInstance* worldDataInst
 	for (int i = 0; i < currentTopic->conversations.Num(); ++i)
 	{
 		FConversation& conversation = currentTopic->conversations[i];
-		if (!CanStartConversation(worldDataInstance, conversation))
+		if (!IsAvailable<FConversation>(conversation))
 			continue;
 		currentConversation = &currentTopic->conversations[i];
 		return true;
@@ -54,28 +60,95 @@ bool UDialogComponent::StartConversation(const UWorldDataInstance* worldDataInst
 	return false;
 }
 
-bool UDialogComponent::CanStartTopic(const UWorldDataInstance* worldDataInstance, const FTopic& topic) const
+bool UDialogComponent::SetCurrentConversation(FName conversationName)
 {
-	bool canStart = true;
-	for (auto consequence : topic.requiredConsequences)
+	ensure(currentTopic);
+	for (int i = 0; i < currentTopic->conversations.Num(); ++i)
 	{
-		if (worldDataInstance->HasConsequence(consequence))
+		FConversation& conversation = currentTopic->conversations[i];
+		if (!IsAvailable<FConversation>(conversation) || (conversationName != conversation.name))
 			continue;
-		canStart = false;
-		break;
+		currentConversation = &currentTopic->conversations[i];
+		currentPhrase = 0;
+		return true;
 	}
-	return canStart;
+	return false;
 }
 
-bool UDialogComponent::CanStartConversation(const UWorldDataInstance* worldDataInstance, const FConversation& conversation) const
+FDialogPhrase UDialogComponent::NextPhrase()
 {
-	bool canStart = true;
-	for (auto consequence : conversation.requiredConsequences)
+	ensure(currentConversation);
+	ensure(!IsLastPhrase());
+	return currentConversation->phrases[++currentPhrase];
+}
+
+FDialogPhrase UDialogComponent::GetCurrentPhrase() const
+{
+	ensure(currentConversation);
+	return currentConversation->phrases[currentPhrase];
+}
+
+bool UDialogComponent::IsLastPhrase() const
+{
+	ensure(currentConversation);
+	return currentPhrase == (currentConversation->phrases.Num() - 1);
+}
+
+bool UDialogComponent::ShouldAutoSelectFirstChoice() const
+{
+	ensure(currentConversation);
+	return currentConversation->autoSelectFirstChoice;
+}
+
+int32 UDialogComponent::GetNumberOfChoices() const
+{
+	ensure(currentConversation);
+	int count = 0;
+	for (auto choice : currentConversation->choices)
 	{
-		if (worldDataInstance->HasConsequence(consequence))
+		if (!IsAvailable<FDialogChoice>(choice))
 			continue;
-		canStart;
-		break;
+		++count;
 	}
-	return canStart;
+	return count;
+}
+
+FText UDialogComponent::GetChoiceText(int32 index) const
+{
+	ensure(currentConversation);
+	ensure(index < currentConversation->choices.Num());
+	int count = 0;
+	for (auto choice : currentConversation->choices)
+	{
+		if (!IsAvailable<FDialogChoice>(choice))
+			continue;
+		if (count == index)
+			return choice.description;
+		++count;
+	}
+	ensure(false);
+	return FText::GetEmpty();
+}
+
+bool UDialogComponent::MakeChoice(int32 index)
+{
+	ensure(currentConversation);
+	ensure(index < currentConversation->choices.Num());
+	int count = 0;
+	FName nextConversation;
+	for (auto choice : currentConversation->choices)
+	{
+		if (!IsAvailable<FDialogChoice>(choice))
+			continue;
+		if (count == index)
+		{
+			nextConversation = choice.nextConversation;
+			break;
+		}
+		++count;
+	}
+	if (nextConversation.IsNone())
+		return false;
+	SetCurrentConversation(nextConversation);
+	return true;
 }
