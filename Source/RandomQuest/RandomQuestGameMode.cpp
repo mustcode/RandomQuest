@@ -8,7 +8,4 @@
 void ARandomQuestGameMode::StartPlay()
 {
 	Super::StartPlay();
-	
-	RPGCharacter character;
-	character.Randomize();
 }

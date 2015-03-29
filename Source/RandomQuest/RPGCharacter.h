@@ -27,12 +27,6 @@ public:
 	RPGCharacter();
 	~RPGCharacter();
 
-	void Randomize();
-	int GetArmorClass() const;
-	int RollToHit() const;
-	int RollForDamage() const;
-	RPGWeapon* GetCurrentWeapon() const;
-
 protected:
 	FName title;
 	FName firstName;
@@ -45,7 +39,4 @@ protected:
 	RPGAttributes* attributes;
 	RPGInventory* inventory;
 	RPGAppearance* appearance;
-
-private:
-	void RandomizeName();
 };

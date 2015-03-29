@@ -10,8 +10,3 @@ RPGClass::RPGClass()
 RPGClass::~RPGClass()
 {
 }
-
-int RPGClass::GetStartingMaxHP() const
-{
-	return hitDice;
-}
