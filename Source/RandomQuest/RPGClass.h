@@ -7,8 +7,7 @@
 
 class RPGSkill;
 class RPGSpell;
-class RPGInventory;
-class RPGItem;
+class RPGTrait;
 
 /**
  * 
@@ -30,5 +29,9 @@ protected:
 		NotImportant
 	};
 
+	FName name;
 	StatPreference statsPreferences[RPGAttributes::Stat::Count];
+	TArray<RPGTrait*> traits;
+	TArray<RPGSkill*> skills;
+	TArray<RPGSpell*> spells;
 };

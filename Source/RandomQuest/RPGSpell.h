@@ -10,4 +10,7 @@ class RANDOMQUEST_API RPGSpell
 public:
 	RPGSpell();
 	~RPGSpell();
+
+protected:
+	FName name;
 };

@@ -23,4 +23,5 @@ public:
 	static int Roll(int diceCount, DiceType diceType);
 	static int Roll(int diceCount, DiceType diceType, int* results);
 	static int Roll(int diceCount, DiceType diceType, TArray<int>& results);
+	static int Roll(int diceCount, DiceType diceType, int required);
 };

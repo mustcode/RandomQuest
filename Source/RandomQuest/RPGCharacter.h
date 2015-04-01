@@ -3,6 +3,7 @@
 #pragma once
 
 #include "RPGDice.h"
+#include "RPGAlignment.h"
 
 class RPGRace;
 class RPGClass;
@@ -10,6 +11,9 @@ class RPGAttributes;
 class RPGInventory;
 class RPGWeapon;
 class RPGAppearance;
+class RPGSkill;
+class RPGSpell;
+class RPGTrait;
 
 /**
  * 
@@ -26,6 +30,8 @@ public:
 
 	RPGCharacter();
 	~RPGCharacter();
+	void Randomize();
+	void DebugDump() const;
 
 protected:
 	FName title;
@@ -37,6 +43,10 @@ protected:
 	RPGClass* primaryClass;
 	RPGClass* secondaryClass;
 	RPGAttributes* attributes;
-	RPGInventory* inventory;
 	RPGAppearance* appearance;
+	RPGAlignment alignment;
+	RPGInventory* inventory;
+	TArray<RPGTrait*> traits;
+	TArray<RPGSkill*> skills;
+	TArray<RPGSpell*> spells;
 };

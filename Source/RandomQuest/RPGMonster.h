@@ -2,19 +2,14 @@
 
 #pragma once
 
-class RPGAttributes;
-class RPGInventory;
+#include "RPGCharacter.h"
 
 /**
  * 
  */
-class RANDOMQUEST_API RPGMonster
+class RANDOMQUEST_API RPGMonster : public RPGCharacter
 {
 public:
 	RPGMonster();
 	~RPGMonster();
-
-protected:
-	RPGAttributes* attributes;
-	RPGInventory* inventory;
 };

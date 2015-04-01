@@ -39,3 +39,15 @@ int RPGDice::Roll(int diceCount, DiceType diceType, TArray<int>& results)
 	}
 	return total;
 }
+
+int RPGDice::Roll(int diceCount, DiceType diceType, int required)
+{
+	int success = 0;
+	for (int i = 0; i < diceCount; ++i)
+	{
+		int score = Roll(diceType);
+		if (score >= required)
+			++success;
+	}
+	return success;
+}

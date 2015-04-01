@@ -24,6 +24,8 @@ public:
 
 	RPGAttributes();
 	~RPGAttributes();
+	void Randomize();
+	int GetStat(Stat stat) const;
 
 protected:
 	int stats[Stat::Count];
