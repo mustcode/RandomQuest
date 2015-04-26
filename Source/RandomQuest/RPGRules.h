@@ -13,11 +13,6 @@ public:
 	RPGRules();
 	~RPGRules();
 
-	void GenerateParty(int numOfMembers);
-	RPGCharacter* GetCharacter(int index) const;
-	const TArray<RPGCharacter*>& GetParty() const;
-
 private:
-	TArray<RPGCharacter*> party;
 	int gold;
 };

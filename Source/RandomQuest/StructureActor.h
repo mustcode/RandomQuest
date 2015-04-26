@@ -7,9 +7,6 @@
 
 class ULocationObject;
 
-/**
- * 
- */
 UCLASS(ClassGroup = RPG)
 class RANDOMQUEST_API AStructureActor : public AActor
 {

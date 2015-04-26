@@ -3,9 +3,11 @@
 #pragma once
 
 #include "Engine/GameInstance.h"
+#include "RPGRules.h"
 #include "WorldDataInstance.generated.h"
 
 class ULocationObject;
+class UCharacterObject;
 
 /**
  * 
@@ -31,6 +33,12 @@ public:
 	ULocationObject* CreateDungeon(FName name, FName type, ULocationObject* parent) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	UCharacterObject* CreateCharacter();
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddCharacterToParty(UCharacterObject* character);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	ULocationObject* GetRealmByName(FName name) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
@@ -38,6 +46,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	ULocationObject* GetDungeonByName(FName name) const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	UCharacterObject* GetCharacterByIndex(int32 index) const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	int32 GetPartySize() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void SetCurrentTown(FName name);
@@ -83,4 +97,6 @@ private:
 	ULocationObject* currentTown;
 	ULocationObject* currentDungeon;
 	TMap<FName, int32> consequences;
+	TArray<UCharacterObject*> party;
+	RPGRules rules;
 };

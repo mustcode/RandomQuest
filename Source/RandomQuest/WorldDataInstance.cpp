@@ -3,10 +3,12 @@
 #include "RandomQuest.h"
 #include "WorldDataInstance.h"
 #include "LocationObject.h"
+#include "CharacterObject.h"
 #include "RPGLocation.h"
 #include "RPGTown.h"
 #include "RPGStructure.h"
 #include "RPGDungeon.h"
+#include "RPGCharacter.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
@@ -55,6 +57,19 @@ ULocationObject* UWorldDataInstance::CreateDungeon(FName name, FName type, ULoca
 	return locObj;
 }
 
+UCharacterObject* UWorldDataInstance::CreateCharacter()
+{
+	UCharacterObject* charObj = NewObject<UCharacterObject>();
+	charObj->Init();
+	return charObj;
+}
+
+void UWorldDataInstance::AddCharacterToParty(UCharacterObject* character)
+{
+	ensure(character);
+	party.Add(character);
+}
+
 ULocationObject* UWorldDataInstance::GetRealmByName(FName name) const
 {
 	return FindLocationByName(realms, name);
@@ -68,6 +83,17 @@ ULocationObject* UWorldDataInstance::GetTownByName(FName name) const
 ULocationObject* UWorldDataInstance::GetDungeonByName(FName name) const
 {
 	return FindLocationByName(dungeons, name);
+}
+
+UCharacterObject* UWorldDataInstance::GetCharacterByIndex(int32 index) const
+{
+	ensure(index >= 0 && index < party.Num());
+	return party[index];
+}
+
+int32 UWorldDataInstance::GetPartySize() const
+{
+	return party.Num();
 }
 
 void UWorldDataInstance::SetCurrentTown(FName name)
