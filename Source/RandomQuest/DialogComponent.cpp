@@ -14,7 +14,7 @@ UDialogComponent::UDialogComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-bool UDialogComponent::StartConversation(const UWorldDataInstance* worldDataInstance)
+bool UDialogComponent::StartConversation(UWorldDataInstance* worldDataInstance)
 {
 	worldData = worldDataInstance;
 	currentTopic = nullptr;
@@ -24,27 +24,12 @@ bool UDialogComponent::StartConversation(const UWorldDataInstance* worldDataInst
 	for (int i = 0; i < topics.Num(); ++i)
 	{
 		FTopic& topic = topics[i];
-		if (topic.discussed)
-			continue;
 		if (!IsAvailable<FTopic>(topic))
 			continue;
 		currentTopic = &topics[i];
 		break;
 	}
 
-	if (!currentTopic)
-	{
-		for (int i = 0; i < topics.Num(); ++i)
-		{
-			FTopic& topic = topics[i];
-			if (!topic.discussed || !topic.repeatable)
-				continue;
-			if (!IsAvailable<FTopic>(topic))
-				continue;
-			currentTopic = &topics[i];
-			break;
-		}
-	}
 	if (!currentTopic)
 		return false;
 
@@ -142,6 +127,16 @@ bool UDialogComponent::MakeChoice(int32 index)
 			continue;
 		if (count == index)
 		{
+			for (auto consequence : choice.addConsequences)
+			{
+				if (!worldData->HasConsequence(consequence))
+					worldData->AddConsequence(consequence);
+			}
+			for (auto consequence : choice.removeConsequences)
+			{
+				if (worldData->HasConsequence(consequence))
+					worldData->RemoveConsequence(consequence);
+			}
 			nextConversation = choice.nextConversation;
 			break;
 		}

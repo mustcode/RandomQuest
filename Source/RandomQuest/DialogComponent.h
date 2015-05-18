@@ -37,6 +37,9 @@ public:
 	TArray<FName> requiredConsequences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> bannedConsequences;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> addConsequences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -59,6 +62,9 @@ public:
 	TArray<FName> requiredConsequences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> bannedConsequences;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FDialogPhrase> phrases;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -79,15 +85,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> requiredConsequences;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> bannedConsequences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FConversation> conversations;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	bool discussed;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	bool repeatable;
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -99,7 +102,7 @@ public:
 	UDialogComponent();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	bool StartConversation(const UWorldDataInstance* worldDataInstance);
+	bool StartConversation(UWorldDataInstance* worldDataInstance);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool SetCurrentConversation(FName conversationName);
@@ -134,18 +137,20 @@ private:
 	bool IsAvailable(const T& subject) const
 	{
 		ensure(worldData);
-		bool canStart = true;
 		for (auto consequence : subject.requiredConsequences)
 		{
-			if (worldData->HasConsequence(consequence))
-				continue;
-			canStart;
-			break;
+			if (!worldData->HasConsequence(consequence))
+				return false;
 		}
-		return canStart;
+		for (auto consequence : subject.bannedConsequences)
+		{
+			if (worldData->HasConsequence(consequence))
+				return false;
+		}
+		return true;
 	}
 
-	const UWorldDataInstance* worldData;
+	UWorldDataInstance* worldData;
 	FTopic* currentTopic;
 	FConversation* currentConversation;
 	int currentPhrase;
