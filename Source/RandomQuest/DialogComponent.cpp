@@ -98,7 +98,7 @@ int32 UDialogComponent::GetNumberOfChoices() const
 	return count;
 }
 
-FText UDialogComponent::GetChoiceText(int32 index) const
+FDialogChoice UDialogComponent::GetChoice(int32 index) const
 {
 	ensure(currentConversation);
 	ensure(index < currentConversation->choices.Num());
@@ -108,11 +108,16 @@ FText UDialogComponent::GetChoiceText(int32 index) const
 		if (!IsAvailable<FDialogChoice>(choice))
 			continue;
 		if (count == index)
-			return choice.description;
+			return choice;
 		++count;
 	}
 	ensure(false);
-	return FText::GetEmpty();
+	return FDialogChoice();
+}
+
+FText UDialogComponent::GetChoiceText(int32 index) const
+{
+	return GetChoice(index).description;
 }
 
 bool UDialogComponent::MakeChoice(int32 index)

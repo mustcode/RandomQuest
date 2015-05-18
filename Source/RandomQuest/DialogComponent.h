@@ -31,6 +31,9 @@ struct FDialogChoice
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText id;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FText description;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -121,6 +124,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	int32 GetNumberOfChoices() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	FDialogChoice GetChoice(int32 index) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	FText GetChoiceText(int32 index) const;
