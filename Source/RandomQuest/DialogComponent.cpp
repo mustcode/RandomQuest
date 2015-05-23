@@ -60,14 +60,19 @@ bool UDialogComponent::SetCurrentConversation(FName conversationName)
 	return false;
 }
 
-FDialogPhrase UDialogComponent::NextPhrase()
+FConversation& UDialogComponent::GetCurrentConversation() const
+{
+	return *currentConversation;
+}
+
+FDialogPhrase& UDialogComponent::NextPhrase()
 {
 	ensure(currentConversation);
 	ensure(!IsLastPhrase());
 	return currentConversation->phrases[++currentPhrase];
 }
 
-FDialogPhrase UDialogComponent::GetCurrentPhrase() const
+FDialogPhrase& UDialogComponent::GetCurrentPhrase() const
 {
 	ensure(currentConversation);
 	return currentConversation->phrases[currentPhrase];
@@ -85,6 +90,12 @@ bool UDialogComponent::ShouldAutoSelectFirstChoice() const
 	return currentConversation->autoSelectFirstChoice;
 }
 
+bool UDialogComponent::ShouldSelectChoiceViaBlueprint() const
+{
+	ensure(currentConversation);
+	return currentConversation->selectChoiceViaBlueprint;
+}
+
 int32 UDialogComponent::GetNumberOfChoices() const
 {
 	ensure(currentConversation);
@@ -98,21 +109,22 @@ int32 UDialogComponent::GetNumberOfChoices() const
 	return count;
 }
 
-FDialogChoice UDialogComponent::GetChoice(int32 index) const
+FDialogChoice& UDialogComponent::GetChoice(int32 index) const
 {
 	ensure(currentConversation);
 	ensure(index < currentConversation->choices.Num());
 	int count = 0;
-	for (auto choice : currentConversation->choices)
+	TArray<FDialogChoice>& choices = currentConversation->choices;
+	for (int i = 0; i < choices.Num(); ++i)
 	{
-		if (!IsAvailable<FDialogChoice>(choice))
+		if (!IsAvailable<FDialogChoice>(choices[i]))
 			continue;
 		if (count == index)
-			return choice;
+			return choices[i];
 		++count;
 	}
 	ensure(false);
-	return FDialogChoice();
+	return choices[0];
 }
 
 FText UDialogComponent::GetChoiceText(int32 index) const

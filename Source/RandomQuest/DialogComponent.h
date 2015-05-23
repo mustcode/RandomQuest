@@ -75,6 +75,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool autoSelectFirstChoice;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool selectChoiceViaBlueprint;
 };
 
 USTRUCT(BlueprintType)
@@ -111,10 +114,13 @@ public:
 	bool SetCurrentConversation(FName conversationName);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	FDialogPhrase NextPhrase();
+	FConversation& GetCurrentConversation() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	FDialogPhrase GetCurrentPhrase() const;
+	FDialogPhrase& NextPhrase();
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	FDialogPhrase& GetCurrentPhrase() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool IsLastPhrase() const;
@@ -123,10 +129,13 @@ public:
 	bool ShouldAutoSelectFirstChoice() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool ShouldSelectChoiceViaBlueprint() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	int32 GetNumberOfChoices() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	FDialogChoice GetChoice(int32 index) const;
+	FDialogChoice& GetChoice(int32 index) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	FText GetChoiceText(int32 index) const;
