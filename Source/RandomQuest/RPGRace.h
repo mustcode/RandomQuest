@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "RPGAttributes.h"
 #include "RPGAlignment.h"
 
 class RPGTrait;

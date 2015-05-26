@@ -2,11 +2,9 @@
 
 #pragma once
 
-#include "RPGAttributes.h"
 #include "RPGDice.h"
 
 class RPGSkill;
-class RPGSpell;
 class RPGTrait;
 
 /**
@@ -21,17 +19,8 @@ public:
 
 protected:
 
-	enum StatPreference
-	{
-		Primary,
-		Secondary,
-		NiceToHave,
-		NotImportant
-	};
-
 	FName name;
-	StatPreference statsPreferences[RPGAttributes::Stat::Count];
+	FName statPreferences[3];
 	TArray<RPGTrait*> traits;
 	TArray<RPGSkill*> skills;
-	TArray<RPGSpell*> spells;
 };

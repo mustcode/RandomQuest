@@ -5,12 +5,17 @@
 /**
  * 
  */
-class RANDOMQUEST_API RPGSpell
+class RANDOMQUEST_API RPGAttribute
 {
 public:
-	RPGSpell();
-	~RPGSpell();
+	RPGAttribute();
+	~RPGAttribute();
+	virtual void Randomize();
 
 protected:
+
 	FName name;
+	int minValue;
+	int maxValue;
+	int value;
 };

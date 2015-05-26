@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RandomQuest.h"
-#include "RPGSpell.h"
+#include "RPGAbnormality.h"
 
-RPGSpell::RPGSpell()
+RPGAbnormality::RPGAbnormality()
 {
 }
 
-RPGSpell::~RPGSpell()
+RPGAbnormality::~RPGAbnormality()
 {
 }

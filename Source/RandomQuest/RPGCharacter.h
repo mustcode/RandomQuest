@@ -2,18 +2,17 @@
 
 #pragma once
 
-#include "RPGDice.h"
 #include "RPGAlignment.h"
+#include "RPGAttribute.h"
 
 class RPGRace;
 class RPGClass;
-class RPGAttributes;
 class RPGInventory;
 class RPGWeapon;
 class RPGAppearance;
 class RPGSkill;
-class RPGSpell;
 class RPGTrait;
+class RPGAbnormality;
 
 /**
  * 
@@ -34,19 +33,27 @@ public:
 	void DebugDump() const;
 
 protected:
+
 	FName title;
 	FName firstName;
 	FName middleName;
 	FName lastName;
+	
 	Gender gender;
 	RPGRace* race;
 	RPGClass* primaryClass;
 	RPGClass* secondaryClass;
-	RPGAttributes* attributes;
 	RPGAppearance* appearance;
 	RPGAlignment alignment;
 	RPGInventory* inventory;
+	
 	TArray<RPGTrait*> traits;
 	TArray<RPGSkill*> skills;
-	TArray<RPGSpell*> spells;
+	TArray<RPGAbnormality*> abnormalities;
+
+	RPGAttribute hp;
+	RPGAttribute exp;
+	RPGAttribute level;
+	TMap<FName, RPGAttribute> attributes;
+	TMap<FName, RPGAttribute> statuses;
 };
