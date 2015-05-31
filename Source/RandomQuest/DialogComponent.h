@@ -22,6 +22,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName expression;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool triggerEvent;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName eventId;
 };
 
 USTRUCT(BlueprintType)
@@ -130,6 +136,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool ShouldSelectChoiceViaBlueprint() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool ShouldTriggerBlueprintEvent(FName& eventId) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	int32 GetNumberOfChoices() const;

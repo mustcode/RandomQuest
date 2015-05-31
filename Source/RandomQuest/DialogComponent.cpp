@@ -96,6 +96,14 @@ bool UDialogComponent::ShouldSelectChoiceViaBlueprint() const
 	return currentConversation->selectChoiceViaBlueprint;
 }
 
+bool UDialogComponent::ShouldTriggerBlueprintEvent(FName& eventId) const
+{
+	ensure(currentConversation);
+	const FDialogPhrase& phrase = currentConversation->phrases[currentPhrase];
+	eventId = phrase.eventId;
+	return phrase.triggerEvent;
+}
+
 int32 UDialogComponent::GetNumberOfChoices() const
 {
 	ensure(currentConversation);
