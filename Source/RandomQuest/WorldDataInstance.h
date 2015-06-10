@@ -75,7 +75,7 @@ public:
 	bool HasConsequence(FName name) const;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	uint32 masterSeed;
+	int32 masterSeed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	ULocationObject* world;
