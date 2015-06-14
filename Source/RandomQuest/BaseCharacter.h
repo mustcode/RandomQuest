@@ -16,5 +16,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void Init(UCharacterObject* characterObject);
 
+	UPROPERTY(BlueprintReadOnly, Category = RPG)
 	UCharacterObject* character;
 };

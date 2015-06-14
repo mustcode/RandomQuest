@@ -51,6 +51,9 @@ public:
 	UCharacterObject* GetCharacterByIndex(int32 index) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	int32 GetCharacterIndex(UCharacterObject* character);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	int32 GetPartySize() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)

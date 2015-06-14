@@ -91,6 +91,17 @@ UCharacterObject* UWorldDataInstance::GetCharacterByIndex(int32 index) const
 	return party[index];
 }
 
+int32 UWorldDataInstance::GetCharacterIndex(UCharacterObject* character)
+{
+	for (int i = 0; i < party.Num(); ++i)
+	{
+		if (character == party[i])
+			return i;
+	}
+	ensure(false);
+	return -1;
+}
+
 int32 UWorldDataInstance::GetPartySize() const
 {
 	return party.Num();
