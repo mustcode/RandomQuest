@@ -3,7 +3,7 @@
 #include "RandomQuest.h"
 #include "CharacterObject.h"
 #include "RPGCharacter.h"
-
+#include "WorldDataInstance.h"
 
 UCharacterObject::UCharacterObject() : character(nullptr)
 {
@@ -18,5 +18,4 @@ UCharacterObject::~UCharacterObject()
 void UCharacterObject::Init()
 {
 	character = new RPGCharacter;
-	character->Randomize();
 }

@@ -32,8 +32,20 @@ RPGCharacter::~RPGCharacter()
 		delete appearance;
 }
 
-void RPGCharacter::Randomize()
+void RPGCharacter::AddAttribute(FName name, int minValue, int maxValue)
 {
+	RPGAttribute attribute(name, minValue, maxValue);
+	attributes.Add(name, attribute);
+}
+
+RPGAttribute& RPGCharacter::GetAttribute(FName name)
+{
+	return attributes[name];
+}
+
+int RPGCharacter::GetAttributeValue(FName name) const
+{
+	return attributes[name].GetValue();
 }
 
 void RPGCharacter::DebugDump() const

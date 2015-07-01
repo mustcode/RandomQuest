@@ -13,6 +13,10 @@ public:
 	RPGRules();
 	~RPGRules();
 
+	void InitCharacter(RPGCharacter* character);
+
 private:
+	void RandomizeAttributes(RPGCharacter* character);
+
 	int gold;
 };

@@ -29,7 +29,9 @@ public:
 
 	RPGCharacter();
 	~RPGCharacter();
-	void Randomize();
+	void AddAttribute(FName name, int minValue, int maxValue);
+	RPGAttribute& GetAttribute(FName name);
+	int GetAttributeValue(FName name) const;
 	void DebugDump() const;
 
 protected:
@@ -51,9 +53,5 @@ protected:
 	TArray<RPGSkill*> skills;
 	TArray<RPGAbnormality*> abnormalities;
 
-	RPGAttribute hp;
-	RPGAttribute exp;
-	RPGAttribute level;
 	TMap<FName, RPGAttribute> attributes;
-	TMap<FName, RPGAttribute> statuses;
 };

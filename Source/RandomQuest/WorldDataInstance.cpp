@@ -61,6 +61,7 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 {
 	UCharacterObject* charObj = NewObject<UCharacterObject>();
 	charObj->Init();
+	rules.InitCharacter(charObj->character);
 	return charObj;
 }
 

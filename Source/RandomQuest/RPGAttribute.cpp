@@ -8,11 +8,60 @@ RPGAttribute::RPGAttribute()
 {
 }
 
+RPGAttribute::RPGAttribute(FName _name, int _minValue, int _maxValue)
+	: name(_name)
+	, minValue(_minValue)
+	, maxValue(_maxValue)
+	, value(_minValue)
+{
+}
+
 RPGAttribute::~RPGAttribute()
 {
 }
 
-void RPGAttribute::Randomize()
+int RPGAttribute::GetValue() const
 {
-	value = FMath::RandRange(minValue, maxValue);
+	return value;
+}
+
+void RPGAttribute::SetValue(int _value, bool clampValue)
+{
+	value = _value;
+	if (clampValue)
+		value = FMath::Clamp(value, minValue, maxValue);
+}
+
+void RPGAttribute::Increase(int _value, bool clampValue)
+{
+	value += _value;
+	if (clampValue)
+		value = FMath::Clamp(value, minValue, maxValue);
+}
+
+void RPGAttribute::Decrease(int _value, bool clampValue)
+{
+	value -= _value;
+	if (clampValue)
+		value = FMath::Clamp(value, minValue, maxValue);
+}
+
+int RPGAttribute::GetMaxValue() const
+{
+	return maxValue;
+}
+
+int RPGAttribute::GetMinValue() const
+{
+	return minValue;
+}
+
+void RPGAttribute::SetMaxValue(int _maxValue)
+{
+	maxValue = _maxValue;
+}
+
+void RPGAttribute::SetMinValue(int _minValue)
+{
+	minValue = _minValue;
 }

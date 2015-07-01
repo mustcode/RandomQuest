@@ -9,8 +9,16 @@ class RANDOMQUEST_API RPGAttribute
 {
 public:
 	RPGAttribute();
+	RPGAttribute(FName _name, int _minValue, int _maxValue);
 	~RPGAttribute();
-	virtual void Randomize();
+	int GetValue() const;
+	void SetValue(int _value, bool clampValue = true);
+	void Increase(int _value, bool clampValue = true);
+	void Decrease(int _value, bool clampValue = true);
+	int GetMaxValue() const;
+	int GetMinValue() const;
+	void SetMaxValue(int _maxValue);
+	void SetMinValue(int _minValue);
 
 protected:
 
