@@ -14,6 +14,8 @@ public:
 	~RPGRules();
 
 	void InitCharacter(RPGCharacter* character);
+	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result);
+	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);

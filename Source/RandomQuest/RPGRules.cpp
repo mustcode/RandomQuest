@@ -30,11 +30,23 @@ void RPGRules::InitCharacter(RPGCharacter* character)
 	int CON = character->GetAttribute("CON").GetValue();
 	int INT = character->GetAttribute("INT").GetValue();
 	int WIS = character->GetAttribute("WIS").GetValue();
-	int CHR = character->GetAttribute("CHR").GetValue();
 
-	character->AddAttribute("PHY", 0, STR+DEX+CON+RPGDice::Roll(D6));
-	character->AddAttribute("MNT", 0, INT+WIS+CHR+RPGDice::Roll(D6));
-	character->AddAttribute("HP", 0, CON+RPGDice::Roll(D6));
+	character->AddAttribute("PHY", 0, RPGDice::Roll(STR > DEX ? STR : DEX, D6)).SetValueToMax();
+	character->AddAttribute("MNT", 0, RPGDice::Roll(INT > WIS ? INT : WIS, D6)).SetValueToMax();
+	character->AddAttribute("HP", 0, RPGDice::Roll(CON, D6)).SetValueToMax();
+}
+
+bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result)
+{
+	int value = character->GetAttribute(ability).GetValue();
+	result = RPGDice::Roll(value, D6, 4);
+	return result >= difficulty;
+}
+
+bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty)
+{
+	int result;
+	return AbilityTest(character, ability, difficulty, result);
 }
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)

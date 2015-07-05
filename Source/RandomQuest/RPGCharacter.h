@@ -29,7 +29,7 @@ public:
 
 	RPGCharacter();
 	~RPGCharacter();
-	void AddAttribute(FName name, int minValue, int maxValue);
+	RPGAttribute& AddAttribute(FName name, int minValue, int maxValue);
 	RPGAttribute& GetAttribute(FName name);
 	int GetAttributeValue(FName name) const;
 	void DebugDump() const;

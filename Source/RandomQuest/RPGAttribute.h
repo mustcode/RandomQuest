@@ -19,6 +19,8 @@ public:
 	int GetMinValue() const;
 	void SetMaxValue(int _maxValue);
 	void SetMinValue(int _minValue);
+	void SetValueToMax();
+	void SetValueToMin();
 
 protected:
 

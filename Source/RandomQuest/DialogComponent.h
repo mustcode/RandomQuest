@@ -43,6 +43,9 @@ public:
 	FText description;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName nextConversation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> requiredConsequences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -53,9 +56,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> removeConsequences;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName nextConversation;
 };
 
 USTRUCT(BlueprintType)
@@ -68,12 +68,6 @@ public:
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FName> requiredConsequences;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FName> bannedConsequences;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FDialogPhrase> phrases;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -84,6 +78,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool selectChoiceViaBlueprint;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> requiredConsequences;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> bannedConsequences;
 };
 
 USTRUCT(BlueprintType)
@@ -96,13 +96,13 @@ public:
 	FName topic;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FName> requiredConsequences;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FName> bannedConsequences;
+	TArray<FConversation> conversations;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FConversation> conversations;
+	TArray<FName> requiredConsequences;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> bannedConsequences;
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))

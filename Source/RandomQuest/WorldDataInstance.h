@@ -77,6 +77,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool HasConsequence(FName name) const;
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	bool AbilityTest(FName name, int32 difficulty, int32& result);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 masterSeed;
 
@@ -92,6 +95,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<ULocationObject*> dungeons;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<UCharacterObject*> party;
+
 	UPROPERTY(BlueprintReadWrite, Category = RPG)
 	FName currentGate;
 
@@ -100,6 +106,5 @@ private:
 	ULocationObject* currentTown;
 	ULocationObject* currentDungeon;
 	TMap<FName, int32> consequences;
-	TArray<UCharacterObject*> party;
 	RPGRules rules;
 };

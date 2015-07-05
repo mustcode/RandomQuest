@@ -65,3 +65,13 @@ void RPGAttribute::SetMinValue(int _minValue)
 {
 	minValue = _minValue;
 }
+
+void RPGAttribute::SetValueToMax()
+{
+	value = maxValue;
+}
+
+void RPGAttribute::SetValueToMin()
+{
+	value = minValue;
+}

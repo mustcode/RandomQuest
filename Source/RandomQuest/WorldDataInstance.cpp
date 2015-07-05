@@ -143,6 +143,23 @@ bool UWorldDataInstance::HasConsequence(FName name) const
 	return consequences.Find(name) != nullptr;
 }
 
+bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result)
+{
+	RPGCharacter* chosen = nullptr;
+	int32 maxScore = 0;
+	for (auto character : party)
+	{
+		int32 score = character->character->GetAttributeValue(name);
+		if (score > maxScore)
+		{
+			chosen = character->character;
+			maxScore = score;
+		}
+	}
+	ensure(chosen != nullptr);
+	return rules.AbilityTest(chosen, name, difficulty, result);
+}
+
 ULocationObject* UWorldDataInstance::FindLocationByName(TArray<ULocationObject*> locations, const FName& name) const
 {
 	for (auto location : locations)
