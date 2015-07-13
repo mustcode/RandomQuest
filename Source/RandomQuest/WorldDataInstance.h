@@ -39,15 +39,6 @@ public:
 	void AddCharacterToParty(UCharacterObject* character);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* GetRealmByName(FName name) const;
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* GetTownByName(FName name) const;
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* GetDungeonByName(FName name) const;
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
 	UCharacterObject* GetCharacterByIndex(int32 index) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
@@ -55,18 +46,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	int32 GetPartySize() const;
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void SetCurrentTown(FName name);
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* GetCurrentTown() const;
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void SetCurrentDungeon(FName name);
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* GetCurrentDungeon() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddConsequence(FName name);
@@ -84,18 +63,6 @@ public:
 	int32 masterSeed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	ULocationObject* world;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<ULocationObject*> realms;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<ULocationObject*> towns;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<ULocationObject*> dungeons;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UCharacterObject*> party;
 
 	UPROPERTY(BlueprintReadWrite, Category = RPG)
@@ -103,8 +70,6 @@ public:
 
 private:
 	ULocationObject* FindLocationByName(TArray<ULocationObject*> locations, const FName& name) const;
-	ULocationObject* currentTown;
-	ULocationObject* currentDungeon;
 	TMap<FName, int32> consequences;
 	RPGRules rules;
 };
