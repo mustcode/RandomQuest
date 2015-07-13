@@ -2,17 +2,9 @@
 
 #include "RandomQuest.h"
 #include "TownComponent.h"
-#include "LocationObject.h"
 
-UTownComponent::UTownComponent() : town(nullptr)
+UTownComponent::UTownComponent()
 {
 	bWantsInitializeComponent = false;
 	PrimaryComponentTick.bCanEverTick = false;
 }
-
-void UTownComponent::Init(ULocationObject* location)
-{
-	town = location;
-}
-
-

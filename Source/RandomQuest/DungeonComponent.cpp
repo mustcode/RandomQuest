@@ -2,15 +2,9 @@
 
 #include "RandomQuest.h"
 #include "DungeonComponent.h"
-#include "LocationObject.h"
 
-UDungeonComponent::UDungeonComponent() : dungeon(nullptr)
+UDungeonComponent::UDungeonComponent()
 {
 	bWantsInitializeComponent = false;
 	PrimaryComponentTick.bCanEverTick = false;
-}
-
-void UDungeonComponent::Init(ULocationObject* location)
-{
-	dungeon = location;
 }

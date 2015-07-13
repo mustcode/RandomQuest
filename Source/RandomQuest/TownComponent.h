@@ -5,8 +5,6 @@
 #include "Components/ActorComponent.h"
 #include "TownComponent.generated.h"
 
-class ULocationObject;
-
 UCLASS(ClassGroup = RPG, EditInlineNew, meta = (BlueprintSpawnableComponent))
 class RANDOMQUEST_API UTownComponent : public UActorComponent
 {
@@ -14,9 +12,4 @@ class RANDOMQUEST_API UTownComponent : public UActorComponent
 	
 public:
 	UTownComponent();
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void Init(ULocationObject* location);
-
-	ULocationObject* town;
 };

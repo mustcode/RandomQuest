@@ -5,8 +5,6 @@
 #include "Components/ActorComponent.h"
 #include "DungeonComponent.generated.h"
 
-class ULocationObject;
-
 UCLASS(ClassGroup = (Custom), EditInlineNew, meta = (BlueprintSpawnableComponent))
 class RANDOMQUEST_API UDungeonComponent : public UActorComponent
 {
@@ -14,9 +12,4 @@ class RANDOMQUEST_API UDungeonComponent : public UActorComponent
 
 public:	
 	UDungeonComponent();
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void Init(ULocationObject* location);
-		
-	ULocationObject* dungeon;
 };
