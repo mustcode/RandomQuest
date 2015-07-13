@@ -121,13 +121,3 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 	ensure(chosen != nullptr);
 	return rules.AbilityTest(chosen, name, difficulty, result);
 }
-
-ULocationObject* UWorldDataInstance::FindLocationByName(TArray<ULocationObject*> locations, const FName& name) const
-{
-	for (auto location : locations)
-	{
-		if (location->location->GetName() == name)
-			return location;
-	}
-	return nullptr;
-}

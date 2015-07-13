@@ -69,7 +69,6 @@ public:
 	FName currentGate;
 
 private:
-	ULocationObject* FindLocationByName(TArray<ULocationObject*> locations, const FName& name) const;
 	TMap<FName, int32> consequences;
 	RPGRules rules;
 };
