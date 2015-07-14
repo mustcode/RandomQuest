@@ -19,6 +19,4 @@ public:
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);
-
-	int gold;
 };

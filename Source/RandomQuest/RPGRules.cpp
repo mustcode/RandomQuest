@@ -5,7 +5,7 @@
 #include "RPGCharacter.h"
 #include "RPGDice.h"
 
-RPGRules::RPGRules() : gold(0)
+RPGRules::RPGRules()
 {
 }
 

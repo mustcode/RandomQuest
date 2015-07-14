@@ -4,10 +4,12 @@
 
 #include "Engine/GameInstance.h"
 #include "RPGRules.h"
+#include "SkillsManagerComponent.h"
 #include "WorldDataInstance.generated.h"
 
 class ULocationObject;
 class UCharacterObject;
+class RPGSkill;
 
 /**
  * 
@@ -20,6 +22,8 @@ class RANDOMQUEST_API UWorldDataInstance : public UGameInstance
 public:
 	UWorldDataInstance(const FObjectInitializer& ObjectInitializer);
 	
+	virtual void Shutdown() override;
+
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	ULocationObject* CreateLocation(FName name, FName type, ULocationObject* parent) const;
 
@@ -59,6 +63,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool AbilityTest(FName name, int32 difficulty, int32& result);
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddSkill(const FSkill& skill);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 masterSeed;
 
@@ -70,5 +77,7 @@ public:
 
 private:
 	TMap<FName, int32> consequences;
+	TMap<FName, RPGSkill*> skills;
 	RPGRules rules;
+	int gold, silver, copper;
 };

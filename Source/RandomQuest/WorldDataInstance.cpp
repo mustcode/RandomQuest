@@ -9,6 +9,7 @@
 #include "RPGStructure.h"
 #include "RPGDungeon.h"
 #include "RPGCharacter.h"
+#include "RPGSkill.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
@@ -16,6 +17,13 @@ UWorldDataInstance::UWorldDataInstance(const FObjectInitializer& ObjectInitializ
 	: masterSeed(0)
 	, Super(ObjectInitializer)
 {
+}
+
+void UWorldDataInstance::Shutdown()
+{
+	for (auto skill : skills)
+		delete skill.Value;
+	UGameInstance::Shutdown();
 }
 
 ULocationObject* UWorldDataInstance::CreateLocation(FName name, FName type, ULocationObject* parent) const
@@ -120,4 +128,16 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 	}
 	ensure(chosen != nullptr);
 	return rules.AbilityTest(chosen, name, difficulty, result);
+}
+
+void UWorldDataInstance::AddSkill(const FSkill& skill)
+{
+	RPGSkill* toAdd = new RPGSkill;
+	toAdd->SetName(skill.name);
+	toAdd->SetVariationOf(skill.variationOf);
+	for (auto cmd : skill.commands)
+		toAdd->AddCommand(cmd.command, cmd.value);
+	for (auto cost : skill.costs)
+		toAdd->AddCost(cost.resource, cost.amount);
+	skills.Add(skill.name, toAdd);
 }
