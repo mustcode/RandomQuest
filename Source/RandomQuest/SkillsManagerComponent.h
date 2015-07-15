@@ -20,6 +20,19 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FSkillRequirement
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+		FName need;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+		int32 amount;
+};
+
+USTRUCT(BlueprintType)
 struct FSkillCost
 {
 	GENERATED_USTRUCT_BODY()
@@ -46,6 +59,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkillCommand> commands;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FSkillRequirement> requirements;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkillCost> costs;

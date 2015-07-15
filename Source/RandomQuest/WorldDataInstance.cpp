@@ -139,5 +139,7 @@ void UWorldDataInstance::AddSkill(const FSkill& skill)
 		toAdd->AddCommand(cmd.command, cmd.value);
 	for (auto cost : skill.costs)
 		toAdd->AddCost(cost.resource, cost.amount);
+	for (auto req : skill.requirements)
+		toAdd->AddRequirement(req.need, req.amount);
 	skills.Add(skill.name, toAdd);
 }

@@ -13,7 +13,14 @@ public:
 	{
 		FName command;
 		float value;
-		Command(FName cmd, float val) : command(cmd), value(val){}
+		Command(FName _command, float _value) : command(_command), value(_value){}
+	};
+
+	struct Requirement
+	{
+		FName need;
+		int amount;
+		Requirement(FName _need, int _amount) : need(_need), amount(_amount){}
 	};
 
 	RPGSkill();
@@ -28,6 +35,10 @@ public:
 	int CommandsCount() const;
 	const Command& GetCommand(int index) const;
 
+	void AddRequirement(FName need, int amount);
+	int RequirementsCount() const;
+	const Requirement& GetRequirement(int index) const;
+
 	void AddCost(FName resource, int value);
 	int GetCost(FName resource) const;
 
@@ -36,5 +47,6 @@ protected:
 	FName name;
 	FName variationOf;
 	TArray<Command> commands;
+	TArray<Requirement> requirements;
 	TMap<FName, int> costs;
 };

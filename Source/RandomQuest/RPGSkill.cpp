@@ -47,6 +47,22 @@ const RPGSkill::Command& RPGSkill::GetCommand(int index) const
 	return commands[index];
 }
 
+void RPGSkill::AddRequirement(FName need, int amount)
+{
+	requirements.Add(Requirement(need, amount));
+}
+
+int RPGSkill::RequirementsCount() const
+{
+	return requirements.Num();
+}
+
+const RPGSkill::Requirement& RPGSkill::GetRequirement(int index) const
+{
+	ensure(index >= 0 && index < requirements.Num());
+	return requirements[index];
+}
+
 void RPGSkill::AddCost(FName resource, int value)
 {
 	ensure(!costs.Contains(resource));
