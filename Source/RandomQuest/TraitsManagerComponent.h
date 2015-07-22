@@ -7,6 +7,19 @@
 
 
 USTRUCT(BlueprintType)
+struct FTraitRequirement
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName need;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 amount;
+};
+
+USTRUCT(BlueprintType)
 struct FTrait
 {
 	GENERATED_USTRUCT_BODY()
@@ -17,6 +30,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 value;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FTraitRequirement> requirements;
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

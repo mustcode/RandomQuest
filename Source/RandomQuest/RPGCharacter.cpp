@@ -48,6 +48,12 @@ void RPGCharacter::AddSkill(RPGSkill* skill)
 	skills.Add(skill);
 }
 
+void RPGCharacter::AddTrait(RPGTrait* trait)
+{
+	ensure(!traits.Contains(trait));
+	traits.Add(trait);
+}
+
 void RPGCharacter::DebugDump() const
 {
 }

@@ -4,6 +4,7 @@
 #include "RPGRules.h"
 #include "RPGCharacter.h"
 #include "RPGSkill.h"
+#include "RPGTrait.h"
 #include "RPGDice.h"
 
 RPGRules::RPGRules()
@@ -56,10 +57,23 @@ bool RPGRules::TryLearnSkill(RPGCharacter* character, RPGSkill* skill)
 	for (int i = 0; i < reqCount; ++i)
 	{
 		RPGSkill::Requirement req = skill->GetRequirement(i);
-		if (!HasSkillRequirement(character, req.need, req.amount))
+		if (!HasRequirement(character, req.need, req.amount))
 			return false;
 	}
 	character->AddSkill(skill);
+	return true;
+}
+
+bool RPGRules::TryAddTrait(RPGCharacter* character, RPGTrait* trait)
+{
+	int reqCount = trait->RequirementsCount();
+	for (int i = 0; i < reqCount; ++i)
+	{
+		RPGTrait::Requirement req = trait->GetRequirement(i);
+		if (!HasRequirement(character, req.need, req.amount))
+			return false;
+	}
+	character->AddTrait(trait);
 	return true;
 }
 
@@ -89,7 +103,7 @@ void RPGRules::RandomizeAttributes(RPGCharacter* character)
 	}
 }
 
-bool RPGRules::HasSkillRequirement(RPGCharacter* character, FName requirement, int amount) const
+bool RPGRules::HasRequirement(RPGCharacter* character, FName requirement, int amount) const
 {
 	return false;
 }

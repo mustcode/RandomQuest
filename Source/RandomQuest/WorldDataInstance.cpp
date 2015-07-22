@@ -153,5 +153,7 @@ void UWorldDataInstance::AddSkill(const FSkill& skill)
 void UWorldDataInstance::AddTrait(const FTrait& trait)
 {
 	RPGTrait* toAdd = new RPGTrait(trait.name, trait.value);
+	for (auto req : trait.requirements)
+		toAdd->AddRequirement(req.need, req.amount);
 	traits.Add(trait.name, toAdd);
 }

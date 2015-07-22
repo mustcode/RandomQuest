@@ -4,6 +4,7 @@
 
 class RPGCharacter;
 class RPGSkill;
+class RPGTrait;
 
 /**
  * 
@@ -18,8 +19,9 @@ public:
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty);
 	bool TryLearnSkill(RPGCharacter* character, RPGSkill* skill);
+	bool TryAddTrait(RPGCharacter* character, RPGTrait* trait);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);
-	bool HasSkillRequirement(RPGCharacter* character, FName requirement, int amount) const;
+	bool HasRequirement(RPGCharacter* character, FName requirement, int amount) const;
 };

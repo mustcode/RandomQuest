@@ -33,6 +33,7 @@ public:
 	RPGAttribute& GetAttribute(FName name);
 	int GetAttributeValue(FName name) const;
 	void AddSkill(RPGSkill* skill);
+	void AddTrait(RPGTrait* trait);
 	void DebugDump() const;
 
 protected:
