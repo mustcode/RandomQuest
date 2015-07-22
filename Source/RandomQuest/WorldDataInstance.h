@@ -5,11 +5,13 @@
 #include "Engine/GameInstance.h"
 #include "RPGRules.h"
 #include "SkillsManagerComponent.h"
+#include "TraitsManagerComponent.h"
 #include "WorldDataInstance.generated.h"
 
 class ULocationObject;
 class UCharacterObject;
 class RPGSkill;
+class RPGTrait;
 
 /**
  * 
@@ -66,6 +68,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddSkill(const FSkill& skill);
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddTrait(const FTrait& trait);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 masterSeed;
 
@@ -78,6 +83,7 @@ public:
 private:
 	TMap<FName, int32> consequences;
 	TMap<FName, RPGSkill*> skills;
+	TMap<FName, RPGTrait*> traits;
 	RPGRules rules;
 	int gold, silver, copper;
 };

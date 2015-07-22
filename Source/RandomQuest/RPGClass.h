@@ -13,14 +13,14 @@ class RPGTrait;
 class RANDOMQUEST_API RPGClass
 {
 public:
-
 	RPGClass();
 	~RPGClass();
 
 protected:
-
 	FName name;
-	FName statPreferences[3];
-	TArray<RPGTrait*> traits;
-	TArray<RPGSkill*> skills;
+	FName primaryStat;
+	FName secondaryStat;
+	FName tertiaryStat;
+	TArray<RPGTrait*> essentialTraits;
+	TArray<RPGTrait*> optionalTraits;
 };

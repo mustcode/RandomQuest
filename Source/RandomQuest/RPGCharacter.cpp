@@ -10,9 +10,6 @@
 #include "RPGAppearance.h"
 
 RPGCharacter::RPGCharacter() :
-	race(nullptr),
-	primaryClass(nullptr),
-	secondaryClass(nullptr),
 	inventory(nullptr),
 	appearance(nullptr)
 {
@@ -20,12 +17,6 @@ RPGCharacter::RPGCharacter() :
 
 RPGCharacter::~RPGCharacter()
 {
-	if (race)
-		delete race;
-	if (primaryClass)
-		delete primaryClass;
-	if (secondaryClass)
-		delete secondaryClass;
 	if (inventory)
 		delete inventory;
 	if (appearance)
@@ -49,6 +40,12 @@ int RPGCharacter::GetAttributeValue(FName name) const
 {
 	ensure(attributes.Contains(name));
 	return attributes[name].GetValue();
+}
+
+void RPGCharacter::AddSkill(RPGSkill* skill)
+{
+	ensure(!skills.Contains(skill));
+	skills.Add(skill);
 }
 
 void RPGCharacter::DebugDump() const

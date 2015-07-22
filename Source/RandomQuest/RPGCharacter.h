@@ -32,6 +32,7 @@ public:
 	RPGAttribute& AddAttribute(FName name, int minValue, int maxValue);
 	RPGAttribute& GetAttribute(FName name);
 	int GetAttributeValue(FName name) const;
+	void AddSkill(RPGSkill* skill);
 	void DebugDump() const;
 
 protected:
@@ -42,9 +43,6 @@ protected:
 	FName lastName;
 	
 	Gender gender;
-	RPGRace* race;
-	RPGClass* primaryClass;
-	RPGClass* secondaryClass;
 	RPGAppearance* appearance;
 	RPGAlignment alignment;
 	RPGInventory* inventory;

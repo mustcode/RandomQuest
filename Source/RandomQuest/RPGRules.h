@@ -3,6 +3,7 @@
 #pragma once
 
 class RPGCharacter;
+class RPGSkill;
 
 /**
  * 
@@ -13,10 +14,12 @@ public:
 	RPGRules();
 	~RPGRules();
 
-	void InitCharacter(RPGCharacter* character);
+	void RandomizeStats(RPGCharacter* character);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty);
+	bool TryLearnSkill(RPGCharacter* character, RPGSkill* skill);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);
+	bool HasSkillRequirement(RPGCharacter* character, FName requirement, int amount) const;
 };

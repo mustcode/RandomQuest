@@ -10,6 +10,7 @@
 #include "RPGDungeon.h"
 #include "RPGCharacter.h"
 #include "RPGSkill.h"
+#include "RPGTrait.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
@@ -23,6 +24,8 @@ void UWorldDataInstance::Shutdown()
 {
 	for (auto skill : skills)
 		delete skill.Value;
+	for (auto trait : traits)
+		delete trait.Value;
 	UGameInstance::Shutdown();
 }
 
@@ -66,7 +69,10 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 {
 	UCharacterObject* charObj = NewObject<UCharacterObject>();
 	charObj->Init();
-	rules.InitCharacter(charObj->character);
+	rules.RandomizeStats(charObj->character);
+	RPGCharacter* character = charObj->character;
+	for (auto skill : skills)
+		rules.TryLearnSkill(character, skill.Value);
 	return charObj;
 }
 
@@ -142,4 +148,10 @@ void UWorldDataInstance::AddSkill(const FSkill& skill)
 	for (auto req : skill.requirements)
 		toAdd->AddRequirement(req.need, req.amount);
 	skills.Add(skill.name, toAdd);
+}
+
+void UWorldDataInstance::AddTrait(const FTrait& trait)
+{
+	RPGTrait* toAdd = new RPGTrait(trait.name, trait.value);
+	traits.Add(trait.name, toAdd);
 }

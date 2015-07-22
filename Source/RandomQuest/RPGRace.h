@@ -17,6 +17,5 @@ public:
 
 protected:
 	FName name;
-	TArray<RPGAlignment> alignments;
 	TArray<RPGTrait*> traits;
 };

@@ -3,6 +3,7 @@
 #include "RandomQuest.h"
 #include "RPGRules.h"
 #include "RPGCharacter.h"
+#include "RPGSkill.h"
 #include "RPGDice.h"
 
 RPGRules::RPGRules()
@@ -13,7 +14,7 @@ RPGRules::~RPGRules()
 {
 }
 
-void RPGRules::InitCharacter(RPGCharacter* character)
+void RPGRules::RandomizeStats(RPGCharacter* character)
 {
 	const int MAX_ABILITY_SCORE = 10;
 	character->AddAttribute("STR", 0, MAX_ABILITY_SCORE);
@@ -49,6 +50,19 @@ bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficult
 	return AbilityTest(character, ability, difficulty, result);
 }
 
+bool RPGRules::TryLearnSkill(RPGCharacter* character, RPGSkill* skill)
+{
+	int reqCount = skill->RequirementsCount();
+	for (int i = 0; i < reqCount; ++i)
+	{
+		RPGSkill::Requirement req = skill->GetRequirement(i);
+		if (!HasSkillRequirement(character, req.need, req.amount))
+			return false;
+	}
+	character->AddSkill(skill);
+	return true;
+}
+
 void RPGRules::RandomizeAttributes(RPGCharacter* character)
 {
 	static const int NUM_STAT = 6;
@@ -73,4 +87,9 @@ void RPGRules::RandomizeAttributes(RPGCharacter* character)
 		attribute.Increase(1);
 		--total;
 	}
+}
+
+bool RPGRules::HasSkillRequirement(RPGCharacter* character, FName requirement, int amount) const
+{
+	return false;
 }

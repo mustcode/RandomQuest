@@ -26,10 +26,10 @@ struct FSkillRequirement
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-		FName need;
+	FName need;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-		int32 amount;
+	int32 amount;
 };
 
 USTRUCT(BlueprintType)
