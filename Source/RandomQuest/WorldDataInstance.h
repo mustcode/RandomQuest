@@ -4,8 +4,7 @@
 
 #include "Engine/GameInstance.h"
 #include "RPGRules.h"
-#include "SkillsManagerComponent.h"
-#include "TraitsManagerComponent.h"
+#include "GameDataComponent.h"
 #include "WorldDataInstance.generated.h"
 
 class ULocationObject;

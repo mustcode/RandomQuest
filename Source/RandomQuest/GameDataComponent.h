@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "SkillsManagerComponent.generated.h"
+#include "GameDataComponent.generated.h"
 
 
 USTRUCT(BlueprintType)
@@ -67,18 +67,50 @@ public:
 	TArray<FSkillCost> costs;
 };
 
+USTRUCT(BlueprintType)
+struct FTraitRequirement
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName need;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 amount;
+};
+
+USTRUCT(BlueprintType)
+struct FTrait
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 value;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FTraitRequirement> requirements;
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class RANDOMQUEST_API USkillsManagerComponent : public UActorComponent
+class RANDOMQUEST_API UGameDataComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	USkillsManagerComponent();
+	UGameDataComponent();
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkill> skills;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FTrait> traits;
 };
