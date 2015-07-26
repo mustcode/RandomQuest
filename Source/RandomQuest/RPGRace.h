@@ -12,8 +12,14 @@ class RPGTrait;
 class RANDOMQUEST_API RPGRace
 {
 public:
-	RPGRace();
+	RPGRace(FName _name);
 	~RPGRace();
+
+	FName GetName() const;
+
+	void AddTrait(RPGTrait* trait);
+	int TraitsCount() const;
+	const RPGTrait* GetTrait(int index) const;
 
 protected:
 	FName name;

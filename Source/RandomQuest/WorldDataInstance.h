@@ -4,13 +4,14 @@
 
 #include "Engine/GameInstance.h"
 #include "RPGRules.h"
-#include "GameDataComponent.h"
 #include "WorldDataInstance.generated.h"
 
 class ULocationObject;
 class UCharacterObject;
 class RPGSkill;
 class RPGTrait;
+class RPGOccupation;
+class RPGRace;
 
 /**
  * 
@@ -64,11 +65,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool AbilityTest(FName name, int32 difficulty, int32& result);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void AddSkill(const FSkill& skill);
+	void AddSkill(RPGSkill* skill);
+	void AddTrait(RPGTrait* trait);
+	void AddOccupation(RPGOccupation* occupation);
+	void AddRace(RPGRace* race);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void AddTrait(const FTrait& trait);
+	RPGSkill* GetSkill(FName name) const;
+	RPGTrait* GetTrait(FName name) const;
+	RPGOccupation* GetOccupation(FName name) const;
+	RPGRace* GetRace(FName name) const;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 masterSeed;
@@ -83,6 +88,9 @@ private:
 	TMap<FName, int32> consequences;
 	TMap<FName, RPGSkill*> skills;
 	TMap<FName, RPGTrait*> traits;
+	TMap<FName, RPGOccupation*> occupations;
+	TMap<FName, RPGRace*> races;
+
 	RPGRules rules;
 	int gold, silver, copper;
 };

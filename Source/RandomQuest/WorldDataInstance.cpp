@@ -11,6 +11,8 @@
 #include "RPGCharacter.h"
 #include "RPGSkill.h"
 #include "RPGTrait.h"
+#include "RPGOccupation.h"
+#include "RPGRace.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
@@ -26,6 +28,10 @@ void UWorldDataInstance::Shutdown()
 		delete skill.Value;
 	for (auto trait : traits)
 		delete trait.Value;
+	for (auto occupation : occupations)
+		delete occupation.Value;
+	for (auto race : races)
+		delete race.Value;
 	UGameInstance::Shutdown();
 }
 
@@ -136,24 +142,50 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 	return rules.AbilityTest(chosen, name, difficulty, result);
 }
 
-void UWorldDataInstance::AddSkill(const FSkill& skill)
+void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
-	RPGSkill* toAdd = new RPGSkill;
-	toAdd->SetName(skill.name);
-	toAdd->SetVariationOf(skill.variationOf);
-	for (auto cmd : skill.commands)
-		toAdd->AddCommand(cmd.command, cmd.value);
-	for (auto cost : skill.costs)
-		toAdd->AddCost(cost.resource, cost.amount);
-	for (auto req : skill.requirements)
-		toAdd->AddRequirement(req.need, req.amount);
-	skills.Add(skill.name, toAdd);
+	ensure(!skills.Contains(skill->GetName()));
+	skills.Add(skill->GetName(), skill);
 }
 
-void UWorldDataInstance::AddTrait(const FTrait& trait)
+void UWorldDataInstance::AddTrait(RPGTrait* trait)
 {
-	RPGTrait* toAdd = new RPGTrait(trait.name, trait.value);
-	for (auto req : trait.requirements)
-		toAdd->AddRequirement(req.need, req.amount);
-	traits.Add(trait.name, toAdd);
+	ensure(!traits.Contains(trait->GetName()));
+	traits.Add(trait->GetName(), trait);
+}
+
+void UWorldDataInstance::AddOccupation(RPGOccupation* occupation)
+{
+	ensure(!occupations.Contains(occupation->GetName()));
+	occupations.Add(occupation->GetName(), occupation);
+}
+
+void UWorldDataInstance::AddRace(RPGRace* race)
+{
+	ensure(!races.Contains(race->GetName()));
+	races.Add(race->GetName(), race);
+}
+
+RPGSkill* UWorldDataInstance::GetSkill(FName name) const
+{
+	ensure(skills.Contains(name));
+	return skills[name];
+}
+
+RPGTrait* UWorldDataInstance::GetTrait(FName name) const
+{
+	ensure(traits.Contains(name));
+	return traits[name];
+}
+
+RPGOccupation* UWorldDataInstance::GetOccupation(FName name) const
+{
+	ensure(occupations.Contains(name));
+	return occupations[name];
+}
+
+RPGRace* UWorldDataInstance::GetRace(FName name) const
+{
+	ensure(races.Contains(name));
+	return races[name];
 }

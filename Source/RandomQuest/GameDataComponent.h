@@ -5,6 +5,11 @@
 #include "Components/ActorComponent.h"
 #include "GameDataComponent.generated.h"
 
+class RPGSkill;
+class RPGTrait;
+class RPGOccupation;
+class RPGRace;
+
 
 USTRUCT(BlueprintType)
 struct FSkillCommand
@@ -96,6 +101,44 @@ public:
 	TArray<FTraitRequirement> requirements;
 };
 
+USTRUCT(BlueprintType)
+struct FOccupation
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName primaryStat;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName secondaryStat;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName tertiaryStat;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> essentialTraits;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> optionalTraits;
+};
+
+USTRUCT(BlueprintType)
+struct FRace
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> traits;
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RANDOMQUEST_API UGameDataComponent : public UActorComponent
 {
@@ -113,4 +156,16 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FTrait> traits;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FOccupation> occupations;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FRace> races;
+
+private:
+	RPGSkill* CreateSkill(const FSkill& skill);
+	RPGTrait* CreateTrait(const FTrait& trait);
+	RPGOccupation* CreateOccupation(const FOccupation& occupation);
+	RPGRace* CreateRace(const FRace& race);
 };

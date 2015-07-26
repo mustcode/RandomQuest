@@ -6,7 +6,6 @@
 #include "RPGAttribute.h"
 
 class RPGRace;
-class RPGClass;
 class RPGInventory;
 class RPGWeapon;
 class RPGAppearance;

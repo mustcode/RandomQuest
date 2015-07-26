@@ -4,7 +4,6 @@
 #include "RPGCharacter.h"
 
 #include "RPGRace.h"
-#include "RPGClass.h"
 #include "RPGInventory.h"
 #include "RPGWeapon.h"
 #include "RPGAppearance.h"
