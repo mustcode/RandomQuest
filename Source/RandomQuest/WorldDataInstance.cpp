@@ -25,13 +25,13 @@ UWorldDataInstance::UWorldDataInstance(const FObjectInitializer& ObjectInitializ
 void UWorldDataInstance::Shutdown()
 {
 	for (auto skill : skills)
-		delete skill.Value;
+		delete skill;
 	for (auto trait : traits)
-		delete trait.Value;
+		delete trait;
 	for (auto occupation : occupations)
-		delete occupation.Value;
+		delete occupation;
 	for (auto race : races)
-		delete race.Value;
+		delete race;
 	UGameInstance::Shutdown();
 }
 
@@ -78,7 +78,7 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 	rules.RandomizeStats(charObj->character);
 	RPGCharacter* character = charObj->character;
 	for (auto skill : skills)
-		rules.TryLearnSkill(character, skill.Value);
+		rules.TryLearnSkill(character, skill);
 	return charObj;
 }
 
@@ -144,48 +144,44 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
-	ensure(!skills.Contains(skill->GetName()));
-	skills.Add(skill->GetName(), skill);
+	ensure(!skills.Contains(skill));
+	skills.Add(skill);
 }
 
 void UWorldDataInstance::AddTrait(RPGTrait* trait)
 {
-	ensure(!traits.Contains(trait->GetName()));
-	traits.Add(trait->GetName(), trait);
+	ensure(!traits.Contains(trait));
+	traits.Add(trait);
 }
 
 void UWorldDataInstance::AddOccupation(RPGOccupation* occupation)
 {
-	ensure(!occupations.Contains(occupation->GetName()));
-	occupations.Add(occupation->GetName(), occupation);
+	ensure(!occupations.Contains(occupation));
+	occupations.Add(occupation);
 }
 
 void UWorldDataInstance::AddRace(RPGRace* race)
 {
-	ensure(!races.Contains(race->GetName()));
-	races.Add(race->GetName(), race);
+	ensure(!races.Contains(race));
+	races.Add(race);
 }
 
 RPGSkill* UWorldDataInstance::GetSkill(FName name) const
 {
-	ensure(skills.Contains(name));
-	return skills[name];
+	return *skills.FindByPredicate([&](RPGSkill* skill){ return skill->GetName() == name; });
 }
 
 RPGTrait* UWorldDataInstance::GetTrait(FName name) const
 {
-	ensure(traits.Contains(name));
-	return traits[name];
+	return *traits.FindByPredicate([&](RPGTrait* trait){ return trait->GetName() == name; });
 }
 
 RPGOccupation* UWorldDataInstance::GetOccupation(FName name) const
 {
-	ensure(occupations.Contains(name));
-	return occupations[name];
+	return *occupations.FindByPredicate([&](RPGOccupation* occupation){ return occupation->GetName() == name; });
 }
 
 RPGRace* UWorldDataInstance::GetRace(FName name) const
 {
-	ensure(races.Contains(name));
-	return races[name];
+	return *races.FindByPredicate([&](RPGRace* race){ return race->GetName() == name; });
 }

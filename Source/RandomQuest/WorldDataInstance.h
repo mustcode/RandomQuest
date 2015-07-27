@@ -86,10 +86,11 @@ public:
 
 private:
 	TMap<FName, int32> consequences;
-	TMap<FName, RPGSkill*> skills;
-	TMap<FName, RPGTrait*> traits;
-	TMap<FName, RPGOccupation*> occupations;
-	TMap<FName, RPGRace*> races;
+	
+	TArray<RPGSkill*> skills;
+	TArray<RPGTrait*> traits;
+	TArray<RPGOccupation*> occupations;
+	TArray<RPGRace*> races;
 
 	RPGRules rules;
 	int gold, silver, copper;
