@@ -24,19 +24,3 @@ int RPGTrait::GetValue() const
 {
 	return value;
 }
-
-void RPGTrait::AddRequirement(FName need, int amount)
-{
-	requirements.Add(Requirement(need, amount));
-}
-
-int RPGTrait::RequirementsCount() const
-{
-	return requirements.Num();
-}
-
-const RPGTrait::Requirement& RPGTrait::GetRequirement(int index) const
-{
-	ensure(index >= 0 && index < requirements.Num());
-	return requirements[index];
-}

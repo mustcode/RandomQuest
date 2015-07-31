@@ -45,16 +45,12 @@ RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 		rpgSkill->AddCommand(cmd.command, cmd.value);
 	for (auto cost : skill.costs)
 		rpgSkill->AddCost(cost.resource, cost.amount);
-	for (auto req : skill.requirements)
-		rpgSkill->AddRequirement(req.need, req.amount);
 	return rpgSkill;
 }
 
 RPGTrait* UGameDataComponent::CreateTrait(const FTrait& trait)
 {
 	RPGTrait* rpgTrait = new RPGTrait(trait.name, trait.value);
-	for (auto req : trait.requirements)
-		rpgTrait->AddRequirement(req.need, req.amount);
 	return rpgTrait;
 }
 

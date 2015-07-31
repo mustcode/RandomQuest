@@ -81,8 +81,6 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 		rules.AssignRace(character, races);
 	if (occupations.Num() > 0)
 		rules.AssignOccupation(character, occupations);
-	for (auto skill : skills)
-		rules.TryLearnSkill(character, skill);
 	return charObj;
 }
 

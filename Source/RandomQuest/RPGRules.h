@@ -22,11 +22,8 @@ public:
 	void AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty);
-	bool TryLearnSkill(RPGCharacter* character, RPGSkill* skill);
-	bool TryAddTrait(RPGCharacter* character, RPGTrait* trait);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);
-	bool HasRequirement(RPGCharacter* character, FName requirement, int amount) const;
 	RPGOccupation* GetMostSuitableOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations) const;
 };

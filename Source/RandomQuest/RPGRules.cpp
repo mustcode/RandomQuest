@@ -84,32 +84,6 @@ bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficult
 	return AbilityTest(character, ability, difficulty, result);
 }
 
-bool RPGRules::TryLearnSkill(RPGCharacter* character, RPGSkill* skill)
-{
-	int reqCount = skill->RequirementsCount();
-	for (int i = 0; i < reqCount; ++i)
-	{
-		RPGSkill::Requirement req = skill->GetRequirement(i);
-		if (!HasRequirement(character, req.need, req.amount))
-			return false;
-	}
-	character->AddSkill(skill);
-	return true;
-}
-
-bool RPGRules::TryAddTrait(RPGCharacter* character, RPGTrait* trait)
-{
-	int reqCount = trait->RequirementsCount();
-	for (int i = 0; i < reqCount; ++i)
-	{
-		RPGTrait::Requirement req = trait->GetRequirement(i);
-		if (!HasRequirement(character, req.need, req.amount))
-			return false;
-	}
-	character->AddTrait(trait);
-	return true;
-}
-
 void RPGRules::RandomizeAttributes(RPGCharacter* character)
 {
 	static const int NUM_STAT = 6;
@@ -134,11 +108,6 @@ void RPGRules::RandomizeAttributes(RPGCharacter* character)
 		attribute->Increase(1);
 		--total;
 	}
-}
-
-bool RPGRules::HasRequirement(RPGCharacter* character, FName requirement, int amount) const
-{
-	return false;
 }
 
 RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations) const
