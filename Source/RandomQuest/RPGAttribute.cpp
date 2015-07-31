@@ -20,6 +20,11 @@ RPGAttribute::~RPGAttribute()
 {
 }
 
+FName RPGAttribute::GetName() const
+{
+	return name;
+}
+
 int RPGAttribute::GetValue() const
 {
 	return value;

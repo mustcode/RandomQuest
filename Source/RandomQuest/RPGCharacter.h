@@ -28,8 +28,8 @@ public:
 
 	RPGCharacter();
 	~RPGCharacter();
-	RPGAttribute& AddAttribute(FName name, int minValue, int maxValue);
-	RPGAttribute& GetAttribute(FName name);
+	RPGAttribute* AddAttribute(FName name, int minValue, int maxValue);
+	RPGAttribute* GetAttribute(FName name);
 	int GetAttributeValue(FName name) const;
 	void AddSkill(RPGSkill* skill);
 	void AddTrait(RPGTrait* trait);

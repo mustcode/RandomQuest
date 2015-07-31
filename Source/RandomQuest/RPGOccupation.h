@@ -20,7 +20,7 @@ public:
 
 	void AddTrait(RPGTrait* trait, bool essential);
 	int TraitsCount(bool essential) const;
-	const RPGTrait* GetTrait(int index, bool essential) const;
+	RPGTrait* GetTrait(int index, bool essential) const;
 
 protected:
 	FName name;

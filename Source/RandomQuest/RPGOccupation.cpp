@@ -52,7 +52,7 @@ int RPGOccupation::TraitsCount(bool essential) const
 	return essential ? essentialTraits.Num() : optionalTraits.Num();
 }
 
-const RPGTrait* RPGOccupation::GetTrait(int index, bool essential) const
+RPGTrait* RPGOccupation::GetTrait(int index, bool essential) const
 {
 	ensure(index >= 0);
 	ensure((essential && index < essentialTraits.Num()) || (!essential && index < optionalTraits.Num()));

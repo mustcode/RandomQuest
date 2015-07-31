@@ -19,7 +19,7 @@ public:
 
 	void AddTrait(RPGTrait* trait);
 	int TraitsCount() const;
-	const RPGTrait* GetTrait(int index) const;
+	RPGTrait* GetTrait(int index) const;
 
 protected:
 	FName name;

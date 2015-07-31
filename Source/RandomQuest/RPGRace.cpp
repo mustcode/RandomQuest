@@ -29,7 +29,7 @@ int RPGRace::TraitsCount() const
 	return traits.Num();
 }
 
-const RPGTrait* RPGRace::GetTrait(int index) const
+RPGTrait* RPGRace::GetTrait(int index) const
 {
 	ensure(index >= 0 && index < traits.Num());
 	return traits[index];

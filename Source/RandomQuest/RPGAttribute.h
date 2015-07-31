@@ -11,6 +11,7 @@ public:
 	RPGAttribute();
 	RPGAttribute(FName _name, int _minValue, int _maxValue);
 	~RPGAttribute();
+	FName GetName() const;
 	int GetValue() const;
 	void SetValue(int _value, bool clampValue = true);
 	void Increase(int _value, bool clampValue = true);

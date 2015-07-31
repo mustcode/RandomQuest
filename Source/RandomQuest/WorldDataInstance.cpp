@@ -75,8 +75,12 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 {
 	UCharacterObject* charObj = NewObject<UCharacterObject>();
 	charObj->Init();
-	rules.RandomizeStats(charObj->character);
 	RPGCharacter* character = charObj->character;
+	rules.RandomizeStats(character);
+	if (races.Num() > 0)
+		rules.AssignRace(character, races);
+	if (occupations.Num() > 0)
+		rules.AssignOccupation(character, occupations);
 	for (auto skill : skills)
 		rules.TryLearnSkill(character, skill);
 	return charObj;
