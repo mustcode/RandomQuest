@@ -12,6 +12,7 @@ class RPGSkill;
 class RPGTrait;
 class RPGOccupation;
 class RPGRace;
+class RPGPrerequisite;
 
 /**
  * 
@@ -69,11 +70,13 @@ public:
 	void AddTrait(RPGTrait* trait);
 	void AddOccupation(RPGOccupation* occupation);
 	void AddRace(RPGRace* race);
+	void AddPrerequisite(RPGPrerequisite* prerequisite);
 
 	RPGSkill* GetSkill(FName name) const;
 	RPGTrait* GetTrait(FName name) const;
 	RPGOccupation* GetOccupation(FName name) const;
 	RPGRace* GetRace(FName name) const;
+	RPGPrerequisite* GetPrerequisite(FName name) const;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 masterSeed;
@@ -86,11 +89,12 @@ public:
 
 private:
 	TMap<FName, int32> consequences;
-	
+
 	TArray<RPGSkill*> skills;
 	TArray<RPGTrait*> traits;
 	TArray<RPGOccupation*> occupations;
 	TArray<RPGRace*> races;
+	TArray<RPGPrerequisite*> prerequisites;
 
 	RPGRules rules;
 	int gold, silver, copper;

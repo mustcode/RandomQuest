@@ -9,7 +9,37 @@ class RPGSkill;
 class RPGTrait;
 class RPGOccupation;
 class RPGRace;
+class RPGPrerequisite;
 
+
+USTRUCT(BlueprintType)
+struct FRequisite
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName need;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 value;
+};
+
+USTRUCT(BlueprintType)
+struct FPrerequisite
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FRequisite> requiredTraits;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FRequisite> bannedTraits;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FRequisite> minimumStats;
+};
 
 USTRUCT(BlueprintType)
 struct FSkillCommand
@@ -22,19 +52,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float value;
-};
-
-USTRUCT(BlueprintType)
-struct FPrerequisite
-{
-	GENERATED_USTRUCT_BODY()
-public:
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName need;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 amount;
 };
 
 USTRUCT(BlueprintType)
@@ -69,7 +86,7 @@ public:
 	TArray<FSkillCost> costs;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FPrerequisite> prerequisites;
+	FPrerequisite prerequisite;
 };
 
 USTRUCT(BlueprintType)
@@ -85,7 +102,7 @@ public:
 	int32 value;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FPrerequisite> prerequisites;
+	FPrerequisite prerequisite;
 };
 
 USTRUCT(BlueprintType)
@@ -155,4 +172,5 @@ private:
 	RPGTrait* CreateTrait(const FTrait& trait);
 	RPGOccupation* CreateOccupation(const FOccupation& occupation);
 	RPGRace* CreateRace(const FRace& race);
+	RPGPrerequisite* CreatePrerequisite(FName name, const FPrerequisite& prerequisite);
 };

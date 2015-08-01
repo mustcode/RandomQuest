@@ -7,6 +7,7 @@
 #include "RPGTrait.h"
 #include "RPGOccupation.h"
 #include "RPGRace.h"
+#include "RPGPrerequisite.h"
 
 
 // Sets default values for this component's properties
@@ -27,9 +28,15 @@ void UGameDataComponent::BeginPlay()
 	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
 	for (const FSkill& skill : skills)
+	{
 		wdi->AddSkill(CreateSkill(skill));
+		wdi->AddPrerequisite(CreatePrerequisite(skill.name, skill.prerequisite));
+	}
 	for (const FTrait& trait : traits)
+	{
 		wdi->AddTrait(CreateTrait(trait));
+		wdi->AddPrerequisite(CreatePrerequisite(trait.name, trait.prerequisite));
+	}
 	for (const FOccupation& occupation : occupations)
 		wdi->AddOccupation(CreateOccupation(occupation));
 	for (const FRace& race : races)
@@ -77,4 +84,34 @@ RPGRace* UGameDataComponent::CreateRace(const FRace& race)
 	for (auto trait : race.traits)
 		rpgRace->AddTrait(wdi->GetTrait(trait));
 	return rpgRace;
+}
+
+RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrerequisite& prerequisite)
+{
+	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
+	ensure(wdi != nullptr);
+
+	RPGPrerequisite* rpgPrerequisite = new RPGPrerequisite(name);
+	for (auto requisite : prerequisite.requiredTraits)
+	{
+		TPair<FName, int> item;
+		item.Key = requisite.need;
+		item.Value = requisite.value;
+		rpgPrerequisite->RequiredTraits.Add(item);
+	}
+	for (auto requisite : prerequisite.bannedTraits)
+	{
+		TPair<FName, int> item;
+		item.Key = requisite.need;
+		item.Value = requisite.value;
+		rpgPrerequisite->BannedTraits.Add(item);
+	}
+	for (auto requisite : prerequisite.minimumStats)
+	{
+		TPair<FName, int> item;
+		item.Key = requisite.need;
+		item.Value = requisite.value;
+		rpgPrerequisite->MinimumStats.Add(item);
+	}
+	return rpgPrerequisite;
 }

@@ -13,6 +13,7 @@
 #include "RPGTrait.h"
 #include "RPGOccupation.h"
 #include "RPGRace.h"
+#include "RPGPrerequisite.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
@@ -32,6 +33,8 @@ void UWorldDataInstance::Shutdown()
 		delete occupation;
 	for (auto race : races)
 		delete race;
+	for (auto prerequisite : prerequisites)
+		delete prerequisite;
 	UGameInstance::Shutdown();
 }
 
@@ -146,26 +149,32 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
-	ensure(!skills.Contains(skill));
+	ensure(!skills.Contains(skill) && !GetSkill(skill->GetName()));
 	skills.Add(skill);
 }
 
 void UWorldDataInstance::AddTrait(RPGTrait* trait)
 {
-	ensure(!traits.Contains(trait));
+	ensure(!traits.Contains(trait) && !GetTrait(trait->GetName()));
 	traits.Add(trait);
 }
 
 void UWorldDataInstance::AddOccupation(RPGOccupation* occupation)
 {
-	ensure(!occupations.Contains(occupation));
+	ensure(!occupations.Contains(occupation) && !GetOccupation(occupation->GetName()));
 	occupations.Add(occupation);
 }
 
 void UWorldDataInstance::AddRace(RPGRace* race)
 {
-	ensure(!races.Contains(race));
+	ensure(!races.Contains(race) && !GetRace(race->GetName()));
 	races.Add(race);
+}
+
+void UWorldDataInstance::AddPrerequisite(RPGPrerequisite* prerequisite)
+{
+	ensure(!prerequisites.Contains(prerequisite) && !GetPrerequisite(prerequisite->GetName()));
+	prerequisites.Add(prerequisite);
 }
 
 RPGSkill* UWorldDataInstance::GetSkill(FName name) const
@@ -186,4 +195,9 @@ RPGOccupation* UWorldDataInstance::GetOccupation(FName name) const
 RPGRace* UWorldDataInstance::GetRace(FName name) const
 {
 	return *races.FindByPredicate([&](RPGRace* race){ return race->GetName() == name; });
+}
+
+RPGPrerequisite* UWorldDataInstance::GetPrerequisite(FName name) const
+{
+	return *prerequisites.FindByPredicate([&](RPGPrerequisite* prerequisite){ return prerequisite->GetName() == name; });
 }
