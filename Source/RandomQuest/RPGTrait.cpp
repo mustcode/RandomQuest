@@ -7,7 +7,7 @@ RPGTrait::RPGTrait()
 {
 }
 
-RPGTrait::RPGTrait(FName _name, int _value) : name(_name), value(_value)
+RPGTrait::RPGTrait(FName _name) : name(_name)
 {
 }
 
@@ -20,7 +20,21 @@ FName RPGTrait::GetName() const
 	return name;
 }
 
-int RPGTrait::GetValue() const
+void RPGTrait::SetProperty(FName name, int value)
 {
-	return value;
+	if (properties.Contains(name))
+		properties[name] = value;
+	else
+		properties.Add(name, value);
+}
+
+int RPGTrait::GetProperty(FName name) const
+{
+	ensure(properties.Contains(name));
+	return properties[name];
+}
+
+bool RPGTrait::HasProperty(FName name) const
+{
+	return properties.Contains(name);
 }

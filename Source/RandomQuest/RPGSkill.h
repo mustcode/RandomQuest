@@ -32,7 +32,6 @@ public:
 	int GetCost(FName resource) const;
 
 protected:
-
 	FName name;
 	FName variationOf;
 	TArray<Command> commands;

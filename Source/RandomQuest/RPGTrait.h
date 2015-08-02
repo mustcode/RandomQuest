@@ -9,13 +9,16 @@ class RANDOMQUEST_API RPGTrait
 {
 public:
 	RPGTrait();
-	RPGTrait(FName _name, int _value);
+	RPGTrait(FName _name);
 	~RPGTrait();
 
 	FName GetName() const;
-	int GetValue() const;
+
+	void SetProperty(FName name, int value);
+	int GetProperty(FName name) const;
+	bool HasProperty(FName name) const;
 
 protected:
 	FName name;
-	int value;
+	TMap<FName, int> properties;
 };

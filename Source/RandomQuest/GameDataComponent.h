@@ -90,7 +90,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTrait
+struct FTraitProperty
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -100,6 +100,19 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 value;
+};
+
+USTRUCT(BlueprintType)
+struct FTrait
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FTraitProperty> properties;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FPrerequisite prerequisite;

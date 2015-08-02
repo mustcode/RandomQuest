@@ -149,55 +149,65 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
+	ensure(skill && !skill->GetName().IsNone() && skill->GetName().IsValid());
 	ensure(!skills.Contains(skill) && !GetSkill(skill->GetName()));
 	skills.Add(skill);
 }
 
 void UWorldDataInstance::AddTrait(RPGTrait* trait)
 {
+	ensure(trait && !trait->GetName().IsNone() && trait->GetName().IsValid());
 	ensure(!traits.Contains(trait) && !GetTrait(trait->GetName()));
 	traits.Add(trait);
 }
 
 void UWorldDataInstance::AddOccupation(RPGOccupation* occupation)
 {
+	ensure(occupation && !occupation->GetName().IsNone() && occupation->GetName().IsValid());
 	ensure(!occupations.Contains(occupation) && !GetOccupation(occupation->GetName()));
 	occupations.Add(occupation);
 }
 
 void UWorldDataInstance::AddRace(RPGRace* race)
 {
+	ensure(race && !race->GetName().IsNone() && race->GetName().IsValid());
 	ensure(!races.Contains(race) && !GetRace(race->GetName()));
 	races.Add(race);
 }
 
 void UWorldDataInstance::AddPrerequisite(RPGPrerequisite* prerequisite)
 {
+	ensure(prerequisite && !prerequisite->GetName().IsNone() && prerequisite->GetName().IsValid());
 	ensure(!prerequisites.Contains(prerequisite) && !GetPrerequisite(prerequisite->GetName()));
 	prerequisites.Add(prerequisite);
 }
 
 RPGSkill* UWorldDataInstance::GetSkill(FName name) const
 {
-	return *skills.FindByPredicate([&](RPGSkill* skill){ return skill->GetName() == name; });
+	auto result = skills.FindByPredicate([&](RPGSkill* skill){ return skill->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
 }
 
 RPGTrait* UWorldDataInstance::GetTrait(FName name) const
 {
-	return *traits.FindByPredicate([&](RPGTrait* trait){ return trait->GetName() == name; });
+	auto result = traits.FindByPredicate([&](RPGTrait* trait){ return trait->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
 }
 
 RPGOccupation* UWorldDataInstance::GetOccupation(FName name) const
 {
-	return *occupations.FindByPredicate([&](RPGOccupation* occupation){ return occupation->GetName() == name; });
+	auto result = occupations.FindByPredicate([&](RPGOccupation* occupation){ return occupation->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
 }
 
 RPGRace* UWorldDataInstance::GetRace(FName name) const
 {
-	return *races.FindByPredicate([&](RPGRace* race){ return race->GetName() == name; });
+	auto result = races.FindByPredicate([&](RPGRace* race){ return race->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
 }
 
 RPGPrerequisite* UWorldDataInstance::GetPrerequisite(FName name) const
 {
-	return *prerequisites.FindByPredicate([&](RPGPrerequisite* prerequisite){ return prerequisite->GetName() == name; });
+	auto result = prerequisites.FindByPredicate([&](RPGPrerequisite* prerequisite){ return prerequisite->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
 }
