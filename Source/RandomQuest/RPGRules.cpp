@@ -140,18 +140,29 @@ RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArr
 	for (auto attribute : attributes)
 		attributesLookup.Add(attribute.Value->GetName(), attribute);
 
+	const float PRIMARY_WEIGHT = 1.f;
+	const float SECONDARY_WEIGHT = 1.25f;
+	const float TERTIARY_WEIGHT = 1.5f;
+
 	int mostSuitable = MAX_int8;
-	RPGOccupation* result = nullptr;
+	TArray<RPGOccupation*> results;
 	for (auto occupation : occupations)
 	{
 		FName primary, secondary, tertiary;
 		occupation->GetPrimaryStats(primary, secondary, tertiary);
-		int suitability = attributesLookup[primary].Key + attributesLookup[secondary].Key + attributesLookup[tertiary].Key;
+		float suitability = attributesLookup[primary].Key * PRIMARY_WEIGHT;
+		suitability += attributesLookup[secondary].Key * SECONDARY_WEIGHT;
+		suitability += attributesLookup[tertiary].Key * TERTIARY_WEIGHT;
 		if (suitability < mostSuitable)
 		{
 			mostSuitable = suitability;
-			result = occupation;
+			results.Empty();
+			results.Add(occupation);
+		}
+		else if (suitability == mostSuitable)
+		{
+			results.Add(occupation);
 		}
 	}
-	return result;
+	return results[FMath::RandRange(0, results.Num()-1)];
 }
