@@ -61,14 +61,38 @@ void RPGRules::AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>&
 	TArray<RPGTrait*> optionalTraits;
 	for (int i = 0; i < occupation->TraitsCount(false); ++i)
 		optionalTraits.Add(occupation->GetTrait(i, false));
-	int removeCount = occupation->TraitsCount(false) / 2;
-	for (int i = 0; i < removeCount; ++i)
+
+	int traitsToAdd = RPGDice::Roll(D6);
+	if (traitsToAdd > optionalTraits.Num())
+		traitsToAdd = optionalTraits.Num();
+	for (int i = 0; i < traitsToAdd; ++i)
 	{
-		int randomIndex = FMath::RandRange(0, static_cast<int>(optionalTraits.Num()-1));
+		int randomIndex = FMath::RandRange(0, optionalTraits.Num()-1);
+		character->AddTrait(optionalTraits[randomIndex]);
 		optionalTraits.RemoveAtSwap(randomIndex);
 	}
-	for (auto trait : optionalTraits)
-		character->AddTrait(trait);
+}
+
+void RPGRules::RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>& traits)
+{
+	const FName COMMON_TRAIT("Common");
+
+	TArray<RPGTrait*> commonTraits;
+	for (auto trait : traits)
+	{
+		if (trait->HasProperty(COMMON_TRAIT))
+			commonTraits.Add(trait);
+	}
+
+	int traitsToAdd = RPGDice::Roll(D6);
+	if (traitsToAdd > commonTraits.Num())
+		traitsToAdd = commonTraits.Num();
+	for (int i = 0; i < traitsToAdd; ++i)
+	{
+		int randomIndex = FMath::RandRange(0, commonTraits.Num()-1);
+		character->AddTrait(commonTraits[randomIndex]);
+		commonTraits.RemoveAtSwap(randomIndex);
+	}
 }
 
 bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result)

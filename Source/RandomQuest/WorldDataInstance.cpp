@@ -84,6 +84,7 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 		rules.AssignRace(character, races);
 	if (occupations.Num() > 0)
 		rules.AssignOccupation(character, occupations);
+	rules.RandomizeCommonTraits(character, traits);
 	return charObj;
 }
 

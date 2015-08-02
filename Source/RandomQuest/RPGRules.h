@@ -20,6 +20,7 @@ public:
 	void RandomizeStats(RPGCharacter* character);
 	void AssignRace(RPGCharacter* character, TArray<RPGRace*>& races);
 	void AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations);
+	void RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>& traits);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty);
 

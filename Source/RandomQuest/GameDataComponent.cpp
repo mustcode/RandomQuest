@@ -58,8 +58,8 @@ RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 RPGTrait* UGameDataComponent::CreateTrait(const FTrait& trait)
 {
 	RPGTrait* rpgTrait = new RPGTrait(trait.name);
-	for (auto property : trait.properties)
-		rpgTrait->SetProperty(property.name, property.value);
+	for (auto traitProperty : trait.properties)
+		rpgTrait->SetProperty(traitProperty.name, traitProperty.value);
 	return rpgTrait;
 }
 
