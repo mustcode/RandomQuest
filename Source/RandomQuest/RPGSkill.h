@@ -12,8 +12,9 @@ public:
 	struct Command
 	{
 		FName command;
+		float time;
 		float value;
-		Command(FName _command, float _value) : command(_command), value(_value){}
+		Command(FName _command, float _time, float _value) : command(_command), time(_time), value(_value){}
 	};
 
 	RPGSkill();
@@ -24,9 +25,11 @@ public:
 	FName GetName() const;
 	FName GetVariationOf() const;
 
-	void AddCommand(FName command, float value);
+	void AddCommand(FName command, float time, float value);
+	void AddCommand(Command command);
 	int CommandsCount() const;
 	const Command& GetCommand(int index) const;
+	const TArray<Command>& GetCommands() const;
 
 	void AddCost(FName resource, int value);
 	int GetCost(FName resource) const;

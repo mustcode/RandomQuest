@@ -51,6 +51,9 @@ public:
 	FName command;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	float time;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float value;
 };
 

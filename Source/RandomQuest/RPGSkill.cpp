@@ -31,9 +31,14 @@ FName RPGSkill::GetVariationOf() const
 	return variationOf;
 }
 
-void RPGSkill::AddCommand(FName command, float value)
+void RPGSkill::AddCommand(FName command, float time, float value)
 {
-	commands.Add(Command(command, value));
+	commands.Add(Command(command, time, value));
+}
+
+void RPGSkill::AddCommand(Command command)
+{
+	commands.Add(command);
 }
 
 int RPGSkill::CommandsCount() const
@@ -45,6 +50,11 @@ const RPGSkill::Command& RPGSkill::GetCommand(int index) const
 {
 	ensure(index >= 0 && index < commands.Num());
 	return commands[index];
+}
+
+const TArray<RPGSkill::Command>& RPGSkill::GetCommands() const
+{
+	return commands;
 }
 
 void RPGSkill::AddCost(FName resource, int value)

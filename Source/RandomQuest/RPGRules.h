@@ -23,6 +23,7 @@ public:
 	void AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations);
 	void RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>& traits);
 	bool MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prerequisite) const;
+	bool CanUseSkill(RPGCharacter* character, RPGSkill* skill) const;
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const;
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;
 

@@ -50,7 +50,7 @@ RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 	rpgSkill->SetName(skill.name);
 	rpgSkill->SetVariationOf(skill.variationOf);
 	for (auto cmd : skill.commands)
-		rpgSkill->AddCommand(cmd.command, cmd.value);
+		rpgSkill->AddCommand(cmd.command, cmd.time, cmd.value);
 	for (auto cost : skill.costs)
 		rpgSkill->AddCost(cost.resource, cost.amount);
 	return rpgSkill;

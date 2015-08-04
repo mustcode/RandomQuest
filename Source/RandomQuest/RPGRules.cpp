@@ -118,6 +118,23 @@ bool RPGRules::MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prereq
 	return true;
 }
 
+bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill) const
+{
+	ensure(character != nullptr);
+	ensure(skill != nullptr);
+	ensure(character->HasSkill(skill));
+
+	const FName PHY("PHY");
+	const FName MNT("MNT");
+
+	int PHYCost = skill->GetCost(PHY);
+	int MNTCost = skill->GetCost(MNT);
+	int currentPHY = character->GetAttributeValue(PHY);
+	int currentMNT = character->GetAttributeValue(MNT);
+
+	return currentPHY >= PHYCost && currentMNT >= MNTCost;
+}
+
 bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const
 {
 	int value = character->GetAttribute(ability)->GetValue();
