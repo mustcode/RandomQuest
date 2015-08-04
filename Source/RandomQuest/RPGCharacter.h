@@ -28,11 +28,21 @@ public:
 
 	RPGCharacter();
 	~RPGCharacter();
+	
 	RPGAttribute* AddAttribute(FName name, int minValue, int maxValue);
 	RPGAttribute* GetAttribute(FName name);
 	int GetAttributeValue(FName name) const;
+
 	void AddSkill(RPGSkill* skill);
+	bool HasSkill(RPGSkill* skill) const;
+	bool HasSkill(FName name) const;
+	RPGSkill* GetSkill(FName name) const;
+	
 	void AddTrait(RPGTrait* trait);
+	bool HasTrait(RPGTrait* trait) const;
+	bool HasTrait(FName name) const;
+	RPGTrait* GetTrait(FName name) const;
+	
 	void DebugDump() const;
 
 protected:

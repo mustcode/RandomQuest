@@ -85,6 +85,11 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 	if (occupations.Num() > 0)
 		rules.AssignOccupation(character, occupations);
 	rules.RandomizeCommonTraits(character, traits);
+	for (auto skill : skills)
+	{
+		if (rules.MeetPrerequisite(character, GetPrerequisite(skill->GetName())))
+			character->AddSkill(skill);
+	}
 	return charObj;
 }
 

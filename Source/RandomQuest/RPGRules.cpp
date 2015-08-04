@@ -8,6 +8,7 @@
 #include "RPGRace.h"
 #include "RPGOccupation.h"
 #include "RPGDice.h"
+#include "RPGPrerequisite.h"
 
 RPGRules::RPGRules()
 {
@@ -95,14 +96,36 @@ void RPGRules::RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>&
 	}
 }
 
-bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result)
+bool RPGRules::MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prerequisite) const
+{
+	for (auto trait : prerequisite->RequiredTraits)
+	{
+		if (!character->HasTrait(trait))
+			return false;
+	}
+	for (auto trait : prerequisite->BannedTraits)
+	{
+		if (character->HasTrait(trait))
+			return false;
+	}
+	for (auto minimumStat : prerequisite->MinimumStats)
+	{
+		FName attribute = minimumStat.Key;
+		int scoreRequired = minimumStat.Value;
+		if (character->GetAttributeValue(attribute) < scoreRequired)
+			return false;
+	}
+	return true;
+}
+
+bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const
 {
 	int value = character->GetAttribute(ability)->GetValue();
 	result = RPGDice::Roll(value, D6, 4);
 	return result >= difficulty;
 }
 
-bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty)
+bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty) const
 {
 	int result;
 	return AbilityTest(character, ability, difficulty, result);

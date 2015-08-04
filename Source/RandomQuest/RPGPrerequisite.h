@@ -2,6 +2,8 @@
 
 #pragma once
 
+class RPGTrait;
+
 /**
  * 
  */
@@ -14,8 +16,8 @@ public:
 
 	FName GetName() const;
 
-	TArray<TPair<FName, int>> RequiredTraits;
-	TArray<TPair<FName, int>> BannedTraits;
+	TArray<RPGTrait*> RequiredTraits;
+	TArray<RPGTrait*> BannedTraits;
 	TArray<TPair<FName, int>> MinimumStats;
 
 protected:

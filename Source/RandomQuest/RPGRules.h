@@ -7,6 +7,7 @@ class RPGSkill;
 class RPGTrait;
 class RPGRace;
 class RPGOccupation;
+class RPGPrerequisite;
 
 /**
  * 
@@ -21,8 +22,9 @@ public:
 	void AssignRace(RPGCharacter* character, TArray<RPGRace*>& races);
 	void AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations);
 	void RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>& traits);
-	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result);
-	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty);
+	bool MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prerequisite) const;
+	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const;
+	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);

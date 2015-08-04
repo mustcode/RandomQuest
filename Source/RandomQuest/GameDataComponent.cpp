@@ -27,16 +27,17 @@ void UGameDataComponent::BeginPlay()
 
 	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
+
 	for (const FSkill& skill : skills)
-	{
 		wdi->AddSkill(CreateSkill(skill));
-		wdi->AddPrerequisite(CreatePrerequisite(skill.name, skill.prerequisite));
-	}
 	for (const FTrait& trait : traits)
-	{
 		wdi->AddTrait(CreateTrait(trait));
+
+	for (const FSkill& skill : skills)
+		wdi->AddPrerequisite(CreatePrerequisite(skill.name, skill.prerequisite));
+	for (const FTrait& trait : traits)
 		wdi->AddPrerequisite(CreatePrerequisite(trait.name, trait.prerequisite));
-	}
+
 	for (const FOccupation& occupation : occupations)
 		wdi->AddOccupation(CreateOccupation(occupation));
 	for (const FRace& race : races)
@@ -94,20 +95,10 @@ RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrere
 	ensure(wdi != nullptr);
 
 	RPGPrerequisite* rpgPrerequisite = new RPGPrerequisite(name);
-	for (auto requisite : prerequisite.requiredTraits)
-	{
-		TPair<FName, int> item;
-		item.Key = requisite.need;
-		item.Value = requisite.value;
-		rpgPrerequisite->RequiredTraits.Add(item);
-	}
-	for (auto requisite : prerequisite.bannedTraits)
-	{
-		TPair<FName, int> item;
-		item.Key = requisite.need;
-		item.Value = requisite.value;
-		rpgPrerequisite->BannedTraits.Add(item);
-	}
+	for (auto trait : prerequisite.requiredTraits)
+		rpgPrerequisite->RequiredTraits.Add(wdi->GetTrait(trait));
+	for (auto trait : prerequisite.bannedTraits)
+		rpgPrerequisite->BannedTraits.Add(wdi->GetTrait(trait));
 	for (auto requisite : prerequisite.minimumStats)
 	{
 		TPair<FName, int> item;

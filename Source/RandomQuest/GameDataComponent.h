@@ -32,10 +32,10 @@ struct FPrerequisite
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FRequisite> requiredTraits;
+	TArray<FName> requiredTraits;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	TArray<FRequisite> bannedTraits;
+	TArray<FName> bannedTraits;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FRequisite> minimumStats;
