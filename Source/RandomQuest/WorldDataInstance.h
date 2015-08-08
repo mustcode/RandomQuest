@@ -77,6 +77,7 @@ public:
 	RPGOccupation* GetOccupation(FName name) const;
 	RPGRace* GetRace(FName name) const;
 	RPGPrerequisite* GetPrerequisite(FName name) const;
+	RPGRules* GetRules();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 masterSeed;

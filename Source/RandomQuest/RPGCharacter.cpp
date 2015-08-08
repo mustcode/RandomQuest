@@ -12,7 +12,8 @@
 
 RPGCharacter::RPGCharacter() :
 	inventory(nullptr),
-	appearance(nullptr)
+	appearance(nullptr),
+	activeSkill(nullptr)
 {
 }
 
@@ -87,6 +88,27 @@ RPGTrait* RPGCharacter::GetTrait(FName name) const
 {
 	auto result = traits.FindByPredicate([&](RPGTrait* trait){ return trait->GetName() == name; });
 	return (result != nullptr) ? *result : nullptr;
+}
+
+void RPGCharacter::SetActiveSkill(RPGSkill* skill)
+{
+	ensure(skill != nullptr);
+	activeSkill = skill;
+}
+
+bool RPGCharacter::IsUsingSkill() const
+{
+	return activeSkill != nullptr;
+}
+
+void RPGCharacter::ClearActiveSkill()
+{
+	activeSkill = nullptr;
+}
+
+RPGSkill* RPGCharacter::GetActiveSkill() const
+{
+	return activeSkill;
 }
 
 void RPGCharacter::DebugDump() const

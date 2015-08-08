@@ -217,3 +217,8 @@ RPGPrerequisite* UWorldDataInstance::GetPrerequisite(FName name) const
 	auto result = prerequisites.FindByPredicate([&](RPGPrerequisite* prerequisite){ return prerequisite->GetName() == name; });
 	return (result != nullptr) ? *result : nullptr;
 }
+
+RPGRules* UWorldDataInstance::GetRules()
+{
+	return &rules;
+}

@@ -43,6 +43,11 @@ public:
 	bool HasTrait(FName name) const;
 	RPGTrait* GetTrait(FName name) const;
 	
+	void SetActiveSkill(RPGSkill* skill);
+	bool IsUsingSkill() const;
+	void ClearActiveSkill();
+	RPGSkill* GetActiveSkill() const;
+
 	void DebugDump() const;
 
 protected:
@@ -62,4 +67,6 @@ protected:
 	TArray<RPGAbnormality*> abnormalities;
 
 	TMap<FName, RPGAttribute> attributes;
+
+	RPGSkill* activeSkill;
 };

@@ -135,6 +135,17 @@ bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill) const
 	return currentPHY >= PHYCost && currentMNT >= MNTCost;
 }
 
+void RPGRules::DeductSkillCost(RPGCharacter* character, RPGSkill* skill)
+{
+	ensure(CanUseSkill(character, skill));
+
+	const FName PHY("PHY");
+	const FName MNT("MNT");
+
+	character->GetAttribute(PHY)->Decrease(skill->GetCost(PHY));
+	character->GetAttribute(MNT)->Decrease(skill->GetCost(MNT));
+}
+
 bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const
 {
 	int value = character->GetAttribute(ability)->GetValue();
