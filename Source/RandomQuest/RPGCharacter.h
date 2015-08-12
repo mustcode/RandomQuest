@@ -37,7 +37,8 @@ public:
 	bool HasSkill(RPGSkill* skill) const;
 	bool HasSkill(FName name) const;
 	RPGSkill* GetSkill(FName name) const;
-	
+	const TArray<RPGSkill*>& GetSkills() const;
+
 	void AddTrait(RPGTrait* trait);
 	bool HasTrait(RPGTrait* trait) const;
 	bool HasTrait(FName name) const;

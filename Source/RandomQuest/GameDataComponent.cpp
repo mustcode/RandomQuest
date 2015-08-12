@@ -46,9 +46,7 @@ void UGameDataComponent::BeginPlay()
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 {
-	RPGSkill* rpgSkill = new RPGSkill;
-	rpgSkill->SetName(skill.name);
-	rpgSkill->SetVariationOf(skill.variationOf);
+	RPGSkill* rpgSkill = new RPGSkill(skill.name, skill.variationOf, skill.isNonCombatSkill);
 	for (auto cmd : skill.commands)
 		rpgSkill->AddCommand(cmd.command, cmd.time, cmd.value);
 	for (auto cost : skill.costs)
@@ -107,4 +105,15 @@ RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrere
 		rpgPrerequisite->MinimumStats.Add(item);
 	}
 	return rpgPrerequisite;
+}
+
+FSkill::FSkill(RPGSkill* skill)
+{
+	name = skill->GetName();
+	variationOf = skill->GetVariationOf();
+	isNonCombatSkill = skill->IsNonCombatSkill();
+	for (auto cmd : skill->GetCommands())
+		commands.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
+	for (auto cost : skill->GetCosts())
+		costs.Add(FSkillCost(cost.Key, cost.Value));
 }

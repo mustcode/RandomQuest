@@ -67,6 +67,11 @@ RPGSkill* RPGCharacter::GetSkill(FName name) const
 	return (result != nullptr) ? *result : nullptr;
 }
 
+const TArray<RPGSkill*>& RPGCharacter::GetSkills() const
+{
+	return skills;
+}
+
 void RPGCharacter::AddTrait(RPGTrait* trait)
 {
 	ensure(!traits.Contains(trait));

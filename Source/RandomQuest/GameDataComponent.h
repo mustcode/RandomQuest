@@ -55,6 +55,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float value;
+
+	FSkillCommand(){}
+	FSkillCommand(FName _command, float _time, float _value)
+		: command(_command)
+		, time(_time)
+		, value(_value){}
 };
 
 USTRUCT(BlueprintType)
@@ -68,6 +74,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 amount;
+
+	FSkillCost(){}
+	FSkillCost(FName _resource, uint32 _amount)
+		: resource(_resource)
+		, amount(_amount){}
 };
 
 USTRUCT(BlueprintType)
@@ -83,6 +94,9 @@ public:
 	FName variationOf;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isNonCombatSkill;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkillCommand> commands;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -90,6 +104,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FPrerequisite prerequisite;
+
+	FSkill(){}
+	FSkill(RPGSkill* skill);
 };
 
 USTRUCT(BlueprintType)

@@ -24,6 +24,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool TryUseSkill(FName name);
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	TArray<FSkill> GetSkills() const;
+
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnExecuteSkillCommand(const TArray<FSkillCommand>& commands);
 

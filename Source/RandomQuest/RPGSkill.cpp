@@ -3,22 +3,15 @@
 #include "RandomQuest.h"
 #include "RPGSkill.h"
 
-RPGSkill::RPGSkill()
+RPGSkill::RPGSkill(FName _name, FName _variationOf, bool _isNonCombatSkill)
+	: name(_name)
+	, variationOf(_variationOf)
+	, isNonCombatSkill(_isNonCombatSkill)
 {
 }
 
 RPGSkill::~RPGSkill()
 {
-}
-
-void RPGSkill::SetName(FName toSet)
-{
-	name = toSet;
-}
-
-void RPGSkill::SetVariationOf(FName toSet)
-{
-	variationOf = toSet;
 }
 
 FName RPGSkill::GetName() const
@@ -29,6 +22,11 @@ FName RPGSkill::GetName() const
 FName RPGSkill::GetVariationOf() const
 {
 	return variationOf;
+}
+
+bool RPGSkill::IsNonCombatSkill() const
+{
+	return isNonCombatSkill;
 }
 
 void RPGSkill::AddCommand(FName command, float time, float value)
@@ -66,4 +64,9 @@ void RPGSkill::AddCost(FName resource, int value)
 int RPGSkill::GetCost(FName resource) const
 {
 	return (costs.Contains(resource)) ? costs[resource] : 0;
+}
+
+const TMap<FName, int>& RPGSkill::GetCosts() const
+{
+	return costs;
 }

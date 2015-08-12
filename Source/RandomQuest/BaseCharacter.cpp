@@ -26,14 +26,10 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 	TArray<FSkillCommand> toExecute;
 	while (activeCommandIndex < commands.Num())
 	{
-		RPGSkill::Command& skillCmd = commands[activeCommandIndex];
-		if (skillCmd.time > activeSkillTime)
+		RPGSkill::Command& cmd = commands[activeCommandIndex];
+		if (cmd.time > activeSkillTime)
 			break;
-		FSkillCommand cmd;
-		cmd.command = skillCmd.command;
-		cmd.time = skillCmd.time;
-		cmd.value = skillCmd.value;
-		toExecute.Add(cmd);
+		toExecute.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
 		++activeCommandIndex;
 	}
 	if (toExecute.Num() > 0)
@@ -46,6 +42,15 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 void ABaseCharacter::Init(UCharacterObject* characterObject)
 {
 	character = characterObject;
+}
+
+TArray<FSkill> ABaseCharacter::GetSkills() const
+{
+	TArray<FSkill> skills;
+	auto rpgSkills = character->character->GetSkills();
+	for (auto skill : rpgSkills)
+		skills.Add(FSkill(skill));
+	return skills;
 }
 
 bool ABaseCharacter::TryUseSkill(FName name)
