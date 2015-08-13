@@ -94,7 +94,10 @@ public:
 	FName variationOf;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	bool isNonCombatSkill;
+	bool isUsableInCombat;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isUsableOutOfCombat;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkillCommand> commands;
@@ -139,6 +142,19 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FStatPreference
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName attribute;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	float weight;
+};
+
+USTRUCT(BlueprintType)
 struct FOccupation
 {
 	GENERATED_USTRUCT_BODY()
@@ -148,13 +164,7 @@ public:
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName primaryStat;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName secondaryStat;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName tertiaryStat;
+	TArray<FStatPreference> statPreferences;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> essentialTraits;

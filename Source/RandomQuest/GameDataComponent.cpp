@@ -46,7 +46,7 @@ void UGameDataComponent::BeginPlay()
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 {
-	RPGSkill* rpgSkill = new RPGSkill(skill.name, skill.variationOf, skill.isNonCombatSkill);
+	RPGSkill* rpgSkill = new RPGSkill(skill.name, skill.variationOf, skill.isUsableInCombat, skill.isUsableOutOfCombat);
 	for (auto cmd : skill.commands)
 		rpgSkill->AddCommand(cmd.command, cmd.time, cmd.value);
 	for (auto cost : skill.costs)
@@ -68,7 +68,8 @@ RPGOccupation* UGameDataComponent::CreateOccupation(const FOccupation& occupatio
 	ensure(wdi != nullptr);
 
 	RPGOccupation* rpgOccupation = new RPGOccupation(occupation.name);
-	rpgOccupation->SetPrimaryStats(occupation.primaryStat, occupation.secondaryStat, occupation.tertiaryStat);
+	for (auto pref : occupation.statPreferences)
+		rpgOccupation->SetStatPreference(pref.attribute, pref.weight);
 	for (auto trait : occupation.essentialTraits)
 		rpgOccupation->AddTrait(wdi->GetTrait(trait), true);
 	for (auto trait : occupation.optionalTraits)
@@ -111,7 +112,8 @@ FSkill::FSkill(RPGSkill* skill)
 {
 	name = skill->GetName();
 	variationOf = skill->GetVariationOf();
-	isNonCombatSkill = skill->IsNonCombatSkill();
+	isUsableInCombat = skill->IsUsableInCombat();
+	isUsableOutOfCombat = skill->IsUsableOutOfCombat();
 	for (auto cmd : skill->GetCommands())
 		commands.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
 	for (auto cost : skill->GetCosts())

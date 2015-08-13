@@ -17,12 +17,13 @@ public:
 		Command(FName _command, float _time, float _value) : command(_command), time(_time), value(_value){}
 	};
 
-	RPGSkill(FName _name, FName _variationOf, bool _isNonCombatSkill);
+	RPGSkill(FName _name, FName _variationOf, bool _isUsableInCombat, bool _isUsableOutOfCombat);
 	~RPGSkill();
 
 	FName GetName() const;
 	FName GetVariationOf() const;
-	bool IsNonCombatSkill() const;
+	bool IsUsableInCombat() const;
+	bool IsUsableOutOfCombat() const;
 
 	void AddCommand(FName command, float time, float value);
 	void AddCommand(Command command);
@@ -37,7 +38,8 @@ public:
 protected:
 	FName name;
 	FName variationOf;
-	bool isNonCombatSkill;
+	bool isUsableInCombat;
+	bool isUsableOutOfCombat;
 	TArray<Command> commands;
 	TMap<FName, int> costs;
 };

@@ -17,18 +17,15 @@ FName RPGOccupation::GetName() const
 	return name;
 }
 
-void RPGOccupation::SetPrimaryStats(FName primary, FName secondary, FName tertiary)
+void RPGOccupation::SetStatPreference(FName attribute, float weight)
 {
-	primaryStat = primary;
-	secondaryStat = secondary;
-	tertiaryStat = tertiary;
+	ensure(!statPreferences.Contains(attribute));
+	statPreferences.Add(attribute, weight);
 }
 
-void RPGOccupation::GetPrimaryStats(FName& primary, FName& secondary, FName& tertiary) const
+float RPGOccupation::GetStatPreference(FName attribute) const
 {
-	primary = primaryStat;
-	secondary = secondaryStat;
-	tertiary = tertiaryStat;
+	return (statPreferences.Contains(attribute)) ? statPreferences[attribute] : 0.f;
 }
 
 void RPGOccupation::AddTrait(RPGTrait* trait, bool essential)

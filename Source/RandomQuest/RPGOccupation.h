@@ -15,8 +15,8 @@ public:
 
 	FName GetName() const;
 
-	void SetPrimaryStats(FName primary, FName secondary, FName tertiary);
-	void GetPrimaryStats(FName& primary, FName& secondary, FName& tertiary) const;
+	void SetStatPreference(FName attribute, float weight);
+	float GetStatPreference(FName attribute) const;
 
 	void AddTrait(RPGTrait* trait, bool essential);
 	int TraitsCount(bool essential) const;
@@ -24,9 +24,7 @@ public:
 
 protected:
 	FName name;
-	FName primaryStat;
-	FName secondaryStat;
-	FName tertiaryStat;
+	TMap<FName, float> statPreferences;
 	TArray<RPGTrait*> essentialTraits;
 	TArray<RPGTrait*> optionalTraits;
 };

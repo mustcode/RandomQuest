@@ -211,24 +211,19 @@ RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArr
 		attributes[i].Key = currentRank;
 	}
 
-	TMap<FName, TPair<int, RPGAttribute*>> attributesLookup;
-	for (auto attribute : attributes)
-		attributesLookup.Add(attribute.Value->GetName(), attribute);
-
-	const float PRIMARY_WEIGHT = 1.f;
-	const float SECONDARY_WEIGHT = 1.25f;
-	const float TERTIARY_WEIGHT = 1.5f;
-
-	int mostSuitable = MAX_int8;
+	ensure(occupations.Num() > 0);
+	int mostSuitable = 0;
 	TArray<RPGOccupation*> results;
 	for (auto occupation : occupations)
 	{
-		FName primary, secondary, tertiary;
-		occupation->GetPrimaryStats(primary, secondary, tertiary);
-		float suitability = attributesLookup[primary].Key * PRIMARY_WEIGHT;
-		suitability += attributesLookup[secondary].Key * SECONDARY_WEIGHT;
-		suitability += attributesLookup[tertiary].Key * TERTIARY_WEIGHT;
-		if (suitability < mostSuitable)
+		float suitability = 0;
+		for (auto attribute : attributes)
+		{
+			float weight = occupation->GetStatPreference(attribute.Value->GetName());
+			int rank = attribute.Key;
+			suitability += (ATTRIBUTES_COUNT - rank) * weight;
+		}
+		if (suitability > mostSuitable)
 		{
 			mostSuitable = suitability;
 			results.Empty();
@@ -239,5 +234,6 @@ RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArr
 			results.Add(occupation);
 		}
 	}
+	ensure(results.Num() > 0);
 	return results[FMath::RandRange(0, results.Num()-1)];
 }
