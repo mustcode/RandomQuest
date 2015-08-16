@@ -37,7 +37,7 @@ struct FDialogChoice
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FText id;
+	FName id;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FText description;
