@@ -55,7 +55,7 @@ TArray<FSkill> ABaseCharacter::GetSkills() const
 
 bool ABaseCharacter::TryUseSkill(FName name)
 {
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
+	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetGameInstance());
 	ensure(wdi != nullptr);
 	RPGRules* rules = wdi->GetRules();
 	RPGSkill* skill = wdi->GetSkill(name);
