@@ -15,7 +15,7 @@
 #include "RPGRace.h"
 #include "RPGPrerequisite.h"
 
-#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
+//#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
 UWorldDataInstance::UWorldDataInstance(const FObjectInitializer& ObjectInitializer) 
 	: masterSeed(0)
@@ -41,7 +41,6 @@ void UWorldDataInstance::Shutdown()
 ULocationObject* UWorldDataInstance::CreateLocation(FName name, FName type, ULocationObject* parent) const
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
-	print(FString(__FUNCTION__) + " : " + name.ToString() + "/" + type.ToString());
 	ULocationObject* locObj = NewObject<ULocationObject>();
 	locObj->Init<RPGLocation>(name, type, parent);
 	return locObj;
@@ -50,7 +49,6 @@ ULocationObject* UWorldDataInstance::CreateLocation(FName name, FName type, ULoc
 ULocationObject* UWorldDataInstance::CreateTown(FName name, FName type, ULocationObject* parent) const
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
-	print(FString(__FUNCTION__) + " : " + name.ToString() + "/" + type.ToString());
 	ULocationObject* locObj = NewObject<ULocationObject>();
 	locObj->Init<RPGTown>(name, type, parent);
 	return locObj;
@@ -59,7 +57,6 @@ ULocationObject* UWorldDataInstance::CreateTown(FName name, FName type, ULocatio
 ULocationObject* UWorldDataInstance::CreateStructure(FName name, FName type, ULocationObject* parent) const
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
-	print(FString(__FUNCTION__) + " : " + name.ToString() + "/" + type.ToString());
 	ULocationObject* locObj = NewObject<ULocationObject>();
 	locObj->Init<RPGStructure>(name, type, parent);
 	return locObj;
@@ -68,7 +65,6 @@ ULocationObject* UWorldDataInstance::CreateStructure(FName name, FName type, ULo
 ULocationObject* UWorldDataInstance::CreateDungeon(FName name, FName type, ULocationObject* parent) const
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
-	print(FString(__FUNCTION__) + " : " + name.ToString() + "/" + type.ToString());
 	ULocationObject* locObj = NewObject<ULocationObject>();
 	locObj->Init<RPGDungeon>(name, type, parent);
 	return locObj;

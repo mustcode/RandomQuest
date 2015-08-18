@@ -4,7 +4,6 @@
 #include "LocationObject.h"
 #include "RPGLocation.h"
 
-#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
 ULocationObject::ULocationObject() : location(nullptr)
 {
@@ -49,7 +48,6 @@ bool ULocationObject::HasChild(FName name) const
 void ULocationObject::AddGate(FName name)
 {
 	ensure(location);
-	print(FString(__FUNCTION__) + " : " + name.ToString());
 	location->AddGate(name);
 }
 
@@ -63,6 +61,5 @@ void ULocationObject::AddConnection(FName gateName, ULocationObject* connectTo, 
 {
 	ensure(location);
 	ensure(connectTo);
-	print(FString(__FUNCTION__) + " : " + gateName.ToString() + " to " + connectTo->GetName().ToString() + "/" + entrance.ToString());
 	location->AddConnection(gateName, connectTo->location, entrance);
 }
