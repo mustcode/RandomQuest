@@ -159,6 +159,16 @@ bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficult
 	return AbilityTest(character, ability, difficulty, result);
 }
 
+void RPGRules::ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType)
+{
+
+}
+
+void RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType)
+{
+
+}
+
 void RPGRules::RandomizeAttributes(RPGCharacter* character)
 {
 	static const int NUM_STAT = 6;

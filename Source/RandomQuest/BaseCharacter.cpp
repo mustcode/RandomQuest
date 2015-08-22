@@ -44,21 +44,12 @@ void ABaseCharacter::Init(UCharacterObject* characterObject)
 	character = characterObject;
 }
 
-TArray<FSkill> ABaseCharacter::GetSkills() const
-{
-	TArray<FSkill> skills;
-	auto rpgSkills = character->character->GetSkills();
-	for (auto skill : rpgSkills)
-		skills.Add(FSkill(skill));
-	return skills;
-}
-
 bool ABaseCharacter::TryUseSkill(FName name)
 {
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetGameInstance());
-	ensure(wdi != nullptr);
-	RPGRules* rules = wdi->GetRules();
-	RPGSkill* skill = wdi->GetSkill(name);
+	auto worldData = GetWorldData();
+	RPGRules* rules = worldData->GetRules();
+	RPGSkill* skill = worldData->GetSkill(name);
+	ensure(rules && skill);
 	if (!rules->CanUseSkill(character->character, skill))
 		return false;
 	character->character->SetActiveSkill(skill);
@@ -68,7 +59,47 @@ bool ABaseCharacter::TryUseSkill(FName name)
 	return true;
 }
 
+TArray<FSkill> ABaseCharacter::GetSkills() const
+{
+	TArray<FSkill> skills;
+	auto rpgSkills = character->character->GetSkills();
+	for (auto skill : rpgSkills)
+		skills.Add(FSkill(skill));
+	return skills;
+}
+
+void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName healingType)
+{
+	auto rules = GetWorldData()->GetRules();
+	ensure(rules != nullptr);
+	rules->ApplyHealing(healer->character->character, character->character, amount, healingType);
+	OnHealed(healer, amount, healingType);
+}
+
+void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName damageType)
+{
+	auto rules = GetWorldData()->GetRules();
+	ensure(rules != nullptr);
+	rules->ApplyDamage(originator->character->character, character->character, amount, damageType);
+	OnDamaged(originator, amount, damageType);
+}
+
+void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, FName healingType)
+{
+}
+
+void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, FName damageType)
+{
+}
+
 void ABaseCharacter::OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands)
 {
 	ensure(commands.Num() > 0);
+}
+
+UWorldDataInstance* ABaseCharacter::GetWorldData() const
+{
+	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetGameInstance());
+	ensure(wdi != nullptr);
+	return wdi;
 }

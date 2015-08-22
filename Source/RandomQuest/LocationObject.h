@@ -24,25 +24,25 @@ public:
 		location = new T(locationName, locationType, (parentLocation) ? parentLocation->location : nullptr);
 	}
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FName GetName() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FName GetType() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetChildrenCount() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FName GetChildName(int32 index) const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool HasChild(FName name) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddGate(FName name);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool HasGate(FName name) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)

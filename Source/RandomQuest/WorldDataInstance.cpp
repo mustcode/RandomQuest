@@ -38,7 +38,7 @@ void UWorldDataInstance::Shutdown()
 	UGameInstance::Shutdown();
 }
 
-ULocationObject* UWorldDataInstance::CreateLocation(FName name, FName type, ULocationObject* parent) const
+ULocationObject* UWorldDataInstance::CreateLocation(FName name, FName type, ULocationObject* parent)
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
 	ULocationObject* locObj = NewObject<ULocationObject>();
@@ -46,7 +46,7 @@ ULocationObject* UWorldDataInstance::CreateLocation(FName name, FName type, ULoc
 	return locObj;
 }
 
-ULocationObject* UWorldDataInstance::CreateTown(FName name, FName type, ULocationObject* parent) const
+ULocationObject* UWorldDataInstance::CreateTown(FName name, FName type, ULocationObject* parent)
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
 	ULocationObject* locObj = NewObject<ULocationObject>();
@@ -54,7 +54,7 @@ ULocationObject* UWorldDataInstance::CreateTown(FName name, FName type, ULocatio
 	return locObj;
 }
 
-ULocationObject* UWorldDataInstance::CreateStructure(FName name, FName type, ULocationObject* parent) const
+ULocationObject* UWorldDataInstance::CreateStructure(FName name, FName type, ULocationObject* parent)
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
 	ULocationObject* locObj = NewObject<ULocationObject>();
@@ -62,7 +62,7 @@ ULocationObject* UWorldDataInstance::CreateStructure(FName name, FName type, ULo
 	return locObj;
 }
 
-ULocationObject* UWorldDataInstance::CreateDungeon(FName name, FName type, ULocationObject* parent) const
+ULocationObject* UWorldDataInstance::CreateDungeon(FName name, FName type, ULocationObject* parent)
 {
 	ensure(!name.ToString().IsEmpty() && !type.ToString().IsEmpty());
 	ULocationObject* locObj = NewObject<ULocationObject>();

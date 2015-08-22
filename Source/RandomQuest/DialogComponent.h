@@ -119,34 +119,34 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool SetCurrentConversation(FName conversationName);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FConversation& GetCurrentConversation() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	FDialogPhrase& NextPhrase();
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FDialogPhrase& GetCurrentPhrase() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool IsLastPhrase() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool ShouldAutoSelectFirstChoice() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool ShouldSelectChoiceViaBlueprint() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool ShouldTriggerBlueprintEvent(FName& eventId) const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetNumberOfChoices() const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FDialogChoice& GetChoice(int32 index) const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FText GetChoiceText(int32 index) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)

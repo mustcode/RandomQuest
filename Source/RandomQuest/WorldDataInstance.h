@@ -28,16 +28,16 @@ public:
 	virtual void Shutdown() override;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* CreateLocation(FName name, FName type, ULocationObject* parent) const;
+	ULocationObject* CreateLocation(FName name, FName type, ULocationObject* parent);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* CreateTown(FName name, FName type, ULocationObject* parent) const;
+	ULocationObject* CreateTown(FName name, FName type, ULocationObject* parent);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* CreateStructure(FName name, FName type, ULocationObject* parent) const;
+	ULocationObject* CreateStructure(FName name, FName type, ULocationObject* parent);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	ULocationObject* CreateDungeon(FName name, FName type, ULocationObject* parent) const;
+	ULocationObject* CreateDungeon(FName name, FName type, ULocationObject* parent);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	UCharacterObject* CreateCharacter();
@@ -45,13 +45,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddCharacterToParty(UCharacterObject* character);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	UCharacterObject* GetCharacterByIndex(int32 index) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	int32 GetCharacterIndex(UCharacterObject* character);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetPartySize() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
@@ -60,7 +60,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void RemoveConsequence(FName name);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool HasConsequence(FName name) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)

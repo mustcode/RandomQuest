@@ -27,6 +27,8 @@ public:
 	void DeductSkillCost(RPGCharacter* character, RPGSkill* skill);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const;
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;
+	void ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType);
+	void ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);

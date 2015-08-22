@@ -7,6 +7,7 @@
 #include "BaseCharacter.generated.h"
 
 class UCharacterObject;
+class UWorldDataInstance;
 
 UCLASS(ClassGroup = RPG)
 class RANDOMQUEST_API ABaseCharacter : public ACharacter
@@ -24,8 +25,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool TryUseSkill(FName name);
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FSkill> GetSkills() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void ApplyHealing(ABaseCharacter* healer, int32 amount, FName healingType);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
+
+	UFUNCTION(BlueprintNativeEvent, Category = RPG)
+	void OnHealed(ABaseCharacter* healer, int32 amount, FName healingType);
+
+	UFUNCTION(BlueprintNativeEvent, Category = RPG)
+	void OnDamaged(ABaseCharacter* originator, int32 amount, FName damageType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnExecuteSkillCommand(const TArray<FSkillCommand>& commands);
@@ -34,7 +47,10 @@ public:
 	UCharacterObject* character;
 
 protected:
+	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, FName healingType);
+	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, FName damageType);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
+	UWorldDataInstance* GetWorldData() const;
 
 	float activeSkillTime;
 	int32 activeCommandIndex;
