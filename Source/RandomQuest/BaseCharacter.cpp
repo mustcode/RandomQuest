@@ -72,23 +72,25 @@ void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName heal
 {
 	auto rules = GetWorldData()->GetRules();
 	ensure(rules != nullptr);
-	rules->ApplyHealing(healer->character->character, character->character, amount, healingType);
-	OnHealed(healer, amount, healingType);
+	bool isCritical = false;
+	int hpHealed = rules->ApplyHealing(healer->character->character, character->character, amount, healingType, isCritical);
+	OnHealed(healer, hpHealed, isCritical, healingType);
 }
 
 void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName damageType)
 {
 	auto rules = GetWorldData()->GetRules();
 	ensure(rules != nullptr);
-	rules->ApplyDamage(originator->character->character, character->character, amount, damageType);
-	OnDamaged(originator, amount, damageType);
+	bool isCritical = false;
+	int hpLost = rules->ApplyDamage(originator->character->character, character->character, amount, damageType, isCritical);
+	OnDamaged(originator, hpLost, isCritical, damageType);
 }
 
-void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, FName healingType)
+void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType)
 {
 }
 
-void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, FName damageType)
+void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType)
 {
 }
 

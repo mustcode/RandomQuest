@@ -35,10 +35,10 @@ public:
 	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnHealed(ABaseCharacter* healer, int32 amount, FName healingType);
+	void OnHealed(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnDamaged(ABaseCharacter* originator, int32 amount, FName damageType);
+	void OnDamaged(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnExecuteSkillCommand(const TArray<FSkillCommand>& commands);
@@ -47,8 +47,8 @@ public:
 	UCharacterObject* character;
 
 protected:
-	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, FName healingType);
-	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, FName damageType);
+	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType);
+	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
 	UWorldDataInstance* GetWorldData() const;
 

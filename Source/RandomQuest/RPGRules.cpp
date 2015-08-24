@@ -159,14 +159,18 @@ bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficult
 	return AbilityTest(character, ability, difficulty, result);
 }
 
-void RPGRules::ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType)
+int RPGRules::ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical)
 {
-
+	//TODO
+	isCritical = false;
+	return 0;
 }
 
-void RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType)
+int RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical)
 {
-
+	//TODO
+	isCritical = false;
+	return 0;
 }
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)
