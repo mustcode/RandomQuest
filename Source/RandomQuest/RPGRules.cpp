@@ -162,15 +162,22 @@ bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficult
 int RPGRules::ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical)
 {
 	//TODO
+	receiver->GetAttribute("HP")->Increase(amount);
 	isCritical = false;
-	return 0;
+	return amount;
 }
 
 int RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical)
 {
 	//TODO
+	victim->GetAttribute("HP")->Decrease(amount);
 	isCritical = false;
-	return 0;
+	return amount;
+}
+
+bool RPGRules::IsDead(RPGCharacter* character) const
+{
+	return character->GetAttribute("HP")->GetValue() <= 0;
 }
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)

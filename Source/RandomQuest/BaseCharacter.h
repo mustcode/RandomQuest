@@ -28,6 +28,18 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FSkill> GetSkills() const;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	int32 GetAttributeValue(FName attribute) const;
+	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	int32 GetMaxAttributeValue(FName attribute) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	int32 GetMinAttributeValue(FName attribute) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool IsDead() const;
+
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void ApplyHealing(ABaseCharacter* healer, int32 amount, FName healingType);
 

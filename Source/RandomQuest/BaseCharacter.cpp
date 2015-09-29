@@ -17,7 +17,7 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (!character->character->IsUsingSkill())
+	if (IsDead() || !character->character->IsUsingSkill())
 		return;
 	
 	activeSkillTime += DeltaSeconds;
@@ -46,6 +46,7 @@ void ABaseCharacter::Init(UCharacterObject* characterObject)
 
 bool ABaseCharacter::TryUseSkill(FName name)
 {
+	ensure(!IsDead());
 	auto worldData = GetWorldData();
 	RPGRules* rules = worldData->GetRules();
 	RPGSkill* skill = worldData->GetSkill(name);
@@ -68,6 +69,28 @@ TArray<FSkill> ABaseCharacter::GetSkills() const
 	return skills;
 }
 
+int32 ABaseCharacter::GetAttributeValue(FName attribute) const
+{
+	return character->character->GetAttribute(attribute)->GetValue();
+}
+
+int32 ABaseCharacter::GetMaxAttributeValue(FName attribute) const
+{
+	return character->character->GetAttribute(attribute)->GetMaxValue();
+}
+
+int32 ABaseCharacter::GetMinAttributeValue(FName attribute) const
+{
+	return character->character->GetAttribute(attribute)->GetMinValue();
+}
+
+bool ABaseCharacter::IsDead() const
+{
+	auto worldData = GetWorldData();
+	RPGRules* rules = worldData->GetRules();
+	return rules->IsDead(character->character);
+}
+
 void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName healingType)
 {
 	auto rules = GetWorldData()->GetRules();
@@ -79,11 +102,18 @@ void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName heal
 
 void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName damageType)
 {
-	auto rules = GetWorldData()->GetRules();
+	auto world = GetWorldData();
+	ensure(world != nullptr);
+	auto rules = world->GetRules();
 	ensure(rules != nullptr);
 	bool isCritical = false;
 	int hpLost = rules->ApplyDamage(originator->character->character, character->character, amount, damageType, isCritical);
 	OnDamaged(originator, hpLost, isCritical, damageType);
+	if (IsDead() && world->party.Contains(character))
+	{
+		world->party.Remove(character);
+		world->party.Add(character);
+	}
 }
 
 void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType)

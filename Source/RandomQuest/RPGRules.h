@@ -29,6 +29,7 @@ public:
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;
 	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical);
 	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical);
+	bool IsDead(RPGCharacter* character) const;
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);

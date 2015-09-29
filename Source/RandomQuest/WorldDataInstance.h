@@ -85,6 +85,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UCharacterObject*> party;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<UCharacterObject*> killed;
+
 	UPROPERTY(BlueprintReadWrite, Category = RPG)
 	FName currentGate;
 
