@@ -112,7 +112,7 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 	if (IsDead() && world->party.Contains(character))
 	{
 		world->party.Remove(character);
-		world->party.Add(character);
+		world->killed.Add(character);
 	}
 }
 
