@@ -46,7 +46,7 @@ void UGameDataComponent::BeginPlay()
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 {
-	RPGSkill* rpgSkill = new RPGSkill(skill.name, skill.variationOf, skill.isUsableInCombat, skill.isUsableOutOfCombat);
+	RPGSkill* rpgSkill = new RPGSkill(skill.name, skill.variationOf, skill.isUsableInCombat, skill.isUsableOutOfCombat, skill.canSelectTargetAlly, skill.canSelectTargetEnemy);
 	for (auto cmd : skill.commands)
 		rpgSkill->AddCommand(cmd.command, cmd.time, cmd.value);
 	for (auto cost : skill.costs)
@@ -114,6 +114,8 @@ FSkill::FSkill(RPGSkill* skill)
 	variationOf = skill->GetVariationOf();
 	isUsableInCombat = skill->IsUsableInCombat();
 	isUsableOutOfCombat = skill->IsUsableOutOfCombat();
+	canSelectTargetAlly = skill->CanSelectTargetAlly();
+	canSelectTargetEnemy = skill->CanSelectTargetEnemy();
 	for (auto cmd : skill->GetCommands())
 		commands.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
 	for (auto cost : skill->GetCosts())

@@ -44,7 +44,7 @@ void ABaseCharacter::Init(UCharacterObject* characterObject)
 	character = characterObject;
 }
 
-bool ABaseCharacter::TryUseSkill(FName name)
+bool ABaseCharacter::TryUseSkill(FName name, AActor* target)
 {
 	ensure(!IsDead());
 	auto worldData = GetWorldData();
@@ -57,6 +57,7 @@ bool ABaseCharacter::TryUseSkill(FName name)
 	rules->DeductSkillCost(character->character, skill);
 	activeSkillTime = 0.f;
 	activeCommandIndex = 0;
+	OnSkillActivated(name, target);
 	return true;
 }
 
@@ -121,6 +122,10 @@ void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amoun
 }
 
 void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType)
+{
+}
+
+void ABaseCharacter::OnSkillActivated_Implementation(FName name, AActor* target)
 {
 }
 

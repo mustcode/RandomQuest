@@ -100,6 +100,12 @@ public:
 	bool isUsableOutOfCombat;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool canSelectTargetAlly;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool canSelectTargetEnemy;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkillCommand> commands;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)

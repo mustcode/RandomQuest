@@ -23,7 +23,7 @@ public:
 	void Init(UCharacterObject* characterObject);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	bool TryUseSkill(FName name);
+	bool TryUseSkill(FName name, AActor* target);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FSkill> GetSkills() const;
@@ -53,6 +53,9 @@ public:
 	void OnDamaged(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
+	void OnSkillActivated(FName name, AActor* target);
+
+	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnExecuteSkillCommand(const TArray<FSkillCommand>& commands);
 
 	UPROPERTY(BlueprintReadOnly, Category = RPG)
@@ -61,6 +64,7 @@ public:
 protected:
 	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType);
 	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
+	virtual void OnSkillActivated_Implementation(FName name, AActor* target);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
 	UWorldDataInstance* GetWorldData() const;
 

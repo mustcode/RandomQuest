@@ -3,11 +3,13 @@
 #include "RandomQuest.h"
 #include "RPGSkill.h"
 
-RPGSkill::RPGSkill(FName _name, FName _variationOf, bool _isUsableInCombat, bool _isUsableOutOfCombat)
+RPGSkill::RPGSkill(FName _name, FName _variationOf, bool _isUsableInCombat, bool _isUsableOutOfCombat, bool _canSelectTargetAlly, bool _canSelectTargetEnemy)
 	: name(_name)
 	, variationOf(_variationOf)
 	, isUsableInCombat(_isUsableInCombat)
 	, isUsableOutOfCombat(_isUsableOutOfCombat)
+	, canSelectTargetAlly(_canSelectTargetAlly)
+	, canSelectTargetEnemy(_canSelectTargetEnemy)
 {
 }
 
@@ -33,6 +35,16 @@ bool RPGSkill::IsUsableInCombat() const
 bool RPGSkill::IsUsableOutOfCombat() const
 {
 	return isUsableOutOfCombat;
+}
+
+bool RPGSkill::CanSelectTargetAlly() const
+{
+	return canSelectTargetAlly;
+}
+
+bool RPGSkill::CanSelectTargetEnemy() const
+{
+	return canSelectTargetEnemy;
 }
 
 void RPGSkill::AddCommand(FName command, float time, float value)
