@@ -17,9 +17,17 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (IsDead() || !character->character->IsUsingSkill())
+	if (IsDead())
 		return;
-	
+
+	auto worldData = GetWorldData();
+	RPGRules* rules = worldData->GetRules();
+	ensure(rules);
+	rules->UpdateCharacter(DeltaSeconds, character->character);
+
+	if (!character->character->IsUsingSkill())
+		return;
+
 	activeSkillTime += DeltaSeconds;
 	RPGSkill* activeSkill = character->character->GetActiveSkill();
 	auto commands = activeSkill->GetCommands();

@@ -4,6 +4,7 @@
 
 #include "RPGAlignment.h"
 #include "RPGAttribute.h"
+#include "RPGTimer.h"
 
 class RPGRace;
 class RPGInventory;
@@ -31,7 +32,9 @@ public:
 	
 	RPGAttribute* AddAttribute(FName name, int minValue, int maxValue);
 	RPGAttribute* GetAttribute(FName name);
-	int GetAttributeValue(FName name) const;
+
+	RPGTimer* AddTimer(FName name, float duration);
+	RPGTimer* GetTimer(FName name);
 
 	void AddSkill(RPGSkill* skill);
 	bool HasSkill(RPGSkill* skill) const;
@@ -68,6 +71,7 @@ protected:
 	TArray<RPGAbnormality*> abnormalities;
 
 	TMap<FName, RPGAttribute> attributes;
+	TMap<FName, RPGTimer> timers;
 
 	RPGSkill* activeSkill;
 };

@@ -27,6 +27,7 @@ RPGCharacter::~RPGCharacter()
 
 RPGAttribute* RPGCharacter::AddAttribute(FName name, int minValue, int maxValue)
 {
+	ensure(!attributes.Contains(name));
 	RPGAttribute attribute(name, minValue, maxValue);
 	attributes.Add(name, attribute);
 	return &attributes[name];
@@ -38,10 +39,18 @@ RPGAttribute* RPGCharacter::GetAttribute(FName name)
 	return &attributes[name];
 }
 
-int RPGCharacter::GetAttributeValue(FName name) const
+RPGTimer* RPGCharacter::AddTimer(FName name, float duration)
 {
-	ensure(attributes.Contains(name));
-	return attributes[name].GetValue();
+	ensure(!timers.Contains(name));
+	RPGTimer timer(duration);;
+	timers.Add(name, timer);
+	return &timers[name];
+}
+
+RPGTimer* RPGCharacter::GetTimer(FName name)
+{
+	ensure(timers.Contains(name));
+	return &timers[name];
 }
 
 void RPGCharacter::AddSkill(RPGSkill* skill)

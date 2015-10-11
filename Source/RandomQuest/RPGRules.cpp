@@ -39,6 +39,11 @@ void RPGRules::RandomizeStats(RPGCharacter* character)
 	character->AddAttribute("PHY", 0, RPGDice::Roll(STR > DEX ? STR : DEX, D6))->SetValueToMax();
 	character->AddAttribute("MNT", 0, RPGDice::Roll(INT > WIS ? INT : WIS, D6))->SetValueToMax();
 	character->AddAttribute("HP", 0, RPGDice::Roll(CON, D6))->SetValueToMax();
+
+	const float PHY_RECHARGE_RATE = 5.f;
+	const float MNT_RECHARGE_RATE = 5.f;
+	character->AddTimer("PHY_RCH", PHY_RECHARGE_RATE);
+	character->AddTimer("MNT_RCH", MNT_RECHARGE_RATE);
 }
 
 void RPGRules::AssignRace(RPGCharacter* character, TArray<RPGRace*>& races)
@@ -112,7 +117,7 @@ bool RPGRules::MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prereq
 	{
 		FName attribute = minimumStat.Key;
 		int scoreRequired = minimumStat.Value;
-		if (character->GetAttributeValue(attribute) < scoreRequired)
+		if (character->GetAttribute(attribute)->GetValue() < scoreRequired)
 			return false;
 	}
 	return true;
@@ -129,8 +134,8 @@ bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill) const
 
 	int PHYCost = skill->GetCost(PHY);
 	int MNTCost = skill->GetCost(MNT);
-	int currentPHY = character->GetAttributeValue(PHY);
-	int currentMNT = character->GetAttributeValue(MNT);
+	int currentPHY = character->GetAttribute(PHY)->GetValue();
+	int currentMNT = character->GetAttribute(MNT)->GetValue();
 
 	return currentPHY >= PHYCost && currentMNT >= MNTCost;
 }
@@ -178,6 +183,19 @@ int RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int am
 bool RPGRules::IsDead(RPGCharacter* character) const
 {
 	return character->GetAttribute("HP")->GetValue() <= 0;
+}
+
+void RPGRules::UpdateCharacter(float deltaSeconds, RPGCharacter* character)
+{
+	ensure(!IsDead(character));
+
+	int phyRecharge = character->GetTimer("PHY_RCH")->Update(deltaSeconds);
+	if (phyRecharge > 0)
+		character->GetAttribute("PHY")->Increase(phyRecharge);
+	
+	int mntRecharge = character->GetTimer("MNT_RCH")->Update(deltaSeconds);
+	if (mntRecharge > 0)
+		character->GetAttribute("MNT")->Increase(mntRecharge);
 }
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)

@@ -30,6 +30,7 @@ public:
 	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical);
 	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical);
 	bool IsDead(RPGCharacter* character) const;
+	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);
