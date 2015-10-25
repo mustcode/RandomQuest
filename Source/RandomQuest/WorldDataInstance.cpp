@@ -149,6 +149,11 @@ bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result
 	return rules.AbilityTest(chosen, name, difficulty, result);
 }
 
+TArray<FName> UWorldDataInstance::GetPrimaryStats() const
+{
+	return rules.GetPrimaryStats();
+}
+
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
 	ensure(skill && !skill->GetName().IsNone() && skill->GetName().IsValid());

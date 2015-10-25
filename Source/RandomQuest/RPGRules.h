@@ -18,6 +18,7 @@ public:
 	RPGRules();
 	~RPGRules();
 
+	TArray<FName> GetPrimaryStats() const;
 	void RandomizeStats(RPGCharacter* character);
 	void AssignRace(RPGCharacter* character, TArray<RPGRace*>& races);
 	void AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations);

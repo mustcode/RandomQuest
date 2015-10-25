@@ -18,15 +18,24 @@ RPGRules::~RPGRules()
 {
 }
 
+TArray<FName> RPGRules::GetPrimaryStats() const
+{
+	TArray<FName> stats;
+	stats.Add("STR");
+	stats.Add("DEX");
+	stats.Add("CON");
+	stats.Add("INT");
+	stats.Add("WIS");
+	stats.Add("CHR");
+	return stats;
+}
+
 void RPGRules::RandomizeStats(RPGCharacter* character)
 {
 	const int MAX_ABILITY_SCORE = 10;
-	character->AddAttribute("STR", 0, MAX_ABILITY_SCORE);
-	character->AddAttribute("DEX", 0, MAX_ABILITY_SCORE);
-	character->AddAttribute("CON", 0, MAX_ABILITY_SCORE);
-	character->AddAttribute("INT", 0, MAX_ABILITY_SCORE);
-	character->AddAttribute("WIS", 0, MAX_ABILITY_SCORE);
-	character->AddAttribute("CHR", 0, MAX_ABILITY_SCORE);
+	TArray<FName> stats = GetPrimaryStats();
+	for (auto stat : stats)
+		character->AddAttribute(stat, 0, MAX_ABILITY_SCORE);
 
 	RandomizeAttributes(character);
 
@@ -200,12 +209,10 @@ void RPGRules::UpdateCharacter(float deltaSeconds, RPGCharacter* character)
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)
 {
-	static const int NUM_STAT = 6;
 	static const int NUM_DICE = 10;
 	static const int MIN_TOTAL = 25;
 	static const int MAX_TOTAL = 35;
 	static const int MAX_REROLL = 10;
-	static const FName attributes[] = { "STR", "DEX", "CON", "INT", "WIS", "CHR" };
 
 	int total = 0;
 	for (int i = 0; i < MAX_REROLL; ++i)
@@ -214,9 +221,11 @@ void RPGRules::RandomizeAttributes(RPGCharacter* character)
 		if (total >= MIN_TOTAL && total <= MAX_TOTAL)
 			break;
 	}
+
+	TArray<FName> stats = GetPrimaryStats();
 	while(total > 0)
 	{
-		RPGAttribute* attribute = character->GetAttribute(attributes[FMath::RandRange(0, NUM_STAT - 1)]);
+		RPGAttribute* attribute = character->GetAttribute(stats[FMath::RandRange(0, stats.Num() - 1)]);
 		if (attribute->GetValue() >= attribute->GetMaxValue())
 			continue;
 		attribute->Increase(1);
@@ -226,16 +235,12 @@ void RPGRules::RandomizeAttributes(RPGCharacter* character)
 
 RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations) const
 {
-	const int ATTRIBUTES_COUNT = 6;
+	TArray<FName> stats = GetPrimaryStats();
 	TArray<TPair<int, RPGAttribute*>> attributes;
-	attributes.AddDefaulted(ATTRIBUTES_COUNT);
-
-	attributes[0].Value = character->GetAttribute("STR");
-	attributes[1].Value = character->GetAttribute("DEX");
-	attributes[2].Value = character->GetAttribute("CON");
-	attributes[3].Value = character->GetAttribute("INT");
-	attributes[4].Value = character->GetAttribute("WIS");
-	attributes[5].Value = character->GetAttribute("CHR");
+	attributes.AddDefaulted(stats.Num());
+	for (int i = 0; i < stats.Num(); ++i)
+		attributes[i].Value = character->GetAttribute(stats[i]);
+	
 	attributes.Sort([](const TPair<int, RPGAttribute*>& a, const TPair<int, RPGAttribute*>& b){ return a.Value->GetValue() > b.Value->GetValue(); });
 
 	attributes[0].Key = 1;
@@ -260,7 +265,7 @@ RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArr
 		{
 			float weight = occupation->GetStatPreference(attribute.Value->GetName());
 			int rank = attribute.Key;
-			suitability += (ATTRIBUTES_COUNT - rank) * weight;
+			suitability += (stats.Num() - rank) * weight;
 		}
 		if (suitability > mostSuitable)
 		{

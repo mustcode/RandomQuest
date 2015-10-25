@@ -66,6 +66,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	bool AbilityTest(FName name, int32 difficulty, int32& result);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	TArray<FName> GetPrimaryStats() const;
+
 	void AddSkill(RPGSkill* skill);
 	void AddTrait(RPGTrait* trait);
 	void AddOccupation(RPGOccupation* occupation);
