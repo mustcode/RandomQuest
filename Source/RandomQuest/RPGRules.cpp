@@ -30,6 +30,16 @@ TArray<FName> RPGRules::GetPrimaryStats() const
 	return stats;
 }
 
+int32 RPGRules::GetVariableStats(FName& stat1, FName& stat2, FName& stat3, FName& stat4, FName& stat5) const
+{
+	stat1 = "HP";
+	stat2 = "PHY";
+	stat3 = "MNT";
+	stat4 = NAME_None;
+	stat5 = NAME_None;
+	return 3;
+}
+
 void RPGRules::RandomizeStats(RPGCharacter* character)
 {
 	const int MAX_ABILITY_SCORE = 10;

@@ -154,6 +154,11 @@ TArray<FName> UWorldDataInstance::GetPrimaryStats() const
 	return rules.GetPrimaryStats();
 }
 
+int32 UWorldDataInstance::GetVariableStats(FName& stat1, FName& stat2, FName& stat3, FName& stat4, FName& stat5) const
+{
+	return rules.GetVariableStats(stat1, stat2, stat3, stat4, stat5);
+}
+
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
 	ensure(skill && !skill->GetName().IsNone() && skill->GetName().IsValid());

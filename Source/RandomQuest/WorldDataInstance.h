@@ -69,6 +69,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FName> GetPrimaryStats() const;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	int32 GetVariableStats(FName& stat1, FName& stat2, FName& stat3, FName& stat4, FName& stat5) const;
+
 	void AddSkill(RPGSkill* skill);
 	void AddTrait(RPGTrait* trait);
 	void AddOccupation(RPGOccupation* occupation);

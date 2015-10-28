@@ -93,6 +93,11 @@ int32 ABaseCharacter::GetMinAttributeValue(FName attribute) const
 	return character->character->GetAttribute(attribute)->GetMinValue();
 }
 
+float ABaseCharacter::GetAttributeValueAsPecent(FName attribute) const
+{
+	return static_cast<float>(GetAttributeValue(attribute)) / static_cast<float>(GetMaxAttributeValue(attribute));
+}
+
 bool ABaseCharacter::IsDead() const
 {
 	auto worldData = GetWorldData();

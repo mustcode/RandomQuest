@@ -38,6 +38,9 @@ public:
 	int32 GetMinAttributeValue(FName attribute) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	float GetAttributeValueAsPecent(FName attribute) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool IsDead() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
