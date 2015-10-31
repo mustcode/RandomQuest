@@ -16,6 +16,7 @@ UGameDataComponent::UGameDataComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
+	bWantsInitializeComponent = true;
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
@@ -24,7 +25,11 @@ UGameDataComponent::UGameDataComponent()
 void UGameDataComponent::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
+void UGameDataComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
 	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
 
