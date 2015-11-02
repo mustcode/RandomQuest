@@ -113,7 +113,7 @@ RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrere
 	return rpgPrerequisite;
 }
 
-FSkill::FSkill(RPGSkill* skill)
+FSkill::FSkill(RPGSkill* skill, UWorldDataInstance* wdi)
 {
 	name = skill->GetName();
 	variationOf = skill->GetVariationOf();
@@ -125,11 +125,15 @@ FSkill::FSkill(RPGSkill* skill)
 		commands.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
 	for (auto cost : skill->GetCosts())
 		costs.Add(FSkillCost(cost.Key, cost.Value));
+	ensure(wdi != nullptr);
+	wdi->GetPrerequisite(name, prerequisite);
 }
 
-FTrait::FTrait(RPGTrait* trait)
+FTrait::FTrait(RPGTrait* trait, UWorldDataInstance* wdi)
 {
 	name = trait->GetName();
 	for (auto prop : trait->GetProperties())
 		properties.Add(FTraitProperty(prop.Key, prop.Value));
+	ensure(wdi != nullptr);
+	wdi->GetPrerequisite(name, prerequisite);
 }

@@ -10,6 +10,7 @@ class RPGTrait;
 class RPGOccupation;
 class RPGRace;
 class RPGPrerequisite;
+class UWorldDataInstance;
 
 
 USTRUCT(BlueprintType)
@@ -23,6 +24,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 value;
+
+	FRequisite(){}
+	FRequisite(FName _need, int32 _value)
+		: need(_need)
+		, value(_value){}
 };
 
 USTRUCT(BlueprintType)
@@ -115,7 +121,7 @@ public:
 	FPrerequisite prerequisite;
 
 	FSkill(){}
-	FSkill(RPGSkill* skill);
+	FSkill(RPGSkill* skill, UWorldDataInstance* wdi);
 };
 
 USTRUCT(BlueprintType)
@@ -152,7 +158,7 @@ public:
 	FPrerequisite prerequisite;
 
 	FTrait(){}
-	FTrait(RPGTrait* trait);
+	FTrait(RPGTrait* trait, UWorldDataInstance* wdi);
 };
 
 USTRUCT(BlueprintType)

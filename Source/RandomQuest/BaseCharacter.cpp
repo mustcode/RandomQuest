@@ -71,19 +71,21 @@ bool ABaseCharacter::TryUseSkill(FName name, AActor* target)
 
 TArray<FSkill> ABaseCharacter::GetSkills() const
 {
+	auto worldData = GetWorldData();
 	TArray<FSkill> skills;
 	auto rpgSkills = character->character->GetSkills();
 	for (auto skill : rpgSkills)
-		skills.Add(FSkill(skill));
+		skills.Add(FSkill(skill, worldData));
 	return skills;
 }
 
 TArray<FTrait> ABaseCharacter::GetTraits() const
 {
+	auto worldData = GetWorldData();
 	TArray<FTrait> traits;
 	auto rpgTraits = character->character->GetTraits();
 	for (auto trait : rpgTraits)
-		traits.Add(FTrait(trait));
+		traits.Add(FTrait(trait, worldData));
 	return traits;
 }
 

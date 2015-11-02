@@ -4,6 +4,7 @@
 
 #include "Engine/GameInstance.h"
 #include "RPGRules.h"
+#include "GameDataComponent.h"
 #include "WorldDataInstance.generated.h"
 
 class ULocationObject;
@@ -71,6 +72,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetVariableStats(FName& stat1, FName& stat2, FName& stat3, FName& stat4, FName& stat5) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	void GetPrerequisite(FName name, FPrerequisite& prerequisite);
 
 	void AddSkill(RPGSkill* skill);
 	void AddTrait(RPGTrait* trait);

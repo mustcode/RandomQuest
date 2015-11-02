@@ -159,6 +159,18 @@ int32 UWorldDataInstance::GetVariableStats(FName& stat1, FName& stat2, FName& st
 	return rules.GetVariableStats(stat1, stat2, stat3, stat4, stat5);
 }
 
+void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite)
+{
+	auto rpgPrerequisite = GetPrerequisite(name);
+	ensure(rpgPrerequisite != nullptr);
+	for (auto requiredTrait : rpgPrerequisite->RequiredTraits)
+		prerequisite.requiredTraits.Add(requiredTrait->GetName());
+	for (auto bannedTrait : rpgPrerequisite->BannedTraits)
+		prerequisite.bannedTraits.Add(bannedTrait->GetName());
+	for (auto minStat : rpgPrerequisite->MinimumStats)
+		prerequisite.minimumStats.Add(FRequisite(minStat.Key, minStat.Value));
+}
+
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
 {
 	ensure(skill && !skill->GetName().IsNone() && skill->GetName().IsValid());
