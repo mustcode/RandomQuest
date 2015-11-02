@@ -38,3 +38,8 @@ bool RPGTrait::HasProperty(FName name) const
 {
 	return properties.Contains(name);
 }
+
+const TMap<FName, int>& RPGTrait::GetProperties() const
+{
+	return properties;
+}

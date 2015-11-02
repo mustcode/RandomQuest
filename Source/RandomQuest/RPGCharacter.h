@@ -46,7 +46,8 @@ public:
 	bool HasTrait(RPGTrait* trait) const;
 	bool HasTrait(FName name) const;
 	RPGTrait* GetTrait(FName name) const;
-	
+	const TArray<RPGTrait*>& GetTraits() const;
+
 	void SetActiveSkill(RPGSkill* skill);
 	bool IsUsingSkill() const;
 	void ClearActiveSkill();

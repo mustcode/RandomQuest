@@ -27,6 +27,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FSkill> GetSkills() const;
+	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	TArray<FTrait> GetTraits() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetAttributeValue(FName attribute) const;

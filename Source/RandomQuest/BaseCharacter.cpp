@@ -78,6 +78,15 @@ TArray<FSkill> ABaseCharacter::GetSkills() const
 	return skills;
 }
 
+TArray<FTrait> ABaseCharacter::GetTraits() const
+{
+	TArray<FTrait> traits;
+	auto rpgTraits = character->character->GetTraits();
+	for (auto trait : rpgTraits)
+		traits.Add(FTrait(trait));
+	return traits;
+}
+
 int32 ABaseCharacter::GetAttributeValue(FName attribute) const
 {
 	return character->character->GetAttribute(attribute)->GetValue();

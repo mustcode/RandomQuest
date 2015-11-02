@@ -126,3 +126,10 @@ FSkill::FSkill(RPGSkill* skill)
 	for (auto cost : skill->GetCosts())
 		costs.Add(FSkillCost(cost.Key, cost.Value));
 }
+
+FTrait::FTrait(RPGTrait* trait)
+{
+	name = trait->GetName();
+	for (auto prop : trait->GetProperties())
+		properties.Add(FTraitProperty(prop.Key, prop.Value));
+}

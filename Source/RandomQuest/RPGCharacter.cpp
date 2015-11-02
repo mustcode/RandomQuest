@@ -104,6 +104,11 @@ RPGTrait* RPGCharacter::GetTrait(FName name) const
 	return (result != nullptr) ? *result : nullptr;
 }
 
+const TArray<RPGTrait*>& RPGCharacter::GetTraits() const
+{
+	return traits;
+}
+
 void RPGCharacter::SetActiveSkill(RPGSkill* skill)
 {
 	ensure(skill != nullptr);

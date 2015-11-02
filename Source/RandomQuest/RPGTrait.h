@@ -17,6 +17,7 @@ public:
 	void SetProperty(FName name, int value);
 	int GetProperty(FName name) const;
 	bool HasProperty(FName name) const;
+	const TMap<FName, int>& GetProperties() const;
 
 protected:
 	FName name;

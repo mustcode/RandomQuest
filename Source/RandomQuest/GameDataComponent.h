@@ -76,7 +76,7 @@ public:
 	int32 amount;
 
 	FSkillCost(){}
-	FSkillCost(FName _resource, uint32 _amount)
+	FSkillCost(FName _resource, int32 _amount)
 		: resource(_resource)
 		, amount(_amount){}
 };
@@ -129,6 +129,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 value;
+
+	FTraitProperty(){}
+	FTraitProperty(FName _name, int32 _value)
+		: name(_name)
+		, value(_value){}
 };
 
 USTRUCT(BlueprintType)
@@ -145,6 +150,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FPrerequisite prerequisite;
+
+	FTrait(){}
+	FTrait(RPGTrait* trait);
 };
 
 USTRUCT(BlueprintType)
