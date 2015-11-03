@@ -116,6 +116,11 @@ bool ABaseCharacter::IsDead() const
 	return rules->IsDead(character->character);
 }
 
+bool ABaseCharacter::IsUsingSkill() const
+{
+	return character->character->IsUsingSkill();
+}
+
 void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName healingType)
 {
 	auto rules = GetWorldData()->GetRules();

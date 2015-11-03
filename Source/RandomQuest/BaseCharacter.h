@@ -46,6 +46,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	bool IsDead() const;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool IsUsingSkill() const;
+
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void ApplyHealing(ABaseCharacter* healer, int32 amount, FName healingType);
 
