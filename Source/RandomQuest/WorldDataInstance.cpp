@@ -132,21 +132,12 @@ bool UWorldDataInstance::HasConsequence(FName name) const
 	return consequences.Find(name) != nullptr;
 }
 
-bool UWorldDataInstance::AbilityTest(FName name, int32 difficulty, int32& result)
+bool UWorldDataInstance::AbilityTest(int32 characterIndex, FName attribute, int32 difficulty, int32& result)
 {
-	RPGCharacter* chosen = nullptr;
-	int32 maxScore = 0;
-	for (auto character : party)
-	{
-		int32 score = character->character->GetAttribute(name)->GetValue();
-		if (score > maxScore)
-		{
-			chosen = character->character;
-			maxScore = score;
-		}
-	}
+	ensure(characterIndex < party.Num());
+	RPGCharacter* chosen = party[characterIndex]->character;
 	ensure(chosen != nullptr);
-	return rules.AbilityTest(chosen, name, difficulty, result);
+	return rules.AbilityTest(chosen, attribute, difficulty, result);
 }
 
 TArray<FName> UWorldDataInstance::GetPrimaryStats() const

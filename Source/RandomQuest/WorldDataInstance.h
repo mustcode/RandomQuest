@@ -65,7 +65,7 @@ public:
 	bool HasConsequence(FName name) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	bool AbilityTest(FName name, int32 difficulty, int32& result);
+	bool AbilityTest(int32 characterIndex, FName attribute, int32 difficulty, int32& result);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FName> GetPrimaryStats() const;
