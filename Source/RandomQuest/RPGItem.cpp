@@ -10,3 +10,8 @@ RPGItem::RPGItem()
 RPGItem::~RPGItem()
 {
 }
+
+FName RPGItem::GetEquipSlot() const
+{
+	return equipSlot;
+}

@@ -15,4 +15,6 @@ public:
 
 private:
 	TArray<RPGItem*> items;
+	float weightLimit;
+	float spaceLimit;
 };

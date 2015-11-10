@@ -4,14 +4,12 @@
 #include "RPGCharacter.h"
 
 #include "RPGRace.h"
-#include "RPGInventory.h"
 #include "RPGWeapon.h"
 #include "RPGAppearance.h"
 #include "RPGSkill.h"
 #include "RPGTrait.h"
 
 RPGCharacter::RPGCharacter() :
-	inventory(nullptr),
 	appearance(nullptr),
 	activeSkill(nullptr)
 {
@@ -19,8 +17,6 @@ RPGCharacter::RPGCharacter() :
 
 RPGCharacter::~RPGCharacter()
 {
-	if (inventory)
-		delete inventory;
 	if (appearance)
 		delete appearance;
 }
@@ -128,6 +124,55 @@ void RPGCharacter::ClearActiveSkill()
 RPGSkill* RPGCharacter::GetActiveSkill() const
 {
 	return activeSkill;
+}
+
+void RPGCharacter::EquipItem(RPGItem* item)
+{
+	ensure(!equipments.Contains(item));
+	ensure(!HasItemInSlot(item->GetEquipSlot()));
+	equipments.Add(item);
+}
+
+void RPGCharacter::RemoveItem(RPGItem* item)
+{
+	ensure(equipments.Contains(item));
+	equipments.Remove(item);
+}
+
+void RPGCharacter::RemoveItem(FName slot)
+{
+	for (int i = 0; i < equipments.Num(); ++i)
+	{
+		if (equipments[i]->GetEquipSlot() != slot)
+			continue;
+		equipments.RemoveAt(i);
+		return;
+	}
+}
+
+bool RPGCharacter::HasItemInSlot(FName slot) const
+{
+	for (auto item : equipments)
+	{
+		if (item->GetEquipSlot() == slot)
+			return true;
+	}
+	return false;
+}
+
+RPGItem* RPGCharacter::GetItem(FName slot) const
+{
+	for (auto item : equipments)
+	{
+		if (item->GetEquipSlot() == slot)
+			return item;
+	}
+	return nullptr;
+}
+
+const TArray<RPGItem*>& RPGCharacter::GetEquipments() const
+{
+	return equipments;
 }
 
 void RPGCharacter::DebugDump() const

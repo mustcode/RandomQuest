@@ -10,10 +10,10 @@ class RANDOMQUEST_API RPGItem
 public:
 	RPGItem();
 	virtual ~RPGItem();
+	FName GetEquipSlot() const;
 
 protected:
 	FName name;
 	FName type;
-	bool isEquipable;
-	bool isEquipped;
+	FName equipSlot;
 };

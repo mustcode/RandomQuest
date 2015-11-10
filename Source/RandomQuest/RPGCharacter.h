@@ -7,12 +7,12 @@
 #include "RPGTimer.h"
 
 class RPGRace;
-class RPGInventory;
 class RPGWeapon;
 class RPGAppearance;
 class RPGSkill;
 class RPGTrait;
 class RPGAbnormality;
+class RPGItem;
 
 /**
  * 
@@ -53,6 +53,13 @@ public:
 	void ClearActiveSkill();
 	RPGSkill* GetActiveSkill() const;
 
+	void EquipItem(RPGItem* item);
+	void RemoveItem(RPGItem* item);
+	void RemoveItem(FName slot);
+	bool HasItemInSlot(FName slot) const;
+	RPGItem* GetItem(FName slot) const;
+	const TArray<RPGItem*>& GetEquipments() const;
+
 	void DebugDump() const;
 
 protected:
@@ -65,11 +72,11 @@ protected:
 	Gender gender;
 	RPGAppearance* appearance;
 	RPGAlignment alignment;
-	RPGInventory* inventory;
 	
 	TArray<RPGTrait*> traits;
 	TArray<RPGSkill*> skills;
 	TArray<RPGAbnormality*> abnormalities;
+	TArray<RPGItem*> equipments;
 
 	TMap<FName, RPGAttribute> attributes;
 	TMap<FName, RPGTimer> timers;
