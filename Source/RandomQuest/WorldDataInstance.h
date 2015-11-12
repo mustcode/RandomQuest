@@ -9,6 +9,7 @@
 
 class ULocationObject;
 class UCharacterObject;
+class UInventoryObject;
 class RPGSkill;
 class RPGTrait;
 class RPGOccupation;
@@ -98,6 +99,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UCharacterObject*> killed;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	UInventoryObject* inventory;
+
 	UPROPERTY(BlueprintReadWrite, Category = RPG)
 	FName currentGate;
 
@@ -111,5 +115,4 @@ private:
 	TArray<RPGPrerequisite*> prerequisites;
 
 	RPGRules rules;
-	int gold, silver, copper;
 };

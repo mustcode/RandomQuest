@@ -19,6 +19,7 @@
 
 UWorldDataInstance::UWorldDataInstance(const FObjectInitializer& ObjectInitializer) 
 	: masterSeed(0)
+	, inventory(nullptr)
 	, Super(ObjectInitializer)
 {
 }
