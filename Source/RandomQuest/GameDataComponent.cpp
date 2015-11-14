@@ -25,11 +25,6 @@ UGameDataComponent::UGameDataComponent()
 void UGameDataComponent::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void UGameDataComponent::InitializeComponent()
-{
-	Super::InitializeComponent();
 	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
 
