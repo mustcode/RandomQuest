@@ -27,7 +27,7 @@ public:
 /**
  * 
  */
-UCLASS(BlueprintType)
+UCLASS(BlueprintType, Blueprintable)
 class RANDOMQUEST_API UInventoryObject : public UObject
 {
 	GENERATED_BODY()
