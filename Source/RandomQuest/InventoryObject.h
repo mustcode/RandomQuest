@@ -6,6 +6,7 @@
 #include "InventoryObject.generated.h"
 
 class RPGInventory;
+class RPGItem;
 
 
 USTRUCT(BlueprintType)
@@ -18,10 +19,37 @@ public:
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName category;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName type;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName subtype;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName equipSlot;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	float size;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	float weight;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 damage;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 protection;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isUnique;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isQuestItem;
+
+	FItem(){}
+	FItem(RPGItem* item);
 };
 
 /**
@@ -38,8 +66,33 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void Init();
 
-	RPGInventory* inventory;
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddItem(const FItem& item);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void RemoveItem(const FItem& item);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	int32 ItemsCount() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	FItem GetItem(int32 index) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	TArray<FItem> GetItems() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddGold(int32 amount);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void SubtractGold(int32 amount);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	int32 GetGold(int32 amount) const;
 
 private:
-	int32 gold, silver, copper;
+	RPGItem* CreateItem(const FItem& item);
+
+	RPGInventory* inventory;
+	int32 gold;
 };

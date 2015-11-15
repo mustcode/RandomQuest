@@ -13,6 +13,13 @@ public:
 	RPGInventory();
 	~RPGInventory();
 
+	void AddItem(RPGItem* item);
+	void RemoveItem(RPGItem* item);
+	int ItemsCount() const;
+	RPGItem* GetItem(int index) const;
+	RPGItem* FindItem(FName name) const;
+	const TArray<RPGItem*>& GetItems() const;
+
 private:
 	TArray<RPGItem*> items;
 	float weightLimit;
