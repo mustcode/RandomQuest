@@ -31,6 +31,9 @@ public:
 	FName equipSlot;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName special;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float size;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)

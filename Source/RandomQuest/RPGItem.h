@@ -8,7 +8,7 @@
 class RANDOMQUEST_API RPGItem
 {
 public:
-	RPGItem(FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, float _size, float _weight, int _damage, int _protection, bool _isUnique, bool _isQuestItem);
+	RPGItem(FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, FName _special, float _size, float _weight, int _damage, int _protection, bool _isUnique, bool _isQuestItem);
 	virtual ~RPGItem();
 
 	FName GetName() const;
@@ -16,6 +16,7 @@ public:
 	FName GetType() const;
 	FName GetSubType() const;
 	FName GetEquipSlot() const;
+	FName GetSpecial() const;
 	float GetSize() const;
 	float GetWeight() const;
 	int GetDamage() const;
@@ -29,6 +30,7 @@ protected:
 	FName type;
 	FName subtype;
 	FName equipSlot;
+	FName special;
 	float size;
 	float weight;
 	int damage;

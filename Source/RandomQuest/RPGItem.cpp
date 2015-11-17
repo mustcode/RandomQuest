@@ -3,12 +3,13 @@
 #include "RandomQuest.h"
 #include "RPGItem.h"
 
-RPGItem::RPGItem(FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, float _size, float _weight, int _damage, int _protection, bool _isUnique, bool _isQuestItem)
+RPGItem::RPGItem(FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, FName _special, float _size, float _weight, int _damage, int _protection, bool _isUnique, bool _isQuestItem)
 	: name(_name)
 	, category(_category)
 	, type(_type)
 	, subtype(_subtype)
 	, equipSlot(_equipSlot)
+	, special(_special)
 	, size(_size)
 	, weight(_weight)
 	, damage(_damage)
@@ -45,6 +46,11 @@ FName RPGItem::GetSubType() const
 FName RPGItem::GetEquipSlot() const
 {
 	return equipSlot;
+}
+
+FName RPGItem::GetSpecial() const
+{
+	return special;
 }
 
 float RPGItem::GetSize() const

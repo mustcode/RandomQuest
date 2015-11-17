@@ -76,7 +76,7 @@ int32 UInventoryObject::GetGold(int32 amount) const
 
 RPGItem* UInventoryObject::CreateItem(const FItem& item)
 {
-	RPGItem* rpgItem = new RPGItem(item.name, item.category, item.type, item.subtype, item.equipSlot, item.size, item.weight, item.damage, item.protection, item.isUnique, item.isQuestItem);
+	RPGItem* rpgItem = new RPGItem(item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.isUnique, item.isQuestItem);
 	return rpgItem;
 }
 
@@ -87,6 +87,7 @@ FItem::FItem(RPGItem* item)
 	type = item->GetType();
 	subtype = item->GetSubType();
 	equipSlot = item->GetEquipSlot();
+	special = item->GetSpecial();
 	size = item->GetSize();
 	weight = item->GetWeight();
 	damage = item->GetDamage();
