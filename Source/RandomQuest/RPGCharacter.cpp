@@ -126,53 +126,40 @@ RPGSkill* RPGCharacter::GetActiveSkill() const
 	return activeSkill;
 }
 
-void RPGCharacter::EquipItem(RPGItem* item)
+void RPGCharacter::EquipItem(RPGItem* item, const RPGEquipSlot& slot)
 {
-	ensure(!equipments.Contains(item));
-	ensure(!HasItemInSlot(item->GetEquipSlot()));
+	ensure(slot.name == item->GetEquipSlot());
+	ensure(!IsEquipped(item) && CanEquip(slot));
 	equipments.Add(item);
+	freeEquipSlots.Equip(slot);
 }
 
-void RPGCharacter::RemoveItem(RPGItem* item)
+void RPGCharacter::RemoveItem(RPGItem* item, const RPGEquipSlot& slot)
 {
-	ensure(equipments.Contains(item));
+	ensure(slot.name == item->GetEquipSlot());
+	ensure(IsEquipped(item));
 	equipments.Remove(item);
+	freeEquipSlots.Unequip(slot);
 }
 
-void RPGCharacter::RemoveItem(FName slot)
+bool RPGCharacter::IsEquipped(RPGItem* item) const
 {
-	for (int i = 0; i < equipments.Num(); ++i)
-	{
-		if (equipments[i]->GetEquipSlot() != slot)
-			continue;
-		equipments.RemoveAt(i);
-		return;
-	}
+	return !equipments.Contains(item);
 }
 
-bool RPGCharacter::HasItemInSlot(FName slot) const
+bool RPGCharacter::CanEquip(const RPGEquipSlot& slot) const
 {
-	for (auto item : equipments)
-	{
-		if (item->GetEquipSlot() == slot)
-			return true;
-	}
-	return false;
-}
-
-RPGItem* RPGCharacter::GetItem(FName slot) const
-{
-	for (auto item : equipments)
-	{
-		if (item->GetEquipSlot() == slot)
-			return item;
-	}
-	return nullptr;
+	return freeEquipSlots.CanEquip(slot);
 }
 
 const TArray<RPGItem*>& RPGCharacter::GetEquipments() const
 {
 	return equipments;
+}
+
+const RPGEquipSlot& RPGCharacter::GetFreeEquipSlots() const
+{
+	return freeEquipSlots;
 }
 
 void RPGCharacter::DebugDump() const

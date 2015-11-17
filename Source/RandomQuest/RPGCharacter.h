@@ -5,6 +5,7 @@
 #include "RPGAlignment.h"
 #include "RPGAttribute.h"
 #include "RPGTimer.h"
+#include "RPGEquipSlot.h"
 
 class RPGRace;
 class RPGWeapon;
@@ -53,12 +54,12 @@ public:
 	void ClearActiveSkill();
 	RPGSkill* GetActiveSkill() const;
 
-	void EquipItem(RPGItem* item);
-	void RemoveItem(RPGItem* item);
-	void RemoveItem(FName slot);
-	bool HasItemInSlot(FName slot) const;
-	RPGItem* GetItem(FName slot) const;
+	void EquipItem(RPGItem* item, const RPGEquipSlot& slot);
+	void RemoveItem(RPGItem* item, const RPGEquipSlot& slot);
+	bool IsEquipped(RPGItem* item) const;
+	bool CanEquip(const RPGEquipSlot& slot) const;
 	const TArray<RPGItem*>& GetEquipments() const;
+	const RPGEquipSlot& GetFreeEquipSlots() const;
 
 	void DebugDump() const;
 
@@ -76,7 +77,9 @@ protected:
 	TArray<RPGTrait*> traits;
 	TArray<RPGSkill*> skills;
 	TArray<RPGAbnormality*> abnormalities;
+	
 	TArray<RPGItem*> equipments;
+	RPGEquipSlot freeEquipSlots;
 
 	TMap<FName, RPGAttribute> attributes;
 	TMap<FName, RPGTimer> timers;
