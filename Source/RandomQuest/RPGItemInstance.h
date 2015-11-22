@@ -14,6 +14,7 @@ public:
 	RPGItemInstance(RPGItem* _item);
 	virtual ~RPGItemInstance();
 
+	void SetItem(RPGItem* _item);
 	RPGItem* GetItem() const;
 	int GetWear() const;
 	void ApplyWear(int amount);

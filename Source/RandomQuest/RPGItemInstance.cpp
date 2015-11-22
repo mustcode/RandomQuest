@@ -20,6 +20,12 @@ RPGItemInstance::~RPGItemInstance()
 {
 }
 
+void RPGItemInstance::SetItem(RPGItem* _item)
+{
+	item = _item;
+	wear = _item->GetDurability();
+}
+
 RPGItem* RPGItemInstance::GetItem() const
 {
 	return item;

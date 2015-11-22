@@ -92,6 +92,15 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 	return charObj;
 }
 
+UItemInstanceObject* UWorldDataInstance::CreateItem(FName name)
+{
+	UItemInstanceObject* item = NewObject<UItemInstanceObject>();
+	RPGItem* rpgItem = GetItem(name);
+	ensure(rpgItem != nullptr);
+	item->item.SetItem(rpgItem);
+	return item;
+}
+
 void UWorldDataInstance::AddCharacterToParty(UCharacterObject* character)
 {
 	ensure(character);

@@ -19,6 +19,9 @@ public:
 	~UInventoryObject() override;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	void SetCapacity(float space, float weight);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddItem(UItemInstanceObject* item);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
@@ -29,6 +32,18 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<UItemInstanceObject*>& GetItems();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	float GetAvailableSpace() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	float GetAvailableWeight() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool HasEnoughSpace(const UItemInstanceObject* item) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool NotTooHeavy(const UItemInstanceObject* item) const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddGold(int32 amount);
@@ -42,6 +57,6 @@ public:
 private:
 	TArray<UItemInstanceObject*> items;
 	int32 gold;
-	int32 maxSpace;
-	int32 maxWeight;
+	float maxSpace;
+	float maxWeight;
 };

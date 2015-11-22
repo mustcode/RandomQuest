@@ -45,6 +45,9 @@ public:
 	UCharacterObject* CreateCharacter();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	UItemInstanceObject* CreateItem(FName name);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddCharacterToParty(UCharacterObject* character);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
