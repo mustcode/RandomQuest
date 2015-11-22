@@ -4,6 +4,7 @@
 #include "WorldDataInstance.h"
 #include "LocationObject.h"
 #include "CharacterObject.h"
+#include "ItemInstanceObject.h"
 #include "RPGLocation.h"
 #include "RPGTown.h"
 #include "RPGStructure.h"
@@ -14,6 +15,8 @@
 #include "RPGOccupation.h"
 #include "RPGRace.h"
 #include "RPGPrerequisite.h"
+#include "RPGEquipSlot.h"
+#include "RPGItem.h"
 
 //#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10, FColor::White, text)
 
@@ -74,8 +77,7 @@ ULocationObject* UWorldDataInstance::CreateDungeon(FName name, FName type, ULoca
 UCharacterObject* UWorldDataInstance::CreateCharacter()
 {
 	UCharacterObject* charObj = NewObject<UCharacterObject>();
-	charObj->Init();
-	RPGCharacter* character = charObj->character;
+	RPGCharacter* character = &charObj->character;
 	rules.RandomizeStats(character);
 	if (races.Num() > 0)
 		rules.AssignRace(character, races);
@@ -136,7 +138,7 @@ bool UWorldDataInstance::HasConsequence(FName name) const
 bool UWorldDataInstance::AbilityTest(int32 characterIndex, FName attribute, int32 difficulty, int32& result)
 {
 	ensure(characterIndex < party.Num());
-	RPGCharacter* chosen = party[characterIndex]->character;
+	RPGCharacter* chosen = &party[characterIndex]->character;
 	ensure(chosen != nullptr);
 	return rules.AbilityTest(chosen, attribute, difficulty, result);
 }
@@ -151,7 +153,7 @@ int32 UWorldDataInstance::GetVariableStats(FName& stat1, FName& stat2, FName& st
 	return rules.GetVariableStats(stat1, stat2, stat3, stat4, stat5);
 }
 
-void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite)
+void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite) const
 {
 	auto rpgPrerequisite = GetPrerequisite(name);
 	ensure(rpgPrerequisite != nullptr);
@@ -161,6 +163,12 @@ void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite
 		prerequisite.bannedTraits.Add(bannedTrait->GetName());
 	for (auto minStat : rpgPrerequisite->MinimumStats)
 		prerequisite.minimumStats.Add(FRequisite(minStat.Key, minStat.Value));
+}
+
+void UWorldDataInstance::GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const
+{
+	RPGItem* rpgItem = GetItem(itemInstance->item.GetName());
+	item = FItem(rpgItem);
 }
 
 void UWorldDataInstance::AddSkill(RPGSkill* skill)
@@ -198,6 +206,20 @@ void UWorldDataInstance::AddPrerequisite(RPGPrerequisite* prerequisite)
 	prerequisites.Add(prerequisite);
 }
 
+void UWorldDataInstance::AddEquipSlot(RPGEquipSlot* equipSlot)
+{
+	ensure(equipSlot && !equipSlot->name.IsNone() && equipSlot->name.IsValid());
+	ensure(!equipSlots.Contains(equipSlot) && !GetEquipSlot(equipSlot->name));
+	equipSlots.Add(equipSlot);
+}
+
+void UWorldDataInstance::AddItem(RPGItem* item)
+{
+	ensure(item && !item->GetName().IsNone() && item->GetName().IsValid());
+	ensure(!items.Contains(item) && !GetItem(item->GetName()));
+	items.Add(item);
+}
+
 RPGSkill* UWorldDataInstance::GetSkill(FName name) const
 {
 	auto result = skills.FindByPredicate([&](RPGSkill* skill){ return skill->GetName() == name; });
@@ -225,6 +247,18 @@ RPGRace* UWorldDataInstance::GetRace(FName name) const
 RPGPrerequisite* UWorldDataInstance::GetPrerequisite(FName name) const
 {
 	auto result = prerequisites.FindByPredicate([&](RPGPrerequisite* prerequisite){ return prerequisite->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
+}
+
+RPGEquipSlot* UWorldDataInstance::GetEquipSlot(FName name) const
+{
+	auto result = equipSlots.FindByPredicate([&](RPGEquipSlot* equipSlot) { return equipSlot->name == name; });
+	return (result != nullptr) ? *result : nullptr;
+}
+
+RPGItem* UWorldDataInstance::GetItem(FName name) const
+{
+	auto result = items.FindByPredicate([&](RPGItem* item) { return item->GetName() == name; });
 	return (result != nullptr) ? *result : nullptr;
 }
 

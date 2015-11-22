@@ -4,7 +4,6 @@
 #include "RPGCharacter.h"
 
 #include "RPGRace.h"
-#include "RPGItem.h"
 #include "RPGAppearance.h"
 #include "RPGSkill.h"
 #include "RPGTrait.h"
@@ -124,42 +123,6 @@ void RPGCharacter::ClearActiveSkill()
 RPGSkill* RPGCharacter::GetActiveSkill() const
 {
 	return activeSkill;
-}
-
-void RPGCharacter::EquipItem(RPGItem* item, const RPGEquipSlot& slot)
-{
-	ensure(slot.name == item->GetEquipSlot());
-	ensure(!IsEquipped(item) && CanEquip(slot));
-	equipments.Add(item);
-	freeEquipSlots.Equip(slot);
-}
-
-void RPGCharacter::RemoveItem(RPGItem* item, const RPGEquipSlot& slot)
-{
-	ensure(slot.name == item->GetEquipSlot());
-	ensure(IsEquipped(item));
-	equipments.Remove(item);
-	freeEquipSlots.Unequip(slot);
-}
-
-bool RPGCharacter::IsEquipped(RPGItem* item) const
-{
-	return !equipments.Contains(item);
-}
-
-bool RPGCharacter::CanEquip(const RPGEquipSlot& slot) const
-{
-	return freeEquipSlots.CanEquip(slot);
-}
-
-const TArray<RPGItem*>& RPGCharacter::GetEquipments() const
-{
-	return equipments;
-}
-
-const RPGEquipSlot& RPGCharacter::GetFreeEquipSlots() const
-{
-	return freeEquipSlots;
 }
 
 void RPGCharacter::DebugDump() const

@@ -13,7 +13,6 @@ class RPGAppearance;
 class RPGSkill;
 class RPGTrait;
 class RPGAbnormality;
-class RPGItem;
 
 /**
  * 
@@ -54,13 +53,6 @@ public:
 	void ClearActiveSkill();
 	RPGSkill* GetActiveSkill() const;
 
-	void EquipItem(RPGItem* item, const RPGEquipSlot& slot);
-	void RemoveItem(RPGItem* item, const RPGEquipSlot& slot);
-	bool IsEquipped(RPGItem* item) const;
-	bool CanEquip(const RPGEquipSlot& slot) const;
-	const TArray<RPGItem*>& GetEquipments() const;
-	const RPGEquipSlot& GetFreeEquipSlots() const;
-
 	void DebugDump() const;
 
 protected:
@@ -78,9 +70,6 @@ protected:
 	TArray<RPGSkill*> skills;
 	TArray<RPGAbnormality*> abnormalities;
 	
-	TArray<RPGItem*> equipments;
-	RPGEquipSlot freeEquipSlots;
-
 	TMap<FName, RPGAttribute> attributes;
 	TMap<FName, RPGTimer> timers;
 

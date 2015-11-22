@@ -75,19 +75,26 @@ public:
 	int32 GetVariableStats(FName& stat1, FName& stat2, FName& stat3, FName& stat4, FName& stat5) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	void GetPrerequisite(FName name, FPrerequisite& prerequisite);
+	void GetPrerequisite(FName name, FPrerequisite& prerequisite) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	void GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const;
 
 	void AddSkill(RPGSkill* skill);
 	void AddTrait(RPGTrait* trait);
 	void AddOccupation(RPGOccupation* occupation);
 	void AddRace(RPGRace* race);
 	void AddPrerequisite(RPGPrerequisite* prerequisite);
+	void AddEquipSlot(RPGEquipSlot* equipSlot);
+	void AddItem(RPGItem* item);
 
 	RPGSkill* GetSkill(FName name) const;
 	RPGTrait* GetTrait(FName name) const;
 	RPGOccupation* GetOccupation(FName name) const;
 	RPGRace* GetRace(FName name) const;
 	RPGPrerequisite* GetPrerequisite(FName name) const;
+	RPGEquipSlot* GetEquipSlot(FName name) const;
+	RPGItem* GetItem(FName name) const;
 	RPGRules* GetRules();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -113,6 +120,8 @@ private:
 	TArray<RPGOccupation*> occupations;
 	TArray<RPGRace*> races;
 	TArray<RPGPrerequisite*> prerequisites;
+	TArray<RPGEquipSlot*> equipSlots;
+	TArray<RPGItem*> items;
 
 	RPGRules rules;
 };

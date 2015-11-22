@@ -3,9 +3,8 @@
 #pragma once
 
 #include "Object.h"
+#include "RPGCharacter.h"
 #include "CharacterObject.generated.h"
-
-class RPGCharacter;
 
 /**
  * 
@@ -17,9 +16,6 @@ class RANDOMQUEST_API UCharacterObject : public UObject
 public:
 	UCharacterObject();
 	~UCharacterObject() override;
-	
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void Init();
 
-	RPGCharacter* character;
+	RPGCharacter character;
 };

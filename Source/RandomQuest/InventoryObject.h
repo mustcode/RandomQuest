@@ -5,55 +5,7 @@
 #include "Object.h"
 #include "InventoryObject.generated.h"
 
-class RPGInventory;
-class RPGItem;
-
-
-USTRUCT(BlueprintType)
-struct FItem
-{
-	GENERATED_USTRUCT_BODY()
-public:
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName name;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName category;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName type;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName subtype;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName equipSlot;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName special;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	float size;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	float weight;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 damage;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 protection;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	bool isUnique;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	bool isQuestItem;
-
-	FItem(){}
-	FItem(RPGItem* item);
-};
+class UItemInstanceObject;
 
 /**
  * 
@@ -65,24 +17,18 @@ class RANDOMQUEST_API UInventoryObject : public UObject
 public:
 	UInventoryObject();
 	~UInventoryObject() override;
-	
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	void Init();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	void AddItem(const FItem& item);
+	void AddItem(UItemInstanceObject* item);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	void RemoveItem(const FItem& item);
+	void RemoveItem(UItemInstanceObject* item);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	int32 ItemsCount() const;
+	bool HasItem(UItemInstanceObject* item);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	FItem GetItem(int32 index) const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	TArray<FItem> GetItems() const;
+	TArray<UItemInstanceObject*>& GetItems();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddGold(int32 amount);
@@ -94,8 +40,8 @@ public:
 	int32 GetGold(int32 amount) const;
 
 private:
-	RPGItem* CreateItem(const FItem& item);
-
-	RPGInventory* inventory;
+	TArray<UItemInstanceObject*> items;
 	int32 gold;
+	int32 maxSpace;
+	int32 maxWeight;
 };

@@ -2,20 +2,11 @@
 
 #include "RandomQuest.h"
 #include "CharacterObject.h"
-#include "RPGCharacter.h"
-#include "WorldDataInstance.h"
 
-UCharacterObject::UCharacterObject() : character(nullptr)
+UCharacterObject::UCharacterObject()
 {
 }
 
 UCharacterObject::~UCharacterObject()
 {
-	if (character)
-		delete character;
-}
-
-void UCharacterObject::Init()
-{
-	character = new RPGCharacter;
 }

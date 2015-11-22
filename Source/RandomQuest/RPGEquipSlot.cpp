@@ -25,3 +25,9 @@ bool RPGEquipSlot::CanEquip(const RPGEquipSlot& slot) const
 	}
 	return true;
 }
+
+void RPGEquipSlot::Clear()
+{
+	for (int i = 0; i < Slot::COUNT; ++i)
+		slots[i] = 0;
+}

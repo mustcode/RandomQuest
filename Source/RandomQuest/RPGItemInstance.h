@@ -2,14 +2,23 @@
 
 #pragma once
 
+class RPGItem;
+
 /**
  * 
  */
-class RANDOMQUEST_API RPGItem
+class RANDOMQUEST_API RPGItemInstance
 {
 public:
-	RPGItem(FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, FName _special, float _size, float _weight, int _damage, int _protection, int _durability, bool _isUnique, bool _isQuestItem);
-	virtual ~RPGItem();
+	RPGItemInstance();
+	RPGItemInstance(RPGItem* _item);
+	virtual ~RPGItemInstance();
+
+	RPGItem* GetItem() const;
+	int GetWear() const;
+	void ApplyWear(int amount);
+	void Repair();
+	bool IsBroken() const;
 
 	FName GetName() const;
 	FName GetCategory() const;
@@ -25,18 +34,9 @@ public:
 	bool IsUnique() const;
 	bool IsQuestItem() const;
 
+	bool IsValid() const;
+
 protected:
-	FName name;
-	FName category;
-	FName type;
-	FName subtype;
-	FName equipSlot;
-	FName special;
-	float size;
-	float weight;
-	int damage;
-	int protection;
-	int durability;
-	bool isUnique;
-	bool isQuestItem;
+	RPGItem* item;
+	int wear;
 };

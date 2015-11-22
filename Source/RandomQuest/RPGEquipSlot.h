@@ -35,6 +35,7 @@ public:
 	void Equip(const RPGEquipSlot& slot);
 	void Unequip(const RPGEquipSlot& slot);
 	bool CanEquip(const RPGEquipSlot& slot) const;
+	void Clear();
 
 	FName name;
 	int slots[Slot::COUNT];

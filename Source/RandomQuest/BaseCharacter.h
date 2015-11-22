@@ -4,9 +4,11 @@
 
 #include "GameFramework/Character.h"
 #include "GameDataComponent.h"
+#include "RPGEquipSlot.h"
 #include "BaseCharacter.generated.h"
 
 class UCharacterObject;
+class UItemInstanceObject;
 class UWorldDataInstance;
 
 UCLASS(ClassGroup = RPG)
@@ -67,6 +69,21 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnExecuteSkillCommand(const TArray<FSkillCommand>& commands);
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void EquipItem(UItemInstanceObject* item);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void RemoveItem(UItemInstanceObject* item);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool CanEquip(const UItemInstanceObject* item) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool IsEquipped(const UItemInstanceObject* item) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	TArray<UItemInstanceObject*>& GetEquipments();
+
 	UPROPERTY(BlueprintReadOnly, Category = RPG)
 	UCharacterObject* character;
 
@@ -76,7 +93,11 @@ protected:
 	virtual void OnSkillActivated_Implementation(FName name, AActor* target);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
 	UWorldDataInstance* GetWorldData() const;
+	RPGEquipSlot* GetEquipSlot(const UItemInstanceObject* item) const;
 
 	float activeSkillTime;
 	int32 activeCommandIndex;
+
+	TArray<UItemInstanceObject*> equipments;
+	RPGEquipSlot freeEquipSlots;
 };

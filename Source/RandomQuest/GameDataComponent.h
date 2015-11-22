@@ -10,6 +10,8 @@ class RPGTrait;
 class RPGOccupation;
 class RPGRace;
 class RPGPrerequisite;
+class RPGItem;
+class RPGEquipSlot;
 class UWorldDataInstance;
 
 
@@ -206,6 +208,118 @@ public:
 	TArray<FName> traits;
 };
 
+USTRUCT(BlueprintType)
+struct FItem
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName category;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName type;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName subtype;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName equipSlot;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName special;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	float size;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	float weight;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 damage;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 protection;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 durability;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isUnique;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isQuestItem;
+
+	FItem() {}
+	FItem(RPGItem* item);
+};
+
+USTRUCT(BlueprintType)
+struct FItemInstance
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 wear;
+};
+
+UENUM(BlueprintType)
+enum class EItemSlot : uint8
+{
+	HEAD		UMETA(DisplayName = "Head"),
+	EYE			UMETA(DisplayName = "Eye"),
+	NECK		UMETA(DisplayName = "Neck"),
+	CHEST		UMETA(DisplayName = "Chest"),
+	BACK		UMETA(DisplayName = "Back"),
+	WRIST		UMETA(DisplayName = "Wrist"),
+	SHOULDER	UMETA(DisplayName = "Shoulder"),
+	ELBOW		UMETA(DisplayName = "Elbow"),
+	ARM			UMETA(DisplayName = "Arm"),
+	HAND		UMETA(DisplayName = "Hand"),
+	FINGER		UMETA(DisplayName = "Finger"),
+	WAIST		UMETA(DisplayName = "Waist"),
+	LEG			UMETA(DisplayName = "Leg"),
+	KNEE		UMETA(DisplayName = "Knee"),
+	ANKLE		UMETA(DisplayName = "Ankle"),
+	FOOT		UMETA(DisplayName = "Foot"),
+	TOE			UMETA(DisplayName = "Toe"),
+	MISC		UMETA(DisplayName = "Misc")
+};
+
+USTRUCT(BlueprintType)
+struct FRequireSlot
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	EItemSlot name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 count;
+};
+
+USTRUCT(BlueprintType)
+struct FEquipSlot
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FRequireSlot> slots;
+};
+
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RANDOMQUEST_API UGameDataComponent : public UActorComponent
 {
@@ -230,10 +344,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FRace> races;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FEquipSlot> equipSlots;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FItem> items;
+
 private:
 	RPGSkill* CreateSkill(const FSkill& skill);
 	RPGTrait* CreateTrait(const FTrait& trait);
 	RPGOccupation* CreateOccupation(const FOccupation& occupation);
 	RPGRace* CreateRace(const FRace& race);
 	RPGPrerequisite* CreatePrerequisite(FName name, const FPrerequisite& prerequisite);
+	RPGEquipSlot* CreateEquipSlot(const FEquipSlot& equipSlot);
+	RPGItem* CreateItem(const FItem& item);
 };

@@ -8,6 +8,8 @@
 #include "RPGOccupation.h"
 #include "RPGRace.h"
 #include "RPGPrerequisite.h"
+#include "RPGItem.h"
+#include "RPGEquipSlot.h"
 
 
 // Sets default values for this component's properties
@@ -42,6 +44,11 @@ void UGameDataComponent::BeginPlay()
 		wdi->AddOccupation(CreateOccupation(occupation));
 	for (const FRace& race : races)
 		wdi->AddRace(CreateRace(race));
+
+	for (const FEquipSlot& equipSlot : equipSlots)
+		wdi->AddEquipSlot(CreateEquipSlot(equipSlot));
+	for (const FItem& item : items)
+		wdi->AddItem(CreateItem(item));
 }
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
@@ -108,6 +115,25 @@ RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrere
 	return rpgPrerequisite;
 }
 
+RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
+{
+	RPGEquipSlot* rpgEquipSlot = new RPGEquipSlot;
+	rpgEquipSlot->Clear();
+	rpgEquipSlot->name = equipSlot.name;
+	for (auto slot : equipSlot.slots)
+	{
+		ensure(static_cast<int>(slot.name) < static_cast<int>(RPGEquipSlot::COUNT));
+		rpgEquipSlot->slots[static_cast<int>(slot.name)] = slot.count;
+	}
+	return rpgEquipSlot;
+}
+
+RPGItem* UGameDataComponent::CreateItem(const FItem& item)
+{
+	RPGItem* rpgItem = new RPGItem(item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.isUnique, item.isQuestItem);
+	return rpgItem;
+}
+
 FSkill::FSkill(RPGSkill* skill, UWorldDataInstance* wdi)
 {
 	name = skill->GetName();
@@ -131,4 +157,21 @@ FTrait::FTrait(RPGTrait* trait, UWorldDataInstance* wdi)
 		properties.Add(FTraitProperty(prop.Key, prop.Value));
 	ensure(wdi != nullptr);
 	wdi->GetPrerequisite(name, prerequisite);
+}
+
+FItem::FItem(RPGItem* item)
+{
+	name = item->GetName();
+	category = item->GetCategory();
+	type = item->GetType();
+	subtype = item->GetSubType();
+	equipSlot = item->GetEquipSlot();
+	special = item->GetSpecial();
+	size = item->GetSize();
+	weight = item->GetWeight();
+	damage = item->GetDamage();
+	protection = item->GetProtection();
+	durability = item->GetDurability();
+	isUnique = item->IsUnique();
+	isQuestItem = item->IsQuestItem();
 }
