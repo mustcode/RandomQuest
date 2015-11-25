@@ -41,11 +41,6 @@ bool UInventoryObject::HasItem(UItemInstanceObject* item)
 	return items.Contains(item);
 }
 
-TArray<UItemInstanceObject*>& UInventoryObject::GetItems()
-{
-	return items;
-}
-
 float UInventoryObject::GetAvailableSpace() const
 {
 	int totalSize = 0;

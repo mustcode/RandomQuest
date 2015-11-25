@@ -31,9 +31,6 @@ public:
 	bool HasItem(UItemInstanceObject* item);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	TArray<UItemInstanceObject*>& GetItems();
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	float GetAvailableSpace() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
@@ -54,8 +51,10 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetGold(int32 amount) const;
 
-private:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UItemInstanceObject*> items;
+
+private:
 	int32 gold;
 	float maxSpace;
 	float maxWeight;

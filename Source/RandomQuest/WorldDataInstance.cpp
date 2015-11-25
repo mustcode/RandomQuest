@@ -5,6 +5,7 @@
 #include "LocationObject.h"
 #include "CharacterObject.h"
 #include "ItemInstanceObject.h"
+#include "InventoryObject.h"
 #include "RPGLocation.h"
 #include "RPGTown.h"
 #include "RPGStructure.h"
@@ -90,6 +91,13 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 			character->AddSkill(skill);
 	}
 	return charObj;
+}
+
+UInventoryObject* UWorldDataInstance::CreateInventory(float maxSpace, float maxWeight)
+{
+	UInventoryObject* inventoryObj = NewObject<UInventoryObject>();
+	inventoryObj->SetCapacity(maxSpace, maxWeight);
+	return inventoryObj;
 }
 
 UItemInstanceObject* UWorldDataInstance::CreateItem(FName name)

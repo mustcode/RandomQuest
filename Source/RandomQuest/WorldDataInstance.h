@@ -45,6 +45,9 @@ public:
 	UCharacterObject* CreateCharacter();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	UInventoryObject* CreateInventory(float maxSpace, float maxWeight);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	UItemInstanceObject* CreateItem(FName name);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
