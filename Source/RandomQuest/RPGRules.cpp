@@ -9,6 +9,7 @@
 #include "RPGOccupation.h"
 #include "RPGDice.h"
 #include "RPGPrerequisite.h"
+#include "RPGEquipSlot.h"
 
 RPGRules::RPGRules()
 {
@@ -215,6 +216,28 @@ void RPGRules::UpdateCharacter(float deltaSeconds, RPGCharacter* character)
 	int mntRecharge = character->GetTimer("MNT_RCH")->Update(deltaSeconds);
 	if (mntRecharge > 0)
 		character->GetAttribute("MNT")->Increase(mntRecharge);
+}
+
+void RPGRules::SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot)
+{
+	equipSlot->slots[RPGEquipSlot::HEAD] = 1;
+	equipSlot->slots[RPGEquipSlot::EYE] = 2;
+	equipSlot->slots[RPGEquipSlot::NECK] = 1;
+	equipSlot->slots[RPGEquipSlot::CHEST] = 1;
+	equipSlot->slots[RPGEquipSlot::BACK] = 1;
+	equipSlot->slots[RPGEquipSlot::WRIST] = 2;
+	equipSlot->slots[RPGEquipSlot::SHOULDER] = 2;
+	equipSlot->slots[RPGEquipSlot::ELBOW] = 2;
+	equipSlot->slots[RPGEquipSlot::ARM] = 2;
+	equipSlot->slots[RPGEquipSlot::HAND] = 2;
+	equipSlot->slots[RPGEquipSlot::FINGER] = 10;
+	equipSlot->slots[RPGEquipSlot::WAIST] = 1;
+	equipSlot->slots[RPGEquipSlot::LEG] = 2;
+	equipSlot->slots[RPGEquipSlot::KNEE] = 2;
+	equipSlot->slots[RPGEquipSlot::ANKLE] = 2;
+	equipSlot->slots[RPGEquipSlot::FOOT] = 2;
+	equipSlot->slots[RPGEquipSlot::TOE] = 10;
+	equipSlot->slots[RPGEquipSlot::MISC] = 2;
 }
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)

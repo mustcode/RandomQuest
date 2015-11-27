@@ -8,6 +8,7 @@ class RPGTrait;
 class RPGRace;
 class RPGOccupation;
 class RPGPrerequisite;
+class RPGEquipSlot;
 
 /**
  * 
@@ -33,6 +34,7 @@ public:
 	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical);
 	bool IsDead(RPGCharacter* character) const;
 	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
+	void SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot);
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);

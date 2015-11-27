@@ -257,19 +257,6 @@ public:
 	FItem(RPGItem* item);
 };
 
-USTRUCT(BlueprintType)
-struct FItemInstance
-{
-	GENERATED_USTRUCT_BODY()
-public:
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName name;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 wear;
-};
-
 UENUM(BlueprintType)
 enum class EItemSlot : uint8
 {

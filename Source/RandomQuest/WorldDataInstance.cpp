@@ -90,6 +90,7 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 		if (rules.MeetPrerequisite(character, GetPrerequisite(skill->GetName())))
 			character->AddSkill(skill);
 	}
+	rules.SetDefaultFreeEquipSlot(&charObj->freeEquipSlots);
 	return charObj;
 }
 

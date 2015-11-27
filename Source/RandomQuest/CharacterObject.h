@@ -4,7 +4,10 @@
 
 #include "Object.h"
 #include "RPGCharacter.h"
+#include "RPGEquipSlot.h"
 #include "CharacterObject.generated.h"
+
+class UItemInstanceObject;
 
 /**
  * 
@@ -18,4 +21,6 @@ public:
 	~UCharacterObject() override;
 
 	RPGCharacter character;
+	TArray<UItemInstanceObject*> equipments;
+	RPGEquipSlot freeEquipSlots;
 };

@@ -5,7 +5,6 @@
 #include "RPGAlignment.h"
 #include "RPGAttribute.h"
 #include "RPGTimer.h"
-#include "RPGEquipSlot.h"
 
 class RPGRace;
 class RPGWeapon;

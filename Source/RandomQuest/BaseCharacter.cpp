@@ -151,33 +151,33 @@ void ABaseCharacter::EquipItem(UItemInstanceObject* item)
 {
 	ensure(CanEquip(item));
 	ensure(!IsEquipped(item));
-	equipments.Add(item);
-	freeEquipSlots.Equip(*GetEquipSlot(item));
+	character->equipments.Add(item);
+	character->freeEquipSlots.Equip(*GetEquipSlot(item));
 }
 
 void ABaseCharacter::RemoveItem(UItemInstanceObject* item)
 {
 	ensure(IsEquipped(item));
-	equipments.Remove(item);
-	freeEquipSlots.Unequip(*GetEquipSlot(item));
+	character->equipments.Remove(item);
+	character->freeEquipSlots.Unequip(*GetEquipSlot(item));
 }
 
 bool ABaseCharacter::CanEquip(const UItemInstanceObject* item) const
 {
 	ensure(item != nullptr && item->item.IsValid());
 	auto equipSlot = GetEquipSlot(item);
-	return freeEquipSlots.CanEquip(*equipSlot);
+	return character->freeEquipSlots.CanEquip(*equipSlot);
 }
 
 bool ABaseCharacter::IsEquipped(const UItemInstanceObject* item) const
 {
 	ensure(item != nullptr && item->item.IsValid());
-	return equipments.Contains(item);
+	return character->equipments.Contains(item);
 }
 
 TArray<UItemInstanceObject*>& ABaseCharacter::GetEquipments()
 {
-	return equipments;
+	return character->equipments;
 }
 
 void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType)

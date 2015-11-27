@@ -97,7 +97,4 @@ protected:
 
 	float activeSkillTime;
 	int32 activeCommandIndex;
-
-	TArray<UItemInstanceObject*> equipments;
-	RPGEquipSlot freeEquipSlots;
 };
