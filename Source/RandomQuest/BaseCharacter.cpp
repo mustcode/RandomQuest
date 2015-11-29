@@ -165,8 +165,11 @@ void ABaseCharacter::RemoveItem(UItemInstanceObject* item)
 bool ABaseCharacter::CanEquip(const UItemInstanceObject* item) const
 {
 	ensure(item != nullptr && item->item.IsValid());
+	FName slotName = item->item.GetEquipSlot();
+	if (slotName.IsNone() || !slotName.IsValid())
+		return false;
 	auto equipSlot = GetEquipSlot(item);
-	return character->freeEquipSlots.CanEquip(*equipSlot);
+	return equipSlot->IsEquippable() && character->freeEquipSlots.CanEquip(*equipSlot);
 }
 
 bool ABaseCharacter::IsEquipped(const UItemInstanceObject* item) const
