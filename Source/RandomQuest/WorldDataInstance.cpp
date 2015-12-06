@@ -94,11 +94,22 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 	return charObj;
 }
 
-UInventoryObject* UWorldDataInstance::CreateInventory(float maxSpace, float maxWeight)
+UInventoryObject* UWorldDataInstance::CreateInventory(FName name, float maxSpace, float maxWeight)
 {
+	ensure(!name.IsNone() && name.IsValid());
+	ensure(maxSpace > 0 && maxWeight > 0);
 	UInventoryObject* inventoryObj = NewObject<UInventoryObject>();
+	inventoryObj->SetName(name);
 	inventoryObj->SetCapacity(maxSpace, maxWeight);
 	return inventoryObj;
+}
+
+UInventoryObject* UWorldDataInstance::CreateStorageInventory(FName name, float maxSpace, float maxWeight)
+{
+	ensure(GetStorageInventory(name) == nullptr);
+	auto storageInventory = CreateInventory(name, maxSpace, maxWeight);
+	storageInventories.Add(storageInventory);
+	return storageInventory;
 }
 
 UItemInstanceObject* UWorldDataInstance::CreateItem(FName name)
@@ -187,6 +198,12 @@ void UWorldDataInstance::GetItemFromInstance(const UItemInstanceObject* itemInst
 {
 	RPGItem* rpgItem = GetItem(itemInstance->item.GetName());
 	item = FItem(rpgItem);
+}
+
+UInventoryObject* UWorldDataInstance::GetStorageInventory(FName name) const
+{
+	auto result = storageInventories.FindByPredicate([&](UInventoryObject* inventoryObj) { return inventoryObj->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
 }
 
 void UWorldDataInstance::AddSkill(RPGSkill* skill)

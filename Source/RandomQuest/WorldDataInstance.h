@@ -45,7 +45,10 @@ public:
 	UCharacterObject* CreateCharacter();
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	UInventoryObject* CreateInventory(float maxSpace, float maxWeight);
+	UInventoryObject* CreateInventory(FName name, float maxSpace, float maxWeight);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	UInventoryObject* CreateStorageInventory(FName name, float maxSpace, float maxWeight);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	UItemInstanceObject* CreateItem(FName name);
@@ -86,6 +89,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	void GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	UInventoryObject* GetStorageInventory(FName name) const;
+
 	void AddSkill(RPGSkill* skill);
 	void AddTrait(RPGTrait* trait);
 	void AddOccupation(RPGOccupation* occupation);
@@ -111,6 +117,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UCharacterObject*> killed;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<UInventoryObject*> storageInventories;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	UInventoryObject* inventory;

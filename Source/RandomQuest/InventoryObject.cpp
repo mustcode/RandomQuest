@@ -15,6 +15,16 @@ UInventoryObject::~UInventoryObject()
 {
 }
 
+void UInventoryObject::SetName(FName _name)
+{
+	name = _name;
+}
+
+FName UInventoryObject::GetName() const
+{
+	return name;
+}
+
 void UInventoryObject::SetCapacity(float space, float weight)
 {
 	maxSpace = space;

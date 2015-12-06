@@ -19,6 +19,12 @@ public:
 	~UInventoryObject() override;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	void SetName(FName _name);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	FName GetName() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	void SetCapacity(float space, float weight);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
@@ -55,6 +61,8 @@ public:
 	TArray<UItemInstanceObject*> items;
 
 private:
+
+	FName name;
 	int32 gold;
 	float maxSpace;
 	float maxWeight;
