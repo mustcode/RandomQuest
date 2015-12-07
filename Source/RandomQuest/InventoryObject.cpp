@@ -31,6 +31,12 @@ void UInventoryObject::SetCapacity(float space, float weight)
 	maxWeight = weight;
 }
 
+void UInventoryObject::GetCapacity(float& space, float& weight) const
+{
+	space = maxSpace;
+	weight = maxWeight;
+}
+
 void UInventoryObject::AddItem(UItemInstanceObject* item)
 {
 	ensure(!HasItem(item));

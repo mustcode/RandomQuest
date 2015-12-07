@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void SetCapacity(float space, float weight);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	void GetCapacity(float& space, float& weight) const;
+
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddItem(UItemInstanceObject* item);
 
