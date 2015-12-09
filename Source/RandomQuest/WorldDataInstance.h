@@ -59,7 +59,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	UCharacterObject* GetCharacterByIndex(int32 index) const;
 
-	UFUNCTION(BlueprintCallable, Category = RPG)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetCharacterIndex(UCharacterObject* character);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
