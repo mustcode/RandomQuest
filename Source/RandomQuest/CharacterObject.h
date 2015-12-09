@@ -20,7 +20,9 @@ public:
 	UCharacterObject();
 	~UCharacterObject() override;
 
-	RPGCharacter character;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UItemInstanceObject*> equipments;
+
+	RPGCharacter character;
 	RPGEquipSlot freeEquipSlots;
 };
