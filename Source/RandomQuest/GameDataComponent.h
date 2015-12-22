@@ -248,6 +248,9 @@ public:
 	int32 durability;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 value;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool isUnique;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)

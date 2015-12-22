@@ -18,7 +18,6 @@ UGameDataComponent::UGameDataComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
-	bWantsInitializeComponent = true;
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
@@ -130,7 +129,7 @@ RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
 
 RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 {
-	RPGItem* rpgItem = new RPGItem(item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.isUnique, item.isQuestItem);
+	RPGItem* rpgItem = new RPGItem(item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
 	return rpgItem;
 }
 
@@ -172,6 +171,7 @@ FItem::FItem(RPGItem* item)
 	damage = item->GetDamage();
 	protection = item->GetProtection();
 	durability = item->GetDurability();
+	value = item->GetValue();
 	isUnique = item->IsUnique();
 	isQuestItem = item->IsQuestItem();
 }
