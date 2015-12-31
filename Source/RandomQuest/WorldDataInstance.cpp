@@ -196,6 +196,7 @@ void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite
 
 void UWorldDataInstance::GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const
 {
+	ensure(itemInstance != nullptr);
 	RPGItem* rpgItem = GetItem(itemInstance->item.GetName());
 	item = FItem(rpgItem);
 }

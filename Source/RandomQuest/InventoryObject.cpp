@@ -93,7 +93,7 @@ void UInventoryObject::SubtractGold(int32 amount)
 	gold -= amount;
 }
 
-int32 UInventoryObject::GetGold(int32 amount) const
+int32 UInventoryObject::GetGold() const
 {
 	return gold;
 }

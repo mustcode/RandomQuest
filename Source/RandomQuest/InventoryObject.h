@@ -58,7 +58,7 @@ public:
 	void SubtractGold(int32 amount);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	int32 GetGold(int32 amount) const;
+	int32 GetGold() const;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<UItemInstanceObject*> items;

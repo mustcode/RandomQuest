@@ -23,6 +23,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> requiredConsequences;
+
+	FShopItem()	: quantity(1) {}
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
