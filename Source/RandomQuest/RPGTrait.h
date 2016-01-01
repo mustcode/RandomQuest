@@ -9,9 +9,11 @@ class RANDOMQUEST_API RPGTrait
 {
 public:
 	RPGTrait();
-	RPGTrait(FName _name);
+	RPGTrait(FText _displayName, FText _description, FName _name);
 	~RPGTrait();
 
+	FText GetDisplayName() const;
+	FText GetDescription() const;
 	FName GetName() const;
 
 	void SetProperty(FName name, int value);
@@ -20,6 +22,8 @@ public:
 	const TMap<FName, int>& GetProperties() const;
 
 protected:
+	FText displayName;
+	FText description;
 	FName name;
 	TMap<FName, int> properties;
 };

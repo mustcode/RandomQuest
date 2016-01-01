@@ -7,12 +7,25 @@ RPGTrait::RPGTrait()
 {
 }
 
-RPGTrait::RPGTrait(FName _name) : name(_name)
+RPGTrait::RPGTrait(FText _displayName, FText _description, FName _name)
+	: displayName(_displayName)
+	, description(_description)
+	, name(_name)
 {
 }
 
 RPGTrait::~RPGTrait()
 {
+}
+
+FText RPGTrait::GetDisplayName() const
+{
+	return displayName;
+}
+
+FText RPGTrait::GetDescription() const
+{
+	return description;
 }
 
 FName RPGTrait::GetName() const

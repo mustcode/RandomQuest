@@ -17,9 +17,11 @@ public:
 		Command(FName _command, float _time, float _value) : command(_command), time(_time), value(_value){}
 	};
 
-	RPGSkill(FName _name, FName _variationOf, bool _isUsableInCombat, bool _isUsableOutOfCombat, bool _canSelectTargetAlly, bool _canSelectTargetEnemy);
+	RPGSkill(FText _displayName, FText _description, FName _name, FName _variationOf, bool _isUsableInCombat, bool _isUsableOutOfCombat, bool _canSelectTargetAlly, bool _canSelectTargetEnemy);
 	~RPGSkill();
 
+	FText GetDisplayName() const;
+	FText GetDescription() const;
 	FName GetName() const;
 	FName GetVariationOf() const;
 	bool IsUsableInCombat() const;
@@ -38,6 +40,8 @@ public:
 	const TMap<FName, int>& GetCosts() const;
 
 protected:
+	FText displayName;
+	FText description;
 	FName name;
 	FName variationOf;
 	bool isUsableInCombat;

@@ -96,6 +96,12 @@ struct FSkill
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText displayName;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText description;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -149,6 +155,12 @@ struct FTrait
 {
 	GENERATED_USTRUCT_BODY()
 public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText displayName;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText description;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName name;

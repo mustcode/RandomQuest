@@ -52,7 +52,7 @@ void UGameDataComponent::BeginPlay()
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 {
-	RPGSkill* rpgSkill = new RPGSkill(skill.name, skill.variationOf, skill.isUsableInCombat, skill.isUsableOutOfCombat, skill.canSelectTargetAlly, skill.canSelectTargetEnemy);
+	RPGSkill* rpgSkill = new RPGSkill(skill.displayName, skill.description, skill.name, skill.variationOf, skill.isUsableInCombat, skill.isUsableOutOfCombat, skill.canSelectTargetAlly, skill.canSelectTargetEnemy);
 	for (auto cmd : skill.commands)
 		rpgSkill->AddCommand(cmd.command, cmd.time, cmd.value);
 	for (auto cost : skill.costs)
@@ -62,7 +62,7 @@ RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 
 RPGTrait* UGameDataComponent::CreateTrait(const FTrait& trait)
 {
-	RPGTrait* rpgTrait = new RPGTrait(trait.name);
+	RPGTrait* rpgTrait = new RPGTrait(trait.displayName, trait.description, trait.name);
 	for (auto traitProperty : trait.properties)
 		rpgTrait->SetProperty(traitProperty.name, traitProperty.value);
 	return rpgTrait;
@@ -135,6 +135,8 @@ RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 
 FSkill::FSkill(RPGSkill* skill, UWorldDataInstance* wdi)
 {
+	displayName = skill->GetDisplayName();
+	description = skill->GetDescription();
 	name = skill->GetName();
 	variationOf = skill->GetVariationOf();
 	isUsableInCombat = skill->IsUsableInCombat();
@@ -151,6 +153,8 @@ FSkill::FSkill(RPGSkill* skill, UWorldDataInstance* wdi)
 
 FTrait::FTrait(RPGTrait* trait, UWorldDataInstance* wdi)
 {
+	displayName = trait->GetDisplayName();
+	description = trait->GetDescription();
 	name = trait->GetName();
 	for (auto prop : trait->GetProperties())
 		properties.Add(FTraitProperty(prop.Key, prop.Value));
