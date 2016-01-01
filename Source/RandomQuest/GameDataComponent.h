@@ -215,6 +215,12 @@ struct FItem
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText displayName;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FText description;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)

@@ -3,8 +3,10 @@
 #include "RandomQuest.h"
 #include "RPGItem.h"
 
-RPGItem::RPGItem(FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, FName _special, float _size, float _weight, int _damage, int _protection, int _durability, int _value, bool _isUnique, bool _isQuestItem)
-	: name(_name)
+RPGItem::RPGItem(FText _displayName, FText _description, FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, FName _special, float _size, float _weight, int _damage, int _protection, int _durability, int _value, bool _isUnique, bool _isQuestItem)
+	: displayName(_displayName)
+	, description(_description)
+	, name(_name)
 	, category(_category)
 	, type(_type)
 	, subtype(_subtype)
@@ -23,6 +25,16 @@ RPGItem::RPGItem(FName _name, FName _category, FName _type, FName _subtype, FNam
 
 RPGItem::~RPGItem()
 {
+}
+
+FText RPGItem::GetDisplayName() const
+{
+	return displayName;
+}
+
+FText RPGItem::GetDescription() const
+{
+	return description;
 }
 
 FName RPGItem::GetName() const

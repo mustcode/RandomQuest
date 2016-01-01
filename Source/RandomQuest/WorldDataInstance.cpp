@@ -201,6 +201,13 @@ void UWorldDataInstance::GetItemFromInstance(const UItemInstanceObject* itemInst
 	item = FItem(rpgItem);
 }
 
+void UWorldDataInstance::GetItemFromName(FName name, FItem& item) const
+{
+	ensure(!name.IsNone() && name.IsValid());
+	RPGItem* rpgItem = GetItem(name);
+	item = FItem(rpgItem);
+}
+
 UInventoryObject* UWorldDataInstance::GetStorageInventory(FName name) const
 {
 	auto result = storageInventories.FindByPredicate([&](UInventoryObject* inventoryObj) { return inventoryObj->GetName() == name; });

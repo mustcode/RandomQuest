@@ -90,6 +90,9 @@ public:
 	void GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	void GetItemFromName(FName name, FItem& item) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	UInventoryObject* GetStorageInventory(FName name) const;
 
 	void AddSkill(RPGSkill* skill);

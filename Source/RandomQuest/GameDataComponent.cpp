@@ -129,7 +129,7 @@ RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
 
 RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 {
-	RPGItem* rpgItem = new RPGItem(item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
+	RPGItem* rpgItem = new RPGItem(item.displayName, item.description, item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
 	return rpgItem;
 }
 
@@ -160,6 +160,8 @@ FTrait::FTrait(RPGTrait* trait, UWorldDataInstance* wdi)
 
 FItem::FItem(RPGItem* item)
 {
+	displayName = item->GetDisplayName();
+	description = item->GetDescription();
 	name = item->GetName();
 	category = item->GetCategory();
 	type = item->GetType();
