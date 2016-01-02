@@ -69,6 +69,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnExecuteSkillCommand(const TArray<FSkillCommand>& commands);
 
+	UFUNCTION(BlueprintNativeEvent, Category = RPG)
+	void OnItemEquipped(UItemInstanceObject* item);
+
+	UFUNCTION(BlueprintNativeEvent, Category = RPG)
+	void OnItemRemoved(UItemInstanceObject* item);
+
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void EquipItem(UItemInstanceObject* item);
 
@@ -92,6 +98,8 @@ protected:
 	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
 	virtual void OnSkillActivated_Implementation(FName name, AActor* target);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
+	virtual void OnItemEquipped_Implementation(UItemInstanceObject* item);
+	virtual void OnItemRemoved_Implementation(UItemInstanceObject* item);
 	UWorldDataInstance* GetWorldData() const;
 	RPGEquipSlot* GetEquipSlot(const UItemInstanceObject* item) const;
 

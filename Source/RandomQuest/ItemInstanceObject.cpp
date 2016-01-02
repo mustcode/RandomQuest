@@ -11,6 +11,11 @@ UItemInstanceObject::~UItemInstanceObject()
 {
 }
 
+FName UItemInstanceObject::GetName() const
+{
+	return item.GetName();
+}
+
 int32 UItemInstanceObject::GetWear() const
 {
 	return item.GetWear();

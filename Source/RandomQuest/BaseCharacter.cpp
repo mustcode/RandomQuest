@@ -153,6 +153,7 @@ void ABaseCharacter::EquipItem(UItemInstanceObject* item)
 	ensure(!IsEquipped(item));
 	character->equipments.Add(item);
 	character->freeEquipSlots.Equip(*GetEquipSlot(item));
+	OnItemEquipped(item);
 }
 
 void ABaseCharacter::RemoveItem(UItemInstanceObject* item)
@@ -160,6 +161,7 @@ void ABaseCharacter::RemoveItem(UItemInstanceObject* item)
 	ensure(IsEquipped(item));
 	character->equipments.Remove(item);
 	character->freeEquipSlots.Unequip(*GetEquipSlot(item));
+	OnItemRemoved(item);
 }
 
 bool ABaseCharacter::CanEquip(const UItemInstanceObject* item) const
@@ -198,6 +200,16 @@ void ABaseCharacter::OnSkillActivated_Implementation(FName name, AActor* target)
 void ABaseCharacter::OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands)
 {
 	ensure(commands.Num() > 0);
+}
+
+void ABaseCharacter::OnItemEquipped_Implementation(UItemInstanceObject* item)
+{
+	ensure(item != nullptr);
+}
+
+void ABaseCharacter::OnItemRemoved_Implementation(UItemInstanceObject* item)
+{
+	ensure(item != nullptr);
 }
 
 UWorldDataInstance* ABaseCharacter::GetWorldData() const

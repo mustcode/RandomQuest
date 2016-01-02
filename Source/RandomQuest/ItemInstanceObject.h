@@ -18,6 +18,9 @@ public:
 	~UItemInstanceObject() override;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	FName GetName() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetWear() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
