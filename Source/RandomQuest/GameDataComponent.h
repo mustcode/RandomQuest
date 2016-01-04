@@ -90,7 +90,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FSkill
+struct FSkill : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -151,7 +151,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTrait
+struct FTrait : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -189,7 +189,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FOccupation
+struct FOccupation : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -208,7 +208,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FRace
+struct FRace : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -221,7 +221,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FItem
+struct FItem : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -315,7 +315,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FEquipSlot
+struct FEquipSlot : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
