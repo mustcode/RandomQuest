@@ -194,13 +194,6 @@ void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite
 		prerequisite.minimumStats.Add(FRequisite(minStat.Key, minStat.Value));
 }
 
-void UWorldDataInstance::GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const
-{
-	ensure(itemInstance != nullptr);
-	RPGItem* rpgItem = GetItem(itemInstance->item.GetName());
-	item = FItem(rpgItem);
-}
-
 void UWorldDataInstance::GetItemFromName(FName name, FItem& item) const
 {
 	ensure(!name.IsNone() && name.IsValid());

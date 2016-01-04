@@ -87,9 +87,6 @@ public:
 	void GetPrerequisite(FName name, FPrerequisite& prerequisite) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	void GetItemFromInstance(const UItemInstanceObject* itemInstance, FItem& item) const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	void GetItemFromName(FName name, FItem& item) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)

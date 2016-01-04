@@ -4,6 +4,7 @@
 
 #include "Object.h"
 #include "RPGItemInstance.h"
+#include "GameDataComponent.h"
 #include "ItemInstanceObject.generated.h"
 
 /**
@@ -19,6 +20,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	FName GetName() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	FItem GetItem() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	int32 GetWear() const;

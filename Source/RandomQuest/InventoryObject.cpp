@@ -61,7 +61,7 @@ float UInventoryObject::GetAvailableSpace() const
 {
 	int totalSize = 0;
 	for (auto item : items)
-		totalSize += item->item.GetSize();
+		totalSize += item->item.GetItem()->GetSize();
 	return maxSpace - totalSize;
 }
 
@@ -69,18 +69,18 @@ float UInventoryObject::GetAvailableWeight() const
 {
 	int totalWeight = 0;
 	for (auto item : items)
-		totalWeight += item->item.GetWeight();
+		totalWeight += item->item.GetItem()->GetWeight();
 	return maxWeight - totalWeight;
 }
 
 bool UInventoryObject::HasEnoughSpace(const UItemInstanceObject* item) const
 {
-	return GetAvailableSpace() >= item->item.GetSize();
+	return GetAvailableSpace() >= item->item.GetItem()->GetSize();
 }
 
 bool UInventoryObject::NotTooHeavy(const UItemInstanceObject* item) const
 {
-	return GetAvailableWeight() >= item->item.GetWeight();
+	return GetAvailableWeight() >= item->item.GetItem()->GetWeight();
 }
 
 void UInventoryObject::AddGold(int32 amount)

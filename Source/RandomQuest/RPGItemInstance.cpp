@@ -20,6 +20,16 @@ RPGItemInstance::~RPGItemInstance()
 {
 }
 
+FName RPGItemInstance::GetName() const
+{
+	return item->GetName();
+}
+
+FName RPGItemInstance::GetEquipSlot() const
+{
+	return item->GetEquipSlot();
+}
+
 void RPGItemInstance::SetItem(RPGItem* _item)
 {
 	item = _item;
@@ -50,71 +60,6 @@ void RPGItemInstance::Repair()
 bool RPGItemInstance::IsBroken() const
 {
 	return wear <= 0;
-}
-
-FName RPGItemInstance::GetName() const
-{
-	return item->GetName();
-}
-
-FName RPGItemInstance::GetCategory() const
-{
-	return item->GetCategory();
-}
-
-FName RPGItemInstance::GetType() const
-{
-	return item->GetType();
-}
-
-FName RPGItemInstance::GetSubType() const
-{
-	return item->GetSubType();
-}
-
-FName RPGItemInstance::GetEquipSlot() const
-{
-	return item->GetEquipSlot();
-}
-
-FName RPGItemInstance::GetSpecial() const
-{
-	return item->GetSpecial();
-}
-
-float RPGItemInstance::GetSize() const
-{
-	return item->GetSize();
-}
-
-float RPGItemInstance::GetWeight() const
-{
-	return item->GetWeight();
-}
-
-int RPGItemInstance::GetDamage() const
-{
-	return item->GetDamage();
-}
-
-int RPGItemInstance::GetProtection() const
-{
-	return item->GetProtection();
-}
-
-int RPGItemInstance::GetDurability() const
-{
-	return item->GetDurability();
-}
-
-bool RPGItemInstance::IsUnique() const
-{
-	return item->IsUnique();
-}
-
-bool RPGItemInstance::IsQuestItem() const
-{
-	return item->IsQuestItem();
 }
 
 bool RPGItemInstance::IsValid() const
