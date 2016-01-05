@@ -50,7 +50,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FSkillCommand
+struct FSkillCommand : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
