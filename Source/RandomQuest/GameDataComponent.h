@@ -340,6 +340,9 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddItem(const FItem& item);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkill> skills;
 
@@ -366,4 +369,6 @@ private:
 	RPGPrerequisite* CreatePrerequisite(FName name, const FPrerequisite& prerequisite);
 	RPGEquipSlot* CreateEquipSlot(const FEquipSlot& equipSlot);
 	RPGItem* CreateItem(const FItem& item);
+
+	UWorldDataInstance* wdi;
 };

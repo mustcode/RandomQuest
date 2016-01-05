@@ -26,7 +26,7 @@ UGameDataComponent::UGameDataComponent()
 void UGameDataComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
+	wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
 
 	for (const FSkill& skill : skills)
@@ -48,6 +48,12 @@ void UGameDataComponent::BeginPlay()
 		wdi->AddEquipSlot(CreateEquipSlot(equipSlot));
 	for (const FItem& item : items)
 		wdi->AddItem(CreateItem(item));
+}
+
+void UGameDataComponent::AddItem(const FItem& item)
+{
+	ensure(wdi != nullptr);
+	wdi->AddItem(CreateItem(item));
 }
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
