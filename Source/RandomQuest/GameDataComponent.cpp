@@ -50,6 +50,38 @@ void UGameDataComponent::BeginPlay()
 		wdi->AddItem(CreateItem(item));
 }
 
+void UGameDataComponent::AddSkill(const FSkill& skill)
+{
+	ensure(wdi != nullptr);
+	wdi->AddSkill(CreateSkill(skill));
+	wdi->AddPrerequisite(CreatePrerequisite(skill.name, skill.prerequisite));
+}
+
+void UGameDataComponent::AddTrait(const FTrait& trait)
+{
+	ensure(wdi != nullptr);
+	wdi->AddTrait(CreateTrait(trait));
+	wdi->AddPrerequisite(CreatePrerequisite(trait.name, trait.prerequisite));
+}
+
+void UGameDataComponent::AddOccupation(const FOccupation& occupation)
+{
+	ensure(wdi != nullptr);
+	wdi->AddOccupation(CreateOccupation(occupation));
+}
+
+void UGameDataComponent::AddRace(const FRace& race)
+{
+	ensure(wdi != nullptr);
+	wdi->AddRace(CreateRace(race));
+}
+
+void UGameDataComponent::AddEquipSlot(const FEquipSlot& equipSlot)
+{
+	ensure(wdi != nullptr);
+	wdi->AddEquipSlot(CreateEquipSlot(equipSlot));
+}
+
 void UGameDataComponent::AddItem(const FItem& item)
 {
 	ensure(wdi != nullptr);

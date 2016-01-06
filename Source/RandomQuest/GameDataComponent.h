@@ -50,7 +50,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FSkillCommand : public FTableRowBase
+struct FSkillCommand
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -339,6 +339,21 @@ public:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddSkill(const FSkill& skill);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddTrait(const FTrait& trait);
+	
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddOccupation(const FOccupation& occupation);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddRace(const FRace& race);
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddEquipSlot(const FEquipSlot& equipSlot);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddItem(const FItem& item);
