@@ -358,6 +358,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void AddItem(const FItem& item);
 
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void AddPrerequisite(FName name, const FPrerequisite& prerequisite);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FSkill> skills;
 

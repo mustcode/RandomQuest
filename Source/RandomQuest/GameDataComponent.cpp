@@ -54,14 +54,12 @@ void UGameDataComponent::AddSkill(const FSkill& skill)
 {
 	ensure(wdi != nullptr);
 	wdi->AddSkill(CreateSkill(skill));
-	wdi->AddPrerequisite(CreatePrerequisite(skill.name, skill.prerequisite));
 }
 
 void UGameDataComponent::AddTrait(const FTrait& trait)
 {
 	ensure(wdi != nullptr);
 	wdi->AddTrait(CreateTrait(trait));
-	wdi->AddPrerequisite(CreatePrerequisite(trait.name, trait.prerequisite));
 }
 
 void UGameDataComponent::AddOccupation(const FOccupation& occupation)
@@ -86,6 +84,11 @@ void UGameDataComponent::AddItem(const FItem& item)
 {
 	ensure(wdi != nullptr);
 	wdi->AddItem(CreateItem(item));
+}
+
+void UGameDataComponent::AddPrerequisite(FName name, const FPrerequisite& prerequisite)
+{
+	wdi->AddPrerequisite(CreatePrerequisite(name, prerequisite));
 }
 
 RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
@@ -139,9 +142,17 @@ RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrere
 
 	RPGPrerequisite* rpgPrerequisite = new RPGPrerequisite(name);
 	for (auto trait : prerequisite.requiredTraits)
-		rpgPrerequisite->RequiredTraits.Add(wdi->GetTrait(trait));
+	{
+		auto rpgTrait = wdi->GetTrait(trait);
+		ensure(rpgTrait != nullptr);
+		rpgPrerequisite->RequiredTraits.Add(rpgTrait);
+	}
 	for (auto trait : prerequisite.bannedTraits)
-		rpgPrerequisite->BannedTraits.Add(wdi->GetTrait(trait));
+	{
+		auto rpgTrait = wdi->GetTrait(trait);
+		ensure(rpgTrait != nullptr);
+		rpgPrerequisite->BannedTraits.Add(rpgTrait);
+	}
 	for (auto requisite : prerequisite.minimumStats)
 	{
 		TPair<FName, int> item;
