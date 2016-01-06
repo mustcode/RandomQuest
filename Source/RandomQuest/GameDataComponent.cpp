@@ -30,24 +30,24 @@ void UGameDataComponent::BeginPlay()
 	ensure(wdi != nullptr);
 
 	for (const FSkill& skill : skills)
-		wdi->AddSkill(CreateSkill(skill));
+		AddSkill(skill);
 	for (const FTrait& trait : traits)
-		wdi->AddTrait(CreateTrait(trait));
+		AddTrait(trait);
 
 	for (const FSkill& skill : skills)
-		wdi->AddPrerequisite(CreatePrerequisite(skill.name, skill.prerequisite));
+		AddPrerequisite(skill.name, skill.prerequisite);
 	for (const FTrait& trait : traits)
-		wdi->AddPrerequisite(CreatePrerequisite(trait.name, trait.prerequisite));
+		AddPrerequisite(trait.name, trait.prerequisite);
 
 	for (const FOccupation& occupation : occupations)
-		wdi->AddOccupation(CreateOccupation(occupation));
+		AddOccupation(occupation);
 	for (const FRace& race : races)
-		wdi->AddRace(CreateRace(race));
+		AddRace(race);
 
 	for (const FEquipSlot& equipSlot : equipSlots)
-		wdi->AddEquipSlot(CreateEquipSlot(equipSlot));
+		AddEquipSlot(equipSlot);
 	for (const FItem& item : items)
-		wdi->AddItem(CreateItem(item));
+		AddItem(item);
 }
 
 void UGameDataComponent::AddSkill(const FSkill& skill)
