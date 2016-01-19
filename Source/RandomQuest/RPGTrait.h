@@ -8,6 +8,16 @@
 class RANDOMQUEST_API RPGTrait
 {
 public:
+
+	struct Property
+	{
+		FName key;
+		int value;
+
+		Property() : value(0) {}
+		Property(FName _key, int _value) : key(_key), value(_value) {}
+	};
+
 	RPGTrait();
 	RPGTrait(FText _displayName, FText _description, FName _name);
 	~RPGTrait();
@@ -16,14 +26,14 @@ public:
 	FText GetDescription() const;
 	FName GetName() const;
 
-	void SetProperty(FName name, int value);
-	int GetProperty(FName name) const;
+	void SetProperty(FName name, Property value);
+	Property GetProperty(FName name) const;
 	bool HasProperty(FName name) const;
-	const TMap<FName, int>& GetProperties() const;
+	const TMap<FName, Property>& GetProperties() const;
 
 protected:
 	FText displayName;
 	FText description;
 	FName name;
-	TMap<FName, int> properties;
+	TMap<FName, Property> properties;
 };

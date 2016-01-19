@@ -33,7 +33,7 @@ FName RPGTrait::GetName() const
 	return name;
 }
 
-void RPGTrait::SetProperty(FName name, int value)
+void RPGTrait::SetProperty(FName name, Property value)
 {
 	if (properties.Contains(name))
 		properties[name] = value;
@@ -41,7 +41,7 @@ void RPGTrait::SetProperty(FName name, int value)
 		properties.Add(name, value);
 }
 
-int RPGTrait::GetProperty(FName name) const
+RPGTrait::Property RPGTrait::GetProperty(FName name) const
 {
 	ensure(properties.Contains(name));
 	return properties[name];
@@ -52,7 +52,7 @@ bool RPGTrait::HasProperty(FName name) const
 	return properties.Contains(name);
 }
 
-const TMap<FName, int>& RPGTrait::GetProperties() const
+const TMap<FName, RPGTrait::Property>& RPGTrait::GetProperties() const
 {
 	return properties;
 }

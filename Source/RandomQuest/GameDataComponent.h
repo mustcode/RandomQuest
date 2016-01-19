@@ -142,11 +142,15 @@ public:
 	FName name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName key;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	int32 value;
 
 	FTraitProperty(){}
-	FTraitProperty(FName _name, int32 _value)
+	FTraitProperty(FName _name, FName _key, int32 _value)
 		: name(_name)
+		, key(_key)
 		, value(_value){}
 };
 

@@ -8,6 +8,7 @@
 #include "RPGRules.h"
 #include "RPGCharacter.h"
 #include "RPGSkill.h"
+#include "RPGItem.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -127,8 +128,9 @@ void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName heal
 	auto rules = GetWorldData()->GetRules();
 	ensure(rules != nullptr);
 	bool isCritical = false;
-	int hpHealed = rules->ApplyHealing(&healer->character->character, &character->character, amount, healingType, isCritical);
-	OnHealed(healer, hpHealed, isCritical, healingType);
+	bool isFumbled = false;
+	int hpHealed = rules->ApplyHealing(&healer->character->character, &character->character, amount, healingType, isCritical, isFumbled);
+	OnHealed(healer, hpHealed, isCritical, isFumbled, healingType);
 }
 
 void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName damageType)
@@ -138,13 +140,41 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 	auto rules = world->GetRules();
 	ensure(rules != nullptr);
 	bool isCritical = false;
-	int hpLost = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, isCritical);
-	OnDamaged(originator, hpLost, isCritical, damageType);
-	if (IsDead() && world->party.Contains(character))
+	bool isFumbled = false;
+	int hpLost = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, isCritical, isFumbled);
+	OnDamaged(originator, hpLost, isCritical, isFumbled, damageType);
+	PostDamagedLogic(world);
+}
+
+void ABaseCharacter::NormalAttack(ABaseCharacter* attacker)
+{
+	auto world = GetWorldData();
+	ensure(world != nullptr);
+	auto rules = world->GetRules();
+	ensure(rules != nullptr);
+	auto rpgAttacker = &attacker->character->character;
+	auto rpgDefender = &character->character;
+	int attackRating = rules->GetAttackRating(rpgAttacker);
+	int defenseRating = rules->GetDefenseRating(rpgDefender);
+	int weaponDamage = 0;
+	for (auto itemInstance : attacker->GetEquipments())
 	{
-		world->party.Remove(character);
-		world->killed.Add(character);
+		RPGItem* item = itemInstance->item.GetItem();
+		if (item->GetCategory() == "Weapon")
+			weaponDamage += item->GetDamage();
 	}
+	int armorProtection = 0;
+	for (auto itemInstance : GetEquipments())
+	{
+		RPGItem* item = itemInstance->item.GetItem();
+		if (item->GetCategory() == "Armor")
+			armorProtection += item->GetProtection();
+	}
+	bool isCritical, isFumbled;
+	FName damageType;
+	int hpLost = rules->NormalAttack(rpgAttacker, attackRating, weaponDamage, rpgDefender, defenseRating, armorProtection, isCritical, isFumbled);
+	OnDamaged(attacker, hpLost, isCritical, isFumbled, damageType);
+	PostDamagedLogic(world);
 }
 
 void ABaseCharacter::EquipItem(UItemInstanceObject* item)
@@ -185,11 +215,11 @@ TArray<UItemInstanceObject*>& ABaseCharacter::GetEquipments()
 	return character->equipments;
 }
 
-void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType)
+void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType)
 {
 }
 
-void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType)
+void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, bool isFumbled, FName damageType)
 {
 }
 
@@ -225,4 +255,13 @@ RPGEquipSlot* ABaseCharacter::GetEquipSlot(const UItemInstanceObject* item) cons
 	auto equipSlot = wdi->GetEquipSlot(item->item.GetEquipSlot());
 	ensure(equipSlot != nullptr);
 	return equipSlot;
+}
+
+void ABaseCharacter::PostDamagedLogic(UWorldDataInstance* world)
+{
+	if (IsDead() && world->party.Contains(character))
+	{
+		world->party.Remove(character);
+		world->killed.Add(character);
+	}
 }

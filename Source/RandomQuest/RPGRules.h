@@ -30,11 +30,17 @@ public:
 	void DeductSkillCost(RPGCharacter* character, RPGSkill* skill);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const;
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;
-	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical);
-	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical);
+	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical, bool& isFumbled);
+	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical, bool& isFumbled);
+	int GetAttackRating(RPGCharacter* character) const;
+	int GetAttackBonus(RPGCharacter* character) const;
+	int GetDefenseRating(RPGCharacter* character) const;
+	int GetDefenseBonus(RPGCharacter* character) const;
+	int NormalAttack(RPGCharacter* attacker, int attackRating, int weaponDamage, RPGCharacter* defender, int defenseRating, int armorProtection, bool& isCritical, bool& isFumbled);
 	bool IsDead(RPGCharacter* character) const;
 	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
 	void SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot);
+	int CheckForCritical(int value, bool& isCritical, bool& isFumbled) const;
 
 private:
 	void RandomizeAttributes(RPGCharacter* character);

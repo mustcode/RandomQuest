@@ -184,20 +184,91 @@ bool RPGRules::AbilityTest(RPGCharacter* character, FName ability, int difficult
 	return AbilityTest(character, ability, difficulty, result);
 }
 
-int RPGRules::ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical)
+int RPGRules::ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical, bool& isFumbled)
 {
-	//TODO
+	amount = CheckForCritical(amount, isCritical, isFumbled);
 	receiver->GetAttribute("HP")->Increase(amount);
-	isCritical = false;
 	return amount;
 }
 
-int RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical)
+int RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical, bool& isFumbled)
 {
-	//TODO
+	amount = CheckForCritical(amount, isCritical, isFumbled);
 	victim->GetAttribute("HP")->Decrease(amount);
-	isCritical = false;
 	return amount;
+}
+
+int RPGRules::GetAttackRating(RPGCharacter* character) const
+{
+	int attackRating = 0;
+	for (auto trait : character->GetTraits())
+	{
+		for (auto prop : trait->GetProperties())
+		{
+			if (prop.Key == "AttackModifier")
+				attackRating += prop.Value.value;
+			else if (prop.Key == "AttackWith")
+				attackRating += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
+		}
+	}
+	return attackRating;
+}
+
+int RPGRules::GetAttackBonus(RPGCharacter* character) const
+{
+	int attackBonus = 0;
+	for (auto trait : character->GetTraits())
+	{
+		for (auto prop : trait->GetProperties())
+		{
+			if (prop.Key == "AttackBonus")
+				attackBonus += prop.Value.value;
+		}
+	}
+	return attackBonus;
+}
+
+int RPGRules::GetDefenseRating(RPGCharacter* character) const
+{
+	int defenseRating = 0;
+	for (auto trait : character->GetTraits())
+	{
+		for (auto prop : trait->GetProperties())
+		{
+			if (prop.Key == "DefenseModifier")
+				defenseRating += prop.Value.value;
+			else if (prop.Key == "DefendWith")
+				defenseRating += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
+		}
+	}
+	return defenseRating;
+}
+
+int RPGRules::GetDefenseBonus(RPGCharacter* character) const
+{
+	int defenseBonus = 0;
+	for (auto trait : character->GetTraits())
+	{
+		for (auto prop : trait->GetProperties())
+		{
+			if (prop.Key == "DefenseBonus")
+				defenseBonus += prop.Value.value;
+		}
+	}
+	return defenseBonus;
+}
+
+int RPGRules::NormalAttack(RPGCharacter* attacker, int attackRating, int weaponDamage, RPGCharacter* defender, int defenseRating, int armorProtection, bool& isCritical, bool& isFumbled)
+{
+	int attack = RPGDice::Roll(attackRating, D6, 4) + GetAttackBonus(attacker);
+	int defense = RPGDice::Roll(defenseRating + armorProtection, D6, 4) + GetDefenseBonus(defender);
+	if (attack <= defense)
+		return 0;
+	int damage = RPGDice::Roll(weaponDamage, D6, 4);
+	damage = CheckForCritical(damage, isCritical, isFumbled);
+
+	defender->GetAttribute("HP")->Decrease(damage);
+	return damage;
 }
 
 bool RPGRules::IsDead(RPGCharacter* character) const
@@ -238,6 +309,19 @@ void RPGRules::SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot)
 	equipSlot->slots[RPGEquipSlot::FOOT] = 2;
 	equipSlot->slots[RPGEquipSlot::TOE] = 10;
 	equipSlot->slots[RPGEquipSlot::MISC] = 2;
+}
+
+int RPGRules::CheckForCritical(int value, bool& isCritical, bool& isFumbled) const
+{
+	int critRoll1 = RPGDice::Roll(D6);
+	int critRoll2 = RPGDice::Roll(D6);
+	isFumbled = critRoll1 == 1 && critRoll2 == 1;
+	isCritical = !isFumbled && critRoll1 == critRoll2;
+	if (isCritical)
+		value *= 2;
+	else if (isFumbled)
+		value /= 2;
+	return value;
 }
 
 void RPGRules::RandomizeAttributes(RPGCharacter* character)

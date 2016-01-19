@@ -57,11 +57,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
 
-	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnHealed(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType);
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void NormalAttack(ABaseCharacter* attacker);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnDamaged(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
+	void OnHealed(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
+
+	UFUNCTION(BlueprintNativeEvent, Category = RPG)
+	void OnDamaged(ABaseCharacter* originator, int32 amount, bool isCritical, bool isFumbled, FName damageType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnSkillActivated(FName name, AActor* target);
@@ -94,14 +97,15 @@ public:
 	UCharacterObject* character;
 
 protected:
-	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, FName healingType);
-	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, FName damageType);
+	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
+	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, bool isFumbled, FName damageType);
 	virtual void OnSkillActivated_Implementation(FName name, AActor* target);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
 	virtual void OnItemEquipped_Implementation(UItemInstanceObject* item);
 	virtual void OnItemRemoved_Implementation(UItemInstanceObject* item);
 	UWorldDataInstance* GetWorldData() const;
 	RPGEquipSlot* GetEquipSlot(const UItemInstanceObject* item) const;
+	void PostDamagedLogic(UWorldDataInstance* world);
 
 	float activeSkillTime;
 	int32 activeCommandIndex;

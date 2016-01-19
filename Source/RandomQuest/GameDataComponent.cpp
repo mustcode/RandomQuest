@@ -105,7 +105,7 @@ RPGTrait* UGameDataComponent::CreateTrait(const FTrait& trait)
 {
 	RPGTrait* rpgTrait = new RPGTrait(trait.displayName, trait.description, trait.name);
 	for (auto traitProperty : trait.properties)
-		rpgTrait->SetProperty(traitProperty.name, traitProperty.value);
+		rpgTrait->SetProperty(traitProperty.name, RPGTrait::Property(traitProperty.key, traitProperty.value));
 	return rpgTrait;
 }
 
@@ -206,7 +206,7 @@ FTrait::FTrait(RPGTrait* trait, UWorldDataInstance* wdi)
 	description = trait->GetDescription();
 	name = trait->GetName();
 	for (auto prop : trait->GetProperties())
-		properties.Add(FTraitProperty(prop.Key, prop.Value));
+		properties.Add(FTraitProperty(prop.Key, prop.Value.key, prop.Value.value));
 	ensure(wdi != nullptr);
 	wdi->GetPrerequisite(name, prerequisite);
 }
