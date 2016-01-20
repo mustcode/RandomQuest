@@ -9,6 +9,7 @@
 #include "RPGCharacter.h"
 #include "RPGSkill.h"
 #include "RPGItem.h"
+#include "RPGCombatRating.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -154,26 +155,23 @@ void ABaseCharacter::NormalAttack(ABaseCharacter* attacker)
 	ensure(rules != nullptr);
 	auto rpgAttacker = &attacker->character->character;
 	auto rpgDefender = &character->character;
-	int attackRating = rules->GetAttackRating(rpgAttacker);
-	int defenseRating = rules->GetDefenseRating(rpgDefender);
-	int weaponDamage = 0;
-	for (auto itemInstance : attacker->GetEquipments())
-	{
-		RPGItem* item = itemInstance->item.GetItem();
-		if (item->GetCategory() == "Weapon")
-			weaponDamage += item->GetDamage();
-	}
-	int armorProtection = 0;
-	for (auto itemInstance : GetEquipments())
-	{
-		RPGItem* item = itemInstance->item.GetItem();
-		if (item->GetCategory() == "Armor")
-			armorProtection += item->GetProtection();
-	}
+
+	RPGCombatRating attackerCombatRating;
+	attackerCombatRating.character = rpgAttacker;
+	for (auto item : attacker->GetEquipments())
+		attackerCombatRating.equipments.Add(&item->item);
+
+	RPGCombatRating defenderCombatRating;
+	defenderCombatRating.character = rpgDefender;
+	for (auto item : GetEquipments())
+		defenderCombatRating.equipments.Add(&item->item);
+
+	rules->CalculateCombatRating(&attackerCombatRating);
+	rules->CalculateCombatRating(&defenderCombatRating);
+
 	bool isCritical, isFumbled;
-	FName damageType;
-	int hpLost = rules->NormalAttack(rpgAttacker, attackRating, weaponDamage, rpgDefender, defenseRating, armorProtection, isCritical, isFumbled);
-	OnDamaged(attacker, hpLost, isCritical, isFumbled, damageType);
+	int hpLost = rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, isCritical, isFumbled);
+	OnDamaged(attacker, hpLost, isCritical, isFumbled, attackerCombatRating.damageType);
 	PostDamagedLogic(world);
 }
 
