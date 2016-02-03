@@ -179,6 +179,28 @@ RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
 RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 {
 	RPGItem* rpgItem = new RPGItem(item.displayName, item.description, item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
+
+	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
+	ensure(wdi != nullptr);
+	auto typeTrait = wdi->GetTrait(rpgItem->GetType());
+	if (typeTrait != nullptr)
+		rpgItem->AddTrait(typeTrait);
+	if (rpgItem->GetType() != rpgItem->GetSubType())
+	{
+		auto subTypeTrait = wdi->GetTrait(rpgItem->GetSubType());
+		if (subTypeTrait != nullptr)
+			rpgItem->AddTrait(subTypeTrait);
+	}
+	if (rpgItem->GetName() != rpgItem->GetType() && rpgItem->GetName() != rpgItem->GetSubType())
+	{
+		auto nameTrait = wdi->GetTrait(rpgItem->GetName());
+		if (nameTrait != nullptr)
+			rpgItem->AddTrait(nameTrait);
+	}
+	auto specialTrait = wdi->GetTrait(rpgItem->GetSpecial());
+	if (specialTrait != nullptr)
+		rpgItem->AddTrait(specialTrait);
+
 	return rpgItem;
 }
 

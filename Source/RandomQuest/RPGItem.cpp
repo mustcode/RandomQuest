@@ -106,3 +106,31 @@ bool RPGItem::IsQuestItem() const
 {
 	return isQuestItem;
 }
+
+void RPGItem::AddTrait(RPGTrait* trait)
+{
+	ensure(!traits.Contains(trait));
+	traits.Add(trait);
+}
+
+bool RPGItem::HasTrait(RPGTrait* trait) const
+{
+	ensure(trait != nullptr);
+	return traits.Contains(trait);
+}
+
+bool RPGItem::HasTrait(FName name) const
+{
+	return traits.ContainsByPredicate([&](RPGTrait* trait) { return trait->GetName() == name; });
+}
+
+RPGTrait* RPGItem::GetTrait(FName name) const
+{
+	auto result = traits.FindByPredicate([&](RPGTrait* trait) { return trait->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
+}
+
+const TArray<RPGTrait*>& RPGItem::GetTraits() const
+{
+	return traits;
+}

@@ -211,7 +211,7 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 	combatRating->defense = 0;
 	combatRating->defenseBonus = 0;
 	combatRating->damage = 0;
-	combatRating->protection = 0;
+	combatRating->damageBonus = 0;
 
 	auto character = combatRating->character;
 	for (auto trait : character->GetTraits())
@@ -220,67 +220,87 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 		{
 			if (prop.Key == "AttackModifier")
 				combatRating->attack += prop.Value.value;
-			else if (prop.Key == "DefenseModifier")
-				combatRating->defense += prop.Value.value;
 			else if (prop.Key == "AttackModifierFromAttribute")
 				combatRating->attack += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-			else if (prop.Key == "DefenseModifierFromAttribute")
-				combatRating->defense += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-
 			else if (prop.Key == "AttackBonusModifier")
 				combatRating->attackBonus += prop.Value.value;
-			else if (prop.Key == "DefenseBonusModifier")
-				combatRating->defenseBonus += prop.Value.value;
 			else if (prop.Key == "AttackBonusModifierFromAttribute")
 				combatRating->attackBonus += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
+
+			else if (prop.Key == "DefenseModifier")
+				combatRating->defense += prop.Value.value;
+			else if (prop.Key == "DefenseModifierFromAttribute")
+				combatRating->defense += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
+			else if (prop.Key == "DefenseBonusModifier")
+				combatRating->defenseBonus += prop.Value.value;
 			else if (prop.Key == "DefenseBonusModifierFromAttribute")
 				combatRating->defenseBonus += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
 
 			else if (prop.Key == "DamageModifier")
 				combatRating->damage += prop.Value.value;
-			else if (prop.Key == "ProtectionModifier")
-				combatRating->protection += prop.Value.value;
 			else if (prop.Key == "DamageModifierFromAttribute")
 				combatRating->damage += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-			else if (prop.Key == "ProtectionModifierFromAttribute")
-				combatRating->protection += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
+			else if (prop.Key == "DamageBonusModifier")
+				combatRating->damageBonus += prop.Value.value;
+			else if (prop.Key == "DamageBonusModifierFromAttribute")
+				combatRating->damageBonus += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
 		}
 	}
+
 	auto equipments = combatRating->equipments;
 	for (auto item : equipments)
 	{
-		FName itemType = item->GetItem()->GetType();
-		FName itemSubType = item->GetItem()->GetSubType();
+		RPGItem* rpgItem = item->GetItem();
+		combatRating->defense += rpgItem->GetProtection();
+		combatRating->damage += rpgItem->GetDamage();
+
+		FName itemCategory = rpgItem->GetCategory();
+		if (itemCategory == "Weapon")
+		{
+			for (auto trait : rpgItem->GetTraits())
+			{
+				for (auto prop : trait->GetProperties())
+				{
+					if (prop.Key == "RequireSTR")
+						combatRating->attack += character->GetAttribute("STR")->GetValue();
+					else if (prop.Key == "RequireDEX")
+						combatRating->attack += character->GetAttribute("DEX")->GetValue();
+				}
+			}
+		}
+
+		FName itemType = rpgItem->GetType();
+		FName itemSubType = rpgItem->GetSubType();
 		for (auto trait : character->GetTraits())
 		{
 			for (auto prop : trait->GetProperties())
 			{
 				if (prop.Key == "AttackModifierFromItemType" && itemType == prop.Value.key)
 					combatRating->attack += prop.Value.value;
-				else if (prop.Key == "DefenseModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->defense += prop.Value.value;
 				else if (prop.Key == "AttackModifierFromItemSubType" && itemSubType == prop.Value.key)
 					combatRating->attack += prop.Value.value;
-				else if (prop.Key == "DefenseModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->defense += prop.Value.value;
-
-				if (prop.Key == "AttackBonusModifierFromItemType" && itemType == prop.Value.key)
+				else if (prop.Key == "AttackBonusModifierFromItemType" && itemType == prop.Value.key)
 					combatRating->attackBonus += prop.Value.value;
-				else if (prop.Key == "DefenseBonusModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->defenseBonus += prop.Value.value;
 				else if (prop.Key == "AttackBonusModifierFromItemSubType" && itemSubType == prop.Value.key)
 					combatRating->attackBonus += prop.Value.value;
+
+				else if (prop.Key == "DefenseModifierFromItemType" && itemType == prop.Value.key)
+					combatRating->defense += prop.Value.value;
+				else if (prop.Key == "DefenseModifierFromItemSubType" && itemSubType == prop.Value.key)
+					combatRating->defense += prop.Value.value;
+				else if (prop.Key == "DefenseBonusModifierFromItemType" && itemType == prop.Value.key)
+					combatRating->defenseBonus += prop.Value.value;				
 				else if (prop.Key == "DefenseBonusModifierFromItemSubType" && itemSubType == prop.Value.key)
 					combatRating->defenseBonus += prop.Value.value;
 
-				if (prop.Key == "DamageModifierFromItemType" && itemType == prop.Value.key)
+				else if (prop.Key == "DamageModifierFromItemType" && itemType == prop.Value.key)
 					combatRating->damage += prop.Value.value;
-				else if (prop.Key == "ProtectionModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->protection += prop.Value.value;
 				else if (prop.Key == "DamageModifierFromItemSubType" && itemSubType == prop.Value.key)
 					combatRating->damage += prop.Value.value;
-				else if (prop.Key == "ProtectionModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->protection += prop.Value.value;
+				else if (prop.Key == "DamageBonusModifierFromItemType" && itemType == prop.Value.key)
+					combatRating->damageBonus += prop.Value.value;
+				else if (prop.Key == "DamageBonusModifierFromItemSubType" && itemSubType == prop.Value.key)
+					combatRating->damageBonus += prop.Value.value;
 			}
 		}
 	}
@@ -289,10 +309,10 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 int RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, bool& isCritical, bool& isFumbled)
 {
 	int attack = RPGDice::Roll(attacker->attack, D6, 4) + attacker->attackBonus;
-	int defense = RPGDice::Roll(defender->defense + defender->protection, D6, 4) + defender->defenseBonus;
+	int defense = RPGDice::Roll(defender->defense, D6, 4) + defender->defenseBonus;
 	if (attack <= defense)
 		return 0;
-	int damage = RPGDice::Roll(attacker->damage, D6, 4);
+	int damage = RPGDice::Roll(attacker->damage, D6, 4) + attacker->damageBonus;
 	return ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, isCritical, isFumbled);
 }
 

@@ -18,7 +18,7 @@ struct RANDOMQUEST_API RPGCombatRating
 	int defense;
 	int defenseBonus;
 	int damage;
-	int protection;
+	int damageBonus;
 	FName damageType;
 
 	RPGCharacter* character;
