@@ -248,6 +248,7 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 	}
 
 	auto equipments = combatRating->equipments;
+	TArray<RPGItem*> weapons;
 	for (auto item : equipments)
 	{
 		RPGItem* rpgItem = item->GetItem();
@@ -256,7 +257,10 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 
 		FName itemCategory = rpgItem->GetCategory();
 		if (itemCategory == "Weapon")
+		{
 			combatRating->attack += GetAttackValueFromWeapon(character, rpgItem);
+			weapons.Add(rpgItem);
+		}
 
 		FName itemType = rpgItem->GetType();
 		FName itemSubType = rpgItem->GetSubType();
@@ -292,10 +296,27 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 					combatRating->damageBonus += prop.Value.value;
 			}
 		}
+
+		int weaponsLimit = HasTraitWithProperty(character->GetTraits(), "DualWeapons") ? 2 : 1;
+		if (weapons.Num() > weaponsLimit)
+		{
+			for (auto weapon : weapons)
+			{
+				if (IsLightWeapon(weapon))
+					continue;
+				if (IsHeavyWeapon(weapon))
+				{
+					combatRating->attack -= 10;
+					continue;
+				}
+				combatRating->attack -= 3;
+				continue;
+			}
+		}
 	}
 }
 
-int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon)
+int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon) const
 {
 	ensure(weapon->GetCategory() == "Weapon");
 
@@ -320,7 +341,7 @@ int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon)
 
 			if (attributeScore > 6)
 				return attributeScore - 6;
-			else if (attributeScore < 4)
+			if (attributeScore < 4)
 				return attributeScore - 4;
 			return 0;
 		}
@@ -328,13 +349,25 @@ int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon)
 	return 0;
 }
 
+bool RPGRules::IsLightWeapon(RPGItem* weapon) const
+{
+	ensure(weapon->GetCategory() == "Weapon");
+	return HasTraitWithProperty(weapon->GetTraits(), "Light");
+}
+
+bool RPGRules::IsHeavyWeapon(RPGItem* weapon) const
+{
+	ensure(weapon->GetCategory() == "Weapon");
+	return HasTraitWithProperty(weapon->GetTraits(), "Heavy");
+}
+
 int RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, bool& isCritical, bool& isFumbled)
 {
-	int attack = RPGDice::Roll(attacker->attack, D6, 4) + attacker->attackBonus;
-	int defense = RPGDice::Roll(defender->defense, D6, 4) + defender->defenseBonus;
+	int attack = RPGDice::Roll(FMath::Max(attacker->attack, 1), D6, 4) + attacker->attackBonus;
+	int defense = RPGDice::Roll(FMath::Max(defender->defense, 1), D6, 4) + defender->defenseBonus;
 	if (attack <= defense)
 		return 0;
-	int damage = RPGDice::Roll(attacker->damage, D6, 4) + attacker->damageBonus;
+	int damage = RPGDice::Roll(FMath::Max(attacker->damage, 1), D6, 4) + attacker->damageBonus;
 	return ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, isCritical, isFumbled);
 }
 
@@ -464,4 +497,22 @@ RPGOccupation* RPGRules::GetMostSuitableOccupation(RPGCharacter* character, TArr
 	}
 	ensure(results.Num() > 0);
 	return results[FMath::RandRange(0, results.Num()-1)];
+}
+
+RPGTrait* RPGRules::FindTraitWithProperty(const TArray<RPGTrait*>& traits, FName propertyName) const
+{
+	for (auto trait : traits)
+	{
+		for (auto prop : trait->GetProperties())
+		{
+			if (prop.Key == propertyName)
+				return trait;
+		}
+	}
+	return nullptr;
+}
+
+bool RPGRules::HasTraitWithProperty(const TArray<RPGTrait*>& traits, FName propertyName) const
+{
+	return FindTraitWithProperty(traits, propertyName) != nullptr;
 }

@@ -35,7 +35,9 @@ public:
 	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical, bool& isFumbled);
 	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical, bool& isFumbled);
 	void CalculateCombatRating(RPGCombatRating* combatRating);
-	int GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon);
+	int GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon) const;
+	bool IsLightWeapon(RPGItem* weapon) const;
+	bool IsHeavyWeapon(RPGItem* weapon) const;
 	int NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, bool& isCritical, bool& isFumbled);
 	bool IsDead(RPGCharacter* character) const;
 	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
@@ -45,4 +47,6 @@ public:
 private:
 	void RandomizeAttributes(RPGCharacter* character);
 	RPGOccupation* GetMostSuitableOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations) const;
+	RPGTrait* FindTraitWithProperty(const TArray<RPGTrait*>& traits, FName propertyName) const;
+	bool HasTraitWithProperty(const TArray<RPGTrait*>& traits, FName propertyName) const;
 };
