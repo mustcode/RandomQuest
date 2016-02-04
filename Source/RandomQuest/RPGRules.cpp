@@ -256,18 +256,7 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 
 		FName itemCategory = rpgItem->GetCategory();
 		if (itemCategory == "Weapon")
-		{
-			for (auto trait : rpgItem->GetTraits())
-			{
-				for (auto prop : trait->GetProperties())
-				{
-					if (prop.Key == "RequireSTR")
-						combatRating->attack += character->GetAttribute("STR")->GetValue();
-					else if (prop.Key == "RequireDEX")
-						combatRating->attack += character->GetAttribute("DEX")->GetValue();
-				}
-			}
-		}
+			combatRating->attack += GetAttackValue(character, rpgItem);
 
 		FName itemType = rpgItem->GetType();
 		FName itemSubType = rpgItem->GetSubType();
@@ -304,6 +293,39 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 			}
 		}
 	}
+}
+
+int RPGRules::GetAttackValue(RPGCharacter* character, RPGItem* weapon)
+{
+	ensure(weapon->GetCategory == "Weapon");
+
+	for (auto trait : weapon->GetTraits())
+	{
+		for (auto prop : trait->GetProperties())
+		{
+			if (prop.Key != "RequireAttribute")
+				continue;
+
+			int attributeScore = 0;
+			if (prop.Value.key == "Finesse")
+			{
+				int STR = character->GetAttribute("STR")->GetValue();
+				int DEX = character->GetAttribute("DEX")->GetValue();
+				attributeScore = (STR > DEX) ? STR : DEX;
+			}
+			else
+			{
+				attributeScore = character->GetAttribute(prop.Value.key)->GetValue();
+			}
+
+			if (attributeScore > 6)
+				return attributeScore - 6;
+			else if (attributeScore < 4)
+				return attributeScore - 4;
+			return 0;
+		}
+	}
+	return 0;
 }
 
 int RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, bool& isCritical, bool& isFumbled)

@@ -9,6 +9,7 @@ class RPGRace;
 class RPGOccupation;
 class RPGPrerequisite;
 class RPGEquipSlot;
+class RPGItem;
 struct RPGCombatRating;
 
 /**
@@ -34,6 +35,7 @@ public:
 	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical, bool& isFumbled);
 	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical, bool& isFumbled);
 	void CalculateCombatRating(RPGCombatRating* combatRating);
+	int GetAttackValue(RPGCharacter* character, RPGItem* weapon);
 	int NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, bool& isCritical, bool& isFumbled);
 	bool IsDead(RPGCharacter* character) const;
 	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
