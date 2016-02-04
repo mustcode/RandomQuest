@@ -256,7 +256,7 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 
 		FName itemCategory = rpgItem->GetCategory();
 		if (itemCategory == "Weapon")
-			combatRating->attack += GetAttackValue(character, rpgItem);
+			combatRating->attack += GetAttackValueFromWeapon(character, rpgItem);
 
 		FName itemType = rpgItem->GetType();
 		FName itemSubType = rpgItem->GetSubType();
@@ -295,9 +295,9 @@ void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
 	}
 }
 
-int RPGRules::GetAttackValue(RPGCharacter* character, RPGItem* weapon)
+int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon)
 {
-	ensure(weapon->GetCategory == "Weapon");
+	ensure(weapon->GetCategory() == "Weapon");
 
 	for (auto trait : weapon->GetTraits())
 	{
