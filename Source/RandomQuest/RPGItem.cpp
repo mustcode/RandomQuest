@@ -2,8 +2,9 @@
 
 #include "RandomQuest.h"
 #include "RPGItem.h"
+#include "RPGTrait.h"
 
-RPGItem::RPGItem(FText _displayName, FText _description, FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, FName _special, float _size, float _weight, int _damage, int _protection, int _durability, int _value, bool _isUnique, bool _isQuestItem)
+RPGItem::RPGItem(FText _displayName, FText _description, FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, float _size, float _weight, int _damage, int _protection, int _durability, int _value, bool _isUnique, bool _isQuestItem)
 	: displayName(_displayName)
 	, description(_description)
 	, name(_name)
@@ -11,7 +12,6 @@ RPGItem::RPGItem(FText _displayName, FText _description, FName _name, FName _cat
 	, type(_type)
 	, subtype(_subtype)
 	, equipSlot(_equipSlot)
-	, special(_special)
 	, size(_size)
 	, weight(_weight)
 	, damage(_damage)
@@ -60,11 +60,6 @@ FName RPGItem::GetSubType() const
 FName RPGItem::GetEquipSlot() const
 {
 	return equipSlot;
-}
-
-FName RPGItem::GetSpecial() const
-{
-	return special;
 }
 
 float RPGItem::GetSize() const

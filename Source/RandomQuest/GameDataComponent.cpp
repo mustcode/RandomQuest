@@ -178,29 +178,16 @@ RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
 
 RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 {
-	RPGItem* rpgItem = new RPGItem(item.displayName, item.description, item.name, item.category, item.type, item.subtype, item.equipSlot, item.special, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
+	RPGItem* rpgItem = new RPGItem(item.displayName, item.description, item.name, item.category, item.type, item.subtype, item.equipSlot, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
 
 	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
-	auto typeTrait = wdi->GetTrait(rpgItem->GetType());
-	if (typeTrait != nullptr)
-		rpgItem->AddTrait(typeTrait);
-	if (rpgItem->GetType() != rpgItem->GetSubType())
+	for (auto trait : item.traits)
 	{
-		auto subTypeTrait = wdi->GetTrait(rpgItem->GetSubType());
-		if (subTypeTrait != nullptr)
-			rpgItem->AddTrait(subTypeTrait);
+		RPGTrait* rpgTrait = wdi->GetTrait(trait);
+		ensure(rpgTrait != nullptr);
+		rpgItem->AddTrait(rpgTrait);
 	}
-	if (rpgItem->GetName() != rpgItem->GetType() && rpgItem->GetName() != rpgItem->GetSubType())
-	{
-		auto nameTrait = wdi->GetTrait(rpgItem->GetName());
-		if (nameTrait != nullptr)
-			rpgItem->AddTrait(nameTrait);
-	}
-	auto specialTrait = wdi->GetTrait(rpgItem->GetSpecial());
-	if (specialTrait != nullptr)
-		rpgItem->AddTrait(specialTrait);
-
 	return rpgItem;
 }
 
@@ -242,7 +229,6 @@ FItem::FItem(RPGItem* item)
 	type = item->GetType();
 	subtype = item->GetSubType();
 	equipSlot = item->GetEquipSlot();
-	special = item->GetSpecial();
 	size = item->GetSize();
 	weight = item->GetWeight();
 	damage = item->GetDamage();
@@ -251,4 +237,6 @@ FItem::FItem(RPGItem* item)
 	value = item->GetValue();
 	isUnique = item->IsUnique();
 	isQuestItem = item->IsQuestItem();
+	for (auto trait : item->GetTraits())
+		traits.Add(trait->GetName());
 }

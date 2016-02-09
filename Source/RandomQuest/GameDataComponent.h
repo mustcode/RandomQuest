@@ -252,9 +252,6 @@ public:
 	FName equipSlot;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	FName special;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float size;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
@@ -277,6 +274,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool isQuestItem;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> traits;
 
 	FItem() {}
 	FItem(RPGItem* item);
