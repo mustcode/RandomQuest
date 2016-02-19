@@ -28,7 +28,7 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 	ensure(rules);
 	rules->UpdateCharacter(DeltaSeconds, &character->character);
 
-	if (!character->character.IsUsingSkill())
+	if (!character->character.IsUsingSkill() || IsHoldingSkillTime())
 		return;
 
 	activeSkillTime += DeltaSeconds;
@@ -68,6 +68,7 @@ bool ABaseCharacter::TryUseSkill(FName name, AActor* target)
 	rules->DeductSkillCost(&character->character, skill);
 	activeSkillTime = 0.f;
 	activeCommandIndex = 0;
+	holdSkillTime = false;
 	OnSkillActivated(name, target);
 	return true;
 }
@@ -122,6 +123,21 @@ bool ABaseCharacter::IsDead() const
 bool ABaseCharacter::IsUsingSkill() const
 {
 	return character->character.IsUsingSkill();
+}
+
+void ABaseCharacter::HoldSkillTime()
+{
+	holdSkillTime = true;
+}
+
+void ABaseCharacter::ResumeSkillTime()
+{
+	holdSkillTime = false;
+}
+
+bool ABaseCharacter::IsHoldingSkillTime() const
+{
+	return holdSkillTime;
 }
 
 void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName healingType)

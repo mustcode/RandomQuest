@@ -52,6 +52,15 @@ public:
 	bool IsUsingSkill() const;
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
+	void HoldSkillTime();
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
+	void ResumeSkillTime();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
+	bool IsHoldingSkillTime() const;
+
+	UFUNCTION(BlueprintCallable, Category = RPG)
 	void ApplyHealing(ABaseCharacter* healer, int32 amount, FName healingType);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
@@ -109,4 +118,5 @@ protected:
 
 	float activeSkillTime;
 	int32 activeCommandIndex;
+	bool holdSkillTime;
 };
