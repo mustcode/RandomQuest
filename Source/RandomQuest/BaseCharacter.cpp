@@ -40,7 +40,7 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 		RPGSkill::Command& cmd = commands[activeCommandIndex];
 		if (cmd.time > activeSkillTime)
 			break;
-		toExecute.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
+		toExecute.Add(FSkillCommand(cmd.command, cmd.param, cmd.time, cmd.value));
 		++activeCommandIndex;
 	}
 	if (toExecute.Num() > 0)

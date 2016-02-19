@@ -95,7 +95,7 @@ RPGSkill* UGameDataComponent::CreateSkill(const FSkill& skill)
 {
 	RPGSkill* rpgSkill = new RPGSkill(skill.displayName, skill.description, skill.name, skill.variationOf, skill.isUsableInCombat, skill.isUsableOutOfCombat, skill.canSelectTargetAlly, skill.canSelectTargetEnemy);
 	for (auto cmd : skill.commands)
-		rpgSkill->AddCommand(cmd.command, cmd.time, cmd.value);
+		rpgSkill->AddCommand(cmd.command, cmd.param, cmd.time, cmd.value);
 	for (auto cost : skill.costs)
 		rpgSkill->AddCost(cost.resource, cost.amount);
 	return rpgSkill;
@@ -202,7 +202,7 @@ FSkill::FSkill(RPGSkill* skill, UWorldDataInstance* wdi)
 	canSelectTargetAlly = skill->CanSelectTargetAlly();
 	canSelectTargetEnemy = skill->CanSelectTargetEnemy();
 	for (auto cmd : skill->GetCommands())
-		commands.Add(FSkillCommand(cmd.command, cmd.time, cmd.value));
+		commands.Add(FSkillCommand(cmd.command, cmd.param, cmd.time, cmd.value));
 	for (auto cost : skill->GetCosts())
 		costs.Add(FSkillCost(cost.Key, cost.Value));
 	ensure(wdi != nullptr);

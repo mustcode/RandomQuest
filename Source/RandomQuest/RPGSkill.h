@@ -12,9 +12,10 @@ public:
 	struct Command
 	{
 		FName command;
+		FName param;
 		float time;
 		float value;
-		Command(FName _command, float _time, float _value) : command(_command), time(_time), value(_value){}
+		Command(FName _command, FName _param, float _time, float _value) : command(_command), param(_param), time(_time), value(_value){}
 	};
 
 	RPGSkill(FText _displayName, FText _description, FName _name, FName _variationOf, bool _isUsableInCombat, bool _isUsableOutOfCombat, bool _canSelectTargetAlly, bool _canSelectTargetEnemy);
@@ -29,7 +30,7 @@ public:
 	bool CanSelectTargetAlly() const;
 	bool CanSelectTargetEnemy() const;
 
-	void AddCommand(FName command, float time, float value);
+	void AddCommand(FName command, FName param, float time, float value);
 	void AddCommand(Command command);
 	int CommandsCount() const;
 	const Command& GetCommand(int index) const;

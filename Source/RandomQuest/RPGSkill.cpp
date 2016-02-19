@@ -59,9 +59,9 @@ bool RPGSkill::CanSelectTargetEnemy() const
 	return canSelectTargetEnemy;
 }
 
-void RPGSkill::AddCommand(FName command, float time, float value)
+void RPGSkill::AddCommand(FName command, FName param, float time, float value)
 {
-	commands.Add(Command(command, time, value));
+	commands.Add(Command(command, param, time, value));
 }
 
 void RPGSkill::AddCommand(Command command)

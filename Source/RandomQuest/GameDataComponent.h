@@ -59,14 +59,18 @@ public:
 	FName command;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName param;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float time;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	float value;
 
 	FSkillCommand(){}
-	FSkillCommand(FName _command, float _time, float _value)
+	FSkillCommand(FName _command, FName _param, float _time, float _value)
 		: command(_command)
+		, param(_param)
 		, time(_time)
 		, value(_value){}
 };
