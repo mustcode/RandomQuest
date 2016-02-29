@@ -179,21 +179,12 @@ RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
 RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 {
 	RPGItem* rpgItem = new RPGItem(item.displayName, item.description, item.name, item.category, item.type, item.subtype, item.equipSlot, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
-
 	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
 	for (auto trait : item.traits)
-	{
-		RPGTrait* rpgTrait = wdi->GetTrait(trait);
-		ensure(rpgTrait != nullptr);
-		rpgItem->AddTrait(rpgTrait);
-	}
+		rpgItem->AddTrait(wdi->GetTrait(trait));
 	for (auto skill : item.skills)
-	{
-		RPGSkill* rpgSkill = wdi->GetSkill(skill);
-		ensure(rpgItem != nullptr);
-		rpgItem->AddSkill(rpgSkill);
-	}
+		rpgItem->AddSkill(wdi->GetSkill(skill));
 	return rpgItem;
 }
 

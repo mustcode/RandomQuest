@@ -50,6 +50,7 @@ RPGTimer* RPGCharacter::GetTimer(FName name)
 
 void RPGCharacter::AddSkill(RPGSkill* skill)
 {
+	ensure(skill != nullptr);
 	ensure(!skills.Contains(skill));
 	skills.Add(skill);
 }
@@ -78,6 +79,7 @@ const TArray<RPGSkill*>& RPGCharacter::GetSkills() const
 
 void RPGCharacter::AddTrait(RPGTrait* trait)
 {
+	ensure(trait != nullptr);
 	ensure(!traits.Contains(trait));
 	traits.Add(trait);
 }

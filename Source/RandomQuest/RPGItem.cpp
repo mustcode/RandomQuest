@@ -105,6 +105,7 @@ bool RPGItem::IsQuestItem() const
 
 void RPGItem::AddTrait(RPGTrait* trait)
 {
+	ensure(trait != nullptr);
 	ensure(!traits.Contains(trait));
 	traits.Add(trait);
 }
@@ -133,6 +134,7 @@ const TArray<RPGTrait*>& RPGItem::GetTraits() const
 
 void RPGItem::AddSkill(RPGSkill* skill)
 {
+	ensure(skill != nullptr);
 	ensure(!skills.Contains(skill));
 	skills.Add(skill);
 }
