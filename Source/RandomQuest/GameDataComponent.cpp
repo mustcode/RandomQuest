@@ -188,6 +188,12 @@ RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 		ensure(rpgTrait != nullptr);
 		rpgItem->AddTrait(rpgTrait);
 	}
+	for (auto skill : item.skills)
+	{
+		RPGSkill* rpgSkill = wdi->GetSkill(skill);
+		ensure(rpgItem != nullptr);
+		rpgItem->AddSkill(rpgSkill);
+	}
 	return rpgItem;
 }
 
@@ -239,4 +245,6 @@ FItem::FItem(RPGItem* item)
 	isQuestItem = item->IsQuestItem();
 	for (auto trait : item->GetTraits())
 		traits.Add(trait->GetName());
+	for (auto skill : item->GetSkills())
+		skills.Add(skill->GetName());
 }

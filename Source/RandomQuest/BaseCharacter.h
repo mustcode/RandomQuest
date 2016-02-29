@@ -100,7 +100,7 @@ public:
 	bool IsEquipped(const UItemInstanceObject* item) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
-	TArray<UItemInstanceObject*>& GetEquipments();
+	TArray<UItemInstanceObject*>& GetEquipments() const;
 
 	UPROPERTY(BlueprintReadOnly, Category = RPG)
 	UCharacterObject* character;

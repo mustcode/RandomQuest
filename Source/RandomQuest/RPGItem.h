@@ -3,6 +3,7 @@
 #pragma once
 
 class RPGTrait;
+class RPGSkill;
 
 /**
  * 
@@ -35,6 +36,12 @@ public:
 	RPGTrait* GetTrait(FName name) const;
 	const TArray<RPGTrait*>& GetTraits() const;
 
+	void AddSkill(RPGSkill* skill);
+	bool HasSkill(RPGSkill* skill) const;
+	bool HasSkill(FName name) const;
+	RPGSkill* GetSkill(FName name) const;
+	const TArray<RPGSkill*>& GetSkills() const;
+
 protected:
 	FText displayName;
 	FText description;
@@ -52,4 +59,5 @@ protected:
 	bool isUnique;
 	bool isQuestItem;
 	TArray<RPGTrait*> traits;
+	TArray<RPGSkill*> skills;
 };

@@ -282,6 +282,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> traits;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> skills;
+
 	FItem() {}
 	FItem(RPGItem* item);
 };

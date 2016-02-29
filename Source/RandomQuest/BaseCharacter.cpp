@@ -80,6 +80,23 @@ TArray<FSkill> ABaseCharacter::GetSkills() const
 	auto rpgSkills = character->character.GetSkills();
 	for (auto skill : rpgSkills)
 		skills.Add(FSkill(skill, worldData));
+	
+	RPGRules* rules = worldData->GetRules();
+	TArray<RPGSkill*> itemSkills;
+	for (auto item : GetEquipments())
+	{
+		auto rpgItem = item->item.GetItem();
+		for (auto skill : rpgItem->GetSkills())
+		{
+			if (itemSkills.Contains(skill))
+				continue;
+			if (rules->MeetPrerequisite(&character->character, worldData->GetPrerequisite(skill->GetName())))
+				itemSkills.Add(skill);
+		}
+	}
+	for (auto skill : itemSkills)
+		skills.Add(FSkill(skill, worldData));
+
 	return skills;
 }
 
@@ -224,7 +241,7 @@ bool ABaseCharacter::IsEquipped(const UItemInstanceObject* item) const
 	return character->equipments.Contains(item);
 }
 
-TArray<UItemInstanceObject*>& ABaseCharacter::GetEquipments()
+TArray<UItemInstanceObject*>& ABaseCharacter::GetEquipments() const
 {
 	return character->equipments;
 }

@@ -3,6 +3,7 @@
 #include "RandomQuest.h"
 #include "RPGItem.h"
 #include "RPGTrait.h"
+#include "RPGSkill.h"
 
 RPGItem::RPGItem(FText _displayName, FText _description, FName _name, FName _category, FName _type, FName _subtype, FName _equipSlot, float _size, float _weight, int _damage, int _protection, int _durability, int _value, bool _isUnique, bool _isQuestItem)
 	: displayName(_displayName)
@@ -128,4 +129,32 @@ RPGTrait* RPGItem::GetTrait(FName name) const
 const TArray<RPGTrait*>& RPGItem::GetTraits() const
 {
 	return traits;
+}
+
+void RPGItem::AddSkill(RPGSkill* skill)
+{
+	ensure(!skills.Contains(skill));
+	skills.Add(skill);
+}
+
+bool RPGItem::HasSkill(RPGSkill* skill) const
+{
+	ensure(skill != nullptr);
+	return skills.Contains(skill);
+}
+
+bool RPGItem::HasSkill(FName name) const
+{
+	return skills.ContainsByPredicate([&](RPGSkill* skill) { return skill->GetName() == name; });
+}
+
+RPGSkill* RPGItem::GetSkill(FName name) const
+{
+	auto result = skills.FindByPredicate([&](RPGSkill* skill) { return skill->GetName() == name; });
+	return (result != nullptr) ? *result : nullptr;
+}
+
+const TArray<RPGSkill*>& RPGItem::GetSkills() const
+{
+	return skills;
 }
