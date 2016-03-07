@@ -47,6 +47,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FRequisite> minimumStats;
+
+	bool HasNone() const;
 };
 
 USTRUCT(BlueprintType)

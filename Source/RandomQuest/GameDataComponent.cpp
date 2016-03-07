@@ -54,12 +54,16 @@ void UGameDataComponent::AddSkill(const FSkill& skill)
 {
 	ensure(wdi != nullptr);
 	wdi->AddSkill(CreateSkill(skill));
+	if (!skill.prerequisite.HasNone())
+		AddPrerequisite(skill.name, skill.prerequisite);
 }
 
 void UGameDataComponent::AddTrait(const FTrait& trait)
 {
 	ensure(wdi != nullptr);
 	wdi->AddTrait(CreateTrait(trait));
+	if (!trait.prerequisite.HasNone())
+		AddPrerequisite(trait.name, trait.prerequisite);
 }
 
 void UGameDataComponent::AddOccupation(const FOccupation& occupation)
@@ -238,4 +242,9 @@ FItem::FItem(RPGItem* item)
 		traits.Add(trait->GetName());
 	for (auto skill : item->GetSkills())
 		skills.Add(skill->GetName());
+}
+
+bool FPrerequisite::HasNone() const
+{
+	return requiredTraits.Num() == 0 && bannedTraits.Num() == 0 && requiredTraits.Num() == 0;
 }

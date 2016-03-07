@@ -90,7 +90,8 @@ TArray<FSkill> ABaseCharacter::GetSkills() const
 		{
 			if (itemSkills.Contains(skill))
 				continue;
-			if (rules->MeetPrerequisite(&character->character, worldData->GetPrerequisite(skill->GetName())))
+			auto rpgPrerequisite = worldData->GetPrerequisite(skill->GetName());
+			if (rpgPrerequisite == nullptr || rules->MeetPrerequisite(&character->character, rpgPrerequisite))
 				itemSkills.Add(skill);
 		}
 	}

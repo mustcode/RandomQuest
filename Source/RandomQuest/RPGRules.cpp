@@ -126,6 +126,7 @@ void RPGRules::RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>&
 
 bool RPGRules::MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prerequisite) const
 {
+	ensure(prerequisite != nullptr);
 	for (auto trait : prerequisite->RequiredTraits)
 	{
 		if (!character->HasTrait(trait))

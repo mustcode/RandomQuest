@@ -87,7 +87,8 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 	rules.RandomizeCommonTraits(character, traits);
 	for (auto skill : skills)
 	{
-		if (rules.MeetPrerequisite(character, GetPrerequisite(skill->GetName())))
+		auto rpgPrerequisite = GetPrerequisite(skill->GetName());
+		if (rpgPrerequisite == nullptr || rules.MeetPrerequisite(character, rpgPrerequisite))
 			character->AddSkill(skill);
 	}
 	rules.SetDefaultFreeEquipSlot(&charObj->freeEquipSlots);
@@ -185,7 +186,8 @@ int32 UWorldDataInstance::GetVariableStats(FName& stat1, FName& stat2, FName& st
 void UWorldDataInstance::GetPrerequisite(FName name, FPrerequisite& prerequisite) const
 {
 	auto rpgPrerequisite = GetPrerequisite(name);
-	ensure(rpgPrerequisite != nullptr);
+	if(rpgPrerequisite == nullptr)
+		return;
 	for (auto requiredTrait : rpgPrerequisite->RequiredTraits)
 		prerequisite.requiredTraits.Add(requiredTrait->GetName());
 	for (auto bannedTrait : rpgPrerequisite->BannedTraits)
