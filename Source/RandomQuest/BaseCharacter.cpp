@@ -181,14 +181,15 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 	PostDamagedLogic(world);
 }
 
-void ABaseCharacter::NormalAttack(ABaseCharacter* attacker)
+void ABaseCharacter::NormalAttack(ABaseCharacter* defender)
 {
 	auto world = GetWorldData();
 	ensure(world != nullptr);
 	auto rules = world->GetRules();
 	ensure(rules != nullptr);
+	auto attacker = this;
 	auto rpgAttacker = &attacker->character->character;
-	auto rpgDefender = &character->character;
+	auto rpgDefender = &defender->character->character;
 
 	RPGCombatRating attackerCombatRating;
 	attackerCombatRating.character = rpgAttacker;
@@ -197,7 +198,7 @@ void ABaseCharacter::NormalAttack(ABaseCharacter* attacker)
 
 	RPGCombatRating defenderCombatRating;
 	defenderCombatRating.character = rpgDefender;
-	for (auto item : GetEquipments())
+	for (auto item : defender->GetEquipments())
 		defenderCombatRating.equipments.Add(&item->item);
 
 	rules->CalculateCombatRating(&attackerCombatRating);
@@ -205,8 +206,8 @@ void ABaseCharacter::NormalAttack(ABaseCharacter* attacker)
 
 	bool isCritical, isFumbled;
 	int hpLost = rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, isCritical, isFumbled);
-	OnDamaged(attacker, hpLost, isCritical, isFumbled, attackerCombatRating.damageType);
-	PostDamagedLogic(world);
+	defender->OnDamaged(attacker, hpLost, isCritical, isFumbled, attackerCombatRating.damageType);
+	defender->PostDamagedLogic(world);
 }
 
 void ABaseCharacter::EquipItem(UItemInstanceObject* item)
