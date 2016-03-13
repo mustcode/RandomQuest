@@ -67,7 +67,7 @@ public:
 	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	void NormalAttack(ABaseCharacter* attacker);
+	void NormalAttack(ABaseCharacter* defender);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnHealed(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
