@@ -153,7 +153,6 @@ bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill) const
 {
 	ensure(character != nullptr);
 	ensure(skill != nullptr);
-	ensure(character->HasSkill(skill));
 
 	const FName PHY("PHY");
 	const FName MNT("MNT");
