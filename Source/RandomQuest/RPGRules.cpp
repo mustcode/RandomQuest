@@ -100,7 +100,8 @@ void RPGRules::AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>&
 
 	for (auto skill : occupation->GetStartingSkills())
 	{
-		if(prerequisites.ContainsByPredicate([&](RPGPrerequisite* prerequisite) { return prerequisite->GetName() == skill->GetName(); }))
+		auto prerequisite = prerequisites.FindByPredicate([&](RPGPrerequisite* prerequisite) { return prerequisite->GetName() == skill->GetName(); });
+		if(prerequisite == nullptr || MeetPrerequisite(character, *prerequisite))
 			character->AddSkill(skill);
 	}
 }

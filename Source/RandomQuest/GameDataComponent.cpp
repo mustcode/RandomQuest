@@ -125,6 +125,8 @@ RPGOccupation* UGameDataComponent::CreateOccupation(const FOccupation& occupatio
 		rpgOccupation->AddTrait(wdi->GetTrait(trait), true);
 	for (auto trait : occupation.optionalTraits)
 		rpgOccupation->AddTrait(wdi->GetTrait(trait), false);
+	for (auto skill : occupation.startingSkills)
+		rpgOccupation->AddStartingSkill(wdi->GetSkill(skill));
 	return rpgOccupation;
 }
 
