@@ -3,6 +3,7 @@
 #pragma once
 
 class RPGTrait;
+class RPGSkill;
 
 /**
  * 
@@ -19,12 +20,16 @@ public:
 	float GetStatPreference(FName attribute) const;
 
 	void AddTrait(RPGTrait* trait, bool essential);
-	int TraitsCount(bool essential) const;
-	RPGTrait* GetTrait(int index, bool essential) const;
+	const TArray<RPGTrait*>& GetEssentialTraits() const;
+	const TArray<RPGTrait*>& GetOptionalTraits() const;
+
+	void AddStartingSkill(RPGSkill* skill);
+	const TArray<RPGSkill*>& GetStartingSkills() const;
 
 protected:
 	FName name;
 	TMap<FName, float> statPreferences;
 	TArray<RPGTrait*> essentialTraits;
 	TArray<RPGTrait*> optionalTraits;
+	TArray<RPGSkill*> startingSkills;
 };

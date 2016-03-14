@@ -3,6 +3,7 @@
 #include "RandomQuest.h"
 #include "RPGOccupation.h"
 #include "RPGTrait.h"
+#include "RPGSkill.h"
 
 RPGOccupation::RPGOccupation(FName _name) : name(_name)
 {
@@ -44,14 +45,23 @@ void RPGOccupation::AddTrait(RPGTrait* trait, bool essential)
 	}
 }
 
-int RPGOccupation::TraitsCount(bool essential) const
+const TArray<RPGTrait*>& RPGOccupation::GetEssentialTraits() const
 {
-	return essential ? essentialTraits.Num() : optionalTraits.Num();
+	return essentialTraits;
 }
 
-RPGTrait* RPGOccupation::GetTrait(int index, bool essential) const
+const TArray<RPGTrait*>& RPGOccupation::GetOptionalTraits() const
 {
-	ensure(index >= 0);
-	ensure((essential && index < essentialTraits.Num()) || (!essential && index < optionalTraits.Num()));
-	return essential ? essentialTraits[index] : optionalTraits[index];
+	return optionalTraits;
+}
+
+void RPGOccupation::AddStartingSkill(RPGSkill* skill)
+{
+	ensure(!startingSkills.Contains(skill));
+	startingSkills.Add(skill);
+}
+
+const TArray<RPGSkill*>& RPGOccupation::GetStartingSkills() const
+{
+	return startingSkills;
 }

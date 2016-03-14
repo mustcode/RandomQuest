@@ -215,6 +215,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	TArray<FName> optionalTraits;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	TArray<FName> startingSkills;
 };
 
 USTRUCT(BlueprintType)

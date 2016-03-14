@@ -82,15 +82,9 @@ UCharacterObject* UWorldDataInstance::CreateCharacter()
 	rules.RandomizeStats(character);
 	if (races.Num() > 0)
 		rules.AssignRace(character, races);
-	if (occupations.Num() > 0)
-		rules.AssignOccupation(character, occupations);
 	rules.RandomizeCommonTraits(character, traits);
-	for (auto skill : skills)
-	{
-		auto rpgPrerequisite = GetPrerequisite(skill->GetName());
-		if (rpgPrerequisite == nullptr || rules.MeetPrerequisite(character, rpgPrerequisite))
-			character->AddSkill(skill);
-	}
+	if (occupations.Num() > 0)
+		rules.AssignOccupation(character, occupations, prerequisites);
 	rules.SetDefaultFreeEquipSlot(&charObj->freeEquipSlots);
 	return charObj;
 }

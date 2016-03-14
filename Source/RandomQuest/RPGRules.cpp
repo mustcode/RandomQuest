@@ -78,19 +78,16 @@ void RPGRules::AssignRace(RPGCharacter* character, TArray<RPGRace*>& races)
 		character->AddTrait(race->GetTrait(i));
 }
 
-void RPGRules::AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations)
+void RPGRules::AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>& occupations, TArray<RPGPrerequisite*>& prerequisites)
 {
 	ensure(occupations.Num() > 0);
 	RPGOccupation* occupation = GetMostSuitableOccupation(character, occupations);
 	ensure(occupation != nullptr);
 
-	for (int i = 0; i < occupation->TraitsCount(true); ++i)
-		character->AddTrait(occupation->GetTrait(i, true));
+	for (auto trait : occupation->GetEssentialTraits())
+		character->AddTrait(trait);
 
-	TArray<RPGTrait*> optionalTraits;
-	for (int i = 0; i < occupation->TraitsCount(false); ++i)
-		optionalTraits.Add(occupation->GetTrait(i, false));
-
+	auto optionalTraits = occupation->GetOptionalTraits();
 	int traitsToAdd = RPGDice::Roll(D6);
 	if (traitsToAdd > optionalTraits.Num())
 		traitsToAdd = optionalTraits.Num();
@@ -100,16 +97,20 @@ void RPGRules::AssignOccupation(RPGCharacter* character, TArray<RPGOccupation*>&
 		character->AddTrait(optionalTraits[randomIndex]);
 		optionalTraits.RemoveAtSwap(randomIndex);
 	}
+
+	for (auto skill : occupation->GetStartingSkills())
+	{
+		if(prerequisites.ContainsByPredicate([&](RPGPrerequisite* prerequisite) { return prerequisite->GetName() == skill->GetName(); }))
+			character->AddSkill(skill);
+	}
 }
 
 void RPGRules::RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>& traits)
 {
-	const FName COMMON_TRAIT("Common");
-
 	TArray<RPGTrait*> commonTraits;
 	for (auto trait : traits)
 	{
-		if (trait->HasProperty(COMMON_TRAIT))
+		if (trait->HasProperty("Common"))
 			commonTraits.Add(trait);
 	}
 
@@ -402,7 +403,7 @@ void RPGRules::SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot)
 	equipSlot->slots[RPGEquipSlot::ELBOW] = 2;
 	equipSlot->slots[RPGEquipSlot::ARM] = 2;
 	equipSlot->slots[RPGEquipSlot::HAND] = 2;
-	equipSlot->slots[RPGEquipSlot::FINGER] = 10;
+	equipSlot->slots[RPGEquipSlot::FINGER] = 6;
 	equipSlot->slots[RPGEquipSlot::WAIST] = 1;
 	equipSlot->slots[RPGEquipSlot::LEG] = 2;
 	equipSlot->slots[RPGEquipSlot::KNEE] = 2;
