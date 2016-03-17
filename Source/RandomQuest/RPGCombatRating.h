@@ -11,7 +11,6 @@ class RPGItemInstance;
 struct RANDOMQUEST_API RPGCombatRating
 {
 	RPGCombatRating();
-	~RPGCombatRating();
 
 	int attack;
 	int attackBonus;

@@ -5,11 +5,40 @@
 #include "GameFramework/Character.h"
 #include "GameDataComponent.h"
 #include "RPGEquipSlot.h"
+#include "RPGAttackResult.h"
 #include "BaseCharacter.generated.h"
 
 class UCharacterObject;
 class UItemInstanceObject;
 class UWorldDataInstance;
+
+USTRUCT(BlueprintType)
+struct FAttackResult
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 attack;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 defense;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 damage;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isCritical;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isFumbled;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName damageType;
+
+	FAttackResult() {}
+	FAttackResult(const RPGAttackResult& attackResult);
+};
 
 UCLASS(ClassGroup = RPG)
 class RANDOMQUEST_API ABaseCharacter : public ACharacter
@@ -67,13 +96,13 @@ public:
 	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	void NormalAttack(ABaseCharacter* defender);
+	FAttackResult NormalAttack(ABaseCharacter* defender);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnHealed(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnDamaged(ABaseCharacter* originator, int32 amount, bool isCritical, bool isFumbled, FName damageType);
+	void OnDamaged(ABaseCharacter* originator, const FAttackResult& attackResult);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnSkillActivated(FName name, AActor* target);
@@ -107,7 +136,7 @@ public:
 
 protected:
 	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
-	virtual void OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, bool isFumbled, FName damageType);
+	virtual void OnDamaged_Implementation(ABaseCharacter* originator, const FAttackResult& attackResult);
 	virtual void OnSkillActivated_Implementation(FName name, AActor* target);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
 	virtual void OnItemEquipped_Implementation(UItemInstanceObject* item);

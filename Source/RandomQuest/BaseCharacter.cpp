@@ -10,6 +10,7 @@
 #include "RPGSkill.h"
 #include "RPGItem.h"
 #include "RPGCombatRating.h"
+#include "RPGAttackResult.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -174,14 +175,15 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 	ensure(world != nullptr);
 	auto rules = world->GetRules();
 	ensure(rules != nullptr);
-	bool isCritical = false;
-	bool isFumbled = false;
-	int hpLost = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, isCritical, isFumbled);
-	OnDamaged(originator, hpLost, isCritical, isFumbled, damageType);
+
+	FAttackResult attackResult;
+	attackResult.damageType = damageType;
+	attackResult.damage = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, attackResult.isCritical, attackResult.isFumbled);
+	OnDamaged(originator, attackResult);
 	PostDamagedLogic(world);
 }
 
-void ABaseCharacter::NormalAttack(ABaseCharacter* defender)
+FAttackResult ABaseCharacter::NormalAttack(ABaseCharacter* defender)
 {
 	auto world = GetWorldData();
 	ensure(world != nullptr);
@@ -204,10 +206,12 @@ void ABaseCharacter::NormalAttack(ABaseCharacter* defender)
 	rules->CalculateCombatRating(&attackerCombatRating);
 	rules->CalculateCombatRating(&defenderCombatRating);
 
-	bool isCritical, isFumbled;
-	int hpLost = rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, isCritical, isFumbled);
-	defender->OnDamaged(attacker, hpLost, isCritical, isFumbled, attackerCombatRating.damageType);
+	RPGAttackResult rpgAttackResult;
+	rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, &rpgAttackResult);
+	FAttackResult attackResult(rpgAttackResult);
+	defender->OnDamaged(attacker, attackResult);
 	defender->PostDamagedLogic(world);
+	return attackResult;
 }
 
 void ABaseCharacter::EquipItem(UItemInstanceObject* item)
@@ -252,7 +256,7 @@ void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amoun
 {
 }
 
-void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, int32 amount, bool isCritical, bool isFumbled, FName damageType)
+void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, const FAttackResult& attackResult)
 {
 }
 
@@ -297,4 +301,14 @@ void ABaseCharacter::PostDamagedLogic(UWorldDataInstance* world)
 		world->party.Remove(character);
 		world->killed.Add(character);
 	}
+}
+
+FAttackResult::FAttackResult(const RPGAttackResult& attackResult)
+{
+	attack = attackResult.attack;
+	defense = attackResult.damage;
+	damage = attackResult.damage;
+	isCritical = attackResult.isCritical;
+	isFumbled = attackResult.isFumbled;
+	damageType = attackResult.damageType;
 }
