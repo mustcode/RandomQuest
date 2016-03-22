@@ -11,7 +11,7 @@ class RPGPrerequisite;
 class RPGEquipSlot;
 class RPGItem;
 struct RPGCombatRating;
-struct RPGAttackResult;
+struct RPGDamageInfo;
 
 /**
  * 
@@ -39,7 +39,7 @@ public:
 	int GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon) const;
 	bool IsLightWeapon(RPGItem* weapon) const;
 	bool IsHeavyWeapon(RPGItem* weapon) const;
-	void NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, RPGAttackResult* attackResult);
+	void NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, RPGDamageInfo* damageInfo);
 	bool IsDead(RPGCharacter* character) const;
 	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
 	void SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot);

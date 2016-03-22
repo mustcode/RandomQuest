@@ -13,7 +13,7 @@
 #include "RPGItem.h"
 #include "RPGItemInstance.h"
 #include "RPGCombatRating.h"
-#include "RPGAttackResult.h"
+#include "RPGDamageInfo.h"
 
 RPGRules::RPGRules()
 {
@@ -364,7 +364,7 @@ bool RPGRules::IsHeavyWeapon(RPGItem* weapon) const
 	return HasTraitWithProperty(weapon->GetTraits(), "Heavy");
 }
 
-void RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, RPGAttackResult* attackResult)
+void RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, RPGDamageInfo* damageInfo)
 {
 	int attack, defense;
 	do
@@ -373,19 +373,19 @@ void RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender
 		defense = RPGDice::Roll(FMath::Max(defender->defense, 1), D6, 4) + defender->defenseBonus;
 	} while (attack == defense);
 
-	attackResult->attack = attack;
-	attackResult->defense = defense;
-	attackResult->damageType = attacker->damageType;
+	damageInfo->attack = attack;
+	damageInfo->defense = defense;
+	damageInfo->damageType = attacker->damageType;
 
 	if (attack < defense)
 	{
-		attackResult->damage = 0;
-		attackResult->isCritical = false;
-		attackResult->isFumbled = false;
+		damageInfo->damage = 0;
+		damageInfo->isCritical = false;
+		damageInfo->isFumbled = false;
 		return;
 	}
 	int damage = RPGDice::Roll(FMath::Max(attacker->damage, 1), D6, 4) + attacker->damageBonus;
-	attackResult->damage = ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, attackResult->isCritical, attackResult->isFumbled);
+	damageInfo->damage = ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, damageInfo->isCritical, damageInfo->isFumbled);
 }
 
 bool RPGRules::IsDead(RPGCharacter* character) const

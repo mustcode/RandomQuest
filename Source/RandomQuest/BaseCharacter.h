@@ -5,7 +5,8 @@
 #include "GameFramework/Character.h"
 #include "GameDataComponent.h"
 #include "RPGEquipSlot.h"
-#include "RPGAttackResult.h"
+#include "RPGDamageInfo.h"
+#include "RPGHealInfo.h"
 #include "BaseCharacter.generated.h"
 
 class UCharacterObject;
@@ -13,7 +14,7 @@ class UItemInstanceObject;
 class UWorldDataInstance;
 
 USTRUCT(BlueprintType)
-struct FAttackResult
+struct FDamageInfo
 {
 	GENERATED_USTRUCT_BODY()
 public:
@@ -36,8 +37,30 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName damageType;
 
-	FAttackResult() {}
-	FAttackResult(const RPGAttackResult& attackResult);
+	FDamageInfo() {}
+	FDamageInfo(const RPGDamageInfo& damageInfo);
+};
+
+USTRUCT(BlueprintType)
+struct FHealInfo
+{
+	GENERATED_USTRUCT_BODY()
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 healAmount;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isCritical;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	bool isFumbled;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	FName healingType;
+
+	FHealInfo() {}
+	FHealInfo(const RPGHealInfo& healInfo);
 };
 
 UCLASS(ClassGroup = RPG)
@@ -96,13 +119,13 @@ public:
 	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	FAttackResult NormalAttack(ABaseCharacter* defender);
+	FDamageInfo NormalAttack(ABaseCharacter* defender);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnHealed(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
+	void OnHealed(ABaseCharacter* healer, const FHealInfo& healInfo);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
-	void OnDamaged(ABaseCharacter* originator, const FAttackResult& attackResult);
+	void OnDamaged(ABaseCharacter* originator, const FDamageInfo& damageInfo);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnSkillActivated(FName name, AActor* target);
@@ -135,8 +158,8 @@ public:
 	UCharacterObject* character;
 
 protected:
-	virtual void OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType);
-	virtual void OnDamaged_Implementation(ABaseCharacter* originator, const FAttackResult& attackResult);
+	virtual void OnHealed_Implementation(ABaseCharacter* healer, const FHealInfo& healInfo);
+	virtual void OnDamaged_Implementation(ABaseCharacter* originator, const FDamageInfo& damageInfo);
 	virtual void OnSkillActivated_Implementation(FName name, AActor* target);
 	virtual void OnExecuteSkillCommand_Implementation(const TArray<FSkillCommand>& commands);
 	virtual void OnItemEquipped_Implementation(UItemInstanceObject* item);

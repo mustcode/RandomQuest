@@ -5,9 +5,9 @@
 /**
  * 
  */
-struct RANDOMQUEST_API RPGAttackResult
+struct RANDOMQUEST_API RPGDamageInfo
 {
-	RPGAttackResult();
+	RPGDamageInfo();
 
 	int attack;
 	int defense;

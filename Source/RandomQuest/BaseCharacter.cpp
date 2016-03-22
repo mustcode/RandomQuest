@@ -10,7 +10,8 @@
 #include "RPGSkill.h"
 #include "RPGItem.h"
 #include "RPGCombatRating.h"
-#include "RPGAttackResult.h"
+#include "RPGDamageInfo.h"
+#include "RPGHealInfo.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -163,10 +164,11 @@ void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName heal
 {
 	auto rules = GetWorldData()->GetRules();
 	ensure(rules != nullptr);
-	bool isCritical = false;
-	bool isFumbled = false;
-	int hpHealed = rules->ApplyHealing(&healer->character->character, &character->character, amount, healingType, isCritical, isFumbled);
-	OnHealed(healer, hpHealed, isCritical, isFumbled, healingType);
+
+	FHealInfo healInfo;
+	healInfo.healingType = healingType;
+	healInfo.healAmount = rules->ApplyHealing(&healer->character->character, &character->character, amount, healingType, healInfo.isCritical, healInfo.isFumbled);
+	OnHealed(healer, healInfo);
 }
 
 void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName damageType)
@@ -176,14 +178,14 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 	auto rules = world->GetRules();
 	ensure(rules != nullptr);
 
-	FAttackResult attackResult;
-	attackResult.damageType = damageType;
-	attackResult.damage = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, attackResult.isCritical, attackResult.isFumbled);
-	OnDamaged(originator, attackResult);
+	FDamageInfo damageInfo;
+	damageInfo.damageType = damageType;
+	damageInfo.damage = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, damageInfo.isCritical, damageInfo.isFumbled);
+	OnDamaged(originator, damageInfo);
 	PostDamagedLogic(world);
 }
 
-FAttackResult ABaseCharacter::NormalAttack(ABaseCharacter* defender)
+FDamageInfo ABaseCharacter::NormalAttack(ABaseCharacter* defender)
 {
 	auto world = GetWorldData();
 	ensure(world != nullptr);
@@ -206,12 +208,12 @@ FAttackResult ABaseCharacter::NormalAttack(ABaseCharacter* defender)
 	rules->CalculateCombatRating(&attackerCombatRating);
 	rules->CalculateCombatRating(&defenderCombatRating);
 
-	RPGAttackResult rpgAttackResult;
-	rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, &rpgAttackResult);
-	FAttackResult attackResult(rpgAttackResult);
-	defender->OnDamaged(attacker, attackResult);
+	RPGDamageInfo rpgDamageInfo;
+	rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, &rpgDamageInfo);
+	FDamageInfo damageInfo(rpgDamageInfo);
+	defender->OnDamaged(attacker, damageInfo);
 	defender->PostDamagedLogic(world);
-	return attackResult;
+	return damageInfo;
 }
 
 void ABaseCharacter::EquipItem(UItemInstanceObject* item)
@@ -252,11 +254,11 @@ TArray<UItemInstanceObject*>& ABaseCharacter::GetEquipments() const
 	return character->equipments;
 }
 
-void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, int32 amount, bool isCritical, bool isFumbled, FName healingType)
+void ABaseCharacter::OnHealed_Implementation(ABaseCharacter* healer, const FHealInfo& healInfo)
 {
 }
 
-void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, const FAttackResult& attackResult)
+void ABaseCharacter::OnDamaged_Implementation(ABaseCharacter* originator, const FDamageInfo& damageInfo)
 {
 }
 
@@ -303,12 +305,20 @@ void ABaseCharacter::PostDamagedLogic(UWorldDataInstance* world)
 	}
 }
 
-FAttackResult::FAttackResult(const RPGAttackResult& attackResult)
+FDamageInfo::FDamageInfo(const RPGDamageInfo& damageInfo)
 {
-	attack = attackResult.attack;
-	defense = attackResult.damage;
-	damage = attackResult.damage;
-	isCritical = attackResult.isCritical;
-	isFumbled = attackResult.isFumbled;
-	damageType = attackResult.damageType;
+	attack = damageInfo.attack;
+	defense = damageInfo.damage;
+	damage = damageInfo.damage;
+	isCritical = damageInfo.isCritical;
+	isFumbled = damageInfo.isFumbled;
+	damageType = damageInfo.damageType;
+}
+
+FHealInfo::FHealInfo(const RPGHealInfo& healInfo)
+{
+	healAmount = healInfo.healAmount;
+	isCritical = healInfo.isCritical;
+	isFumbled = healInfo.isFumbled;
+	healingType = healInfo.healingType;
 }
