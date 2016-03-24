@@ -308,7 +308,7 @@ void ABaseCharacter::PostDamagedLogic(UWorldDataInstance* world)
 FDamageInfo::FDamageInfo(const RPGDamageInfo& damageInfo)
 {
 	attack = damageInfo.attack;
-	defense = damageInfo.damage;
+	defense = damageInfo.defense;
 	damage = damageInfo.damage;
 	isCritical = damageInfo.isCritical;
 	isFumbled = damageInfo.isFumbled;
