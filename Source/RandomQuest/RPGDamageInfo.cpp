@@ -4,9 +4,15 @@
 #include "RPGDamageInfo.h"
 
 RPGDamageInfo::RPGDamageInfo()
-	: attack(0)
-	, defense(0)
-	, damage(0)
+	: attackRating(0)
+	, attackBonus(0)
+	, attackRolled(0)
+	, defenseRating(0)
+	, defenseBonus(0)
+	, defenseRolled(0)
+	, damageRating(0)
+	, damageBonus(0)
+	, damageRolled(0)
 	, isCritical(false)
 	, isFumbled(false)
 {

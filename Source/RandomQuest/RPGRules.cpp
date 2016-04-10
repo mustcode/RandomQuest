@@ -373,19 +373,27 @@ void RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender
 		defense = RPGDice::Roll(FMath::Max(defender->defense, 1), D6, 4) + defender->defenseBonus;
 	} while (attack == defense);
 
-	damageInfo->attack = attack;
-	damageInfo->defense = defense;
+	damageInfo->attackRating = attacker->attack;
+	damageInfo->attackBonus = attacker->attackBonus;
+	damageInfo->attackRolled = attack;
+
+	damageInfo->defenseRating = defender->defense;
+	damageInfo->defenseBonus = defender->defenseBonus;
+	damageInfo->defenseRolled = defense;
+	
+	damageInfo->damageRating = attacker->damage;
+	damageInfo->damageBonus = attacker->damageBonus;
+	damageInfo->damageRolled = 0;
+
+	damageInfo->isCritical = false;
+	damageInfo->isFumbled = false;
 	damageInfo->damageType = attacker->damageType;
 
 	if (attack < defense)
-	{
-		damageInfo->damage = 0;
-		damageInfo->isCritical = false;
-		damageInfo->isFumbled = false;
 		return;
-	}
+
 	int damage = RPGDice::Roll(FMath::Max(attacker->damage, 1), D6, 4) + attacker->damageBonus;
-	damageInfo->damage = ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, damageInfo->isCritical, damageInfo->isFumbled);
+	damageInfo->damageRolled = ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, damageInfo->isCritical, damageInfo->isFumbled);
 }
 
 bool RPGRules::IsDead(RPGCharacter* character) const

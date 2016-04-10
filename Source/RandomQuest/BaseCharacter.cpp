@@ -180,7 +180,7 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 
 	FDamageInfo damageInfo;
 	damageInfo.damageType = damageType;
-	damageInfo.damage = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, damageInfo.isCritical, damageInfo.isFumbled);
+	damageInfo.damageRolled = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, damageInfo.isCritical, damageInfo.isFumbled);
 	OnDamaged(originator, damageInfo);
 	PostDamagedLogic(world);
 }
@@ -305,15 +305,44 @@ void ABaseCharacter::PostDamagedLogic(UWorldDataInstance* world)
 	}
 }
 
+FDamageInfo::FDamageInfo()
+	: attackRating(0)
+	, attackBonus(0)
+	, attackRolled(0)
+	, defenseRating(0)
+	, defenseBonus(0)
+	, defenseRolled(0)
+	, damageRating(0)
+	, damageBonus(0)
+	, damageRolled(0)
+	, isCritical(false)
+	, isFumbled(false)
+{}
+
 FDamageInfo::FDamageInfo(const RPGDamageInfo& damageInfo)
 {
-	attack = damageInfo.attack;
-	defense = damageInfo.defense;
-	damage = damageInfo.damage;
+	attackRating = damageInfo.attackRating;
+	attackBonus = damageInfo.attackBonus;
+	attackRolled = damageInfo.attackRolled;
+
+	defenseRating = damageInfo.defenseRating;
+	defenseBonus = damageInfo.defenseBonus;
+	defenseRolled = damageInfo.defenseRolled;
+
+	damageRating = damageInfo.damageRating;
+	damageBonus = damageInfo.damageBonus;
+	damageRolled = damageInfo.damageRolled;
+	
 	isCritical = damageInfo.isCritical;
 	isFumbled = damageInfo.isFumbled;
 	damageType = damageInfo.damageType;
 }
+
+FHealInfo::FHealInfo()
+	: healAmount(0)
+	, isCritical(false)
+	, isFumbled(false)
+{}
 
 FHealInfo::FHealInfo(const RPGHealInfo& healInfo)
 {

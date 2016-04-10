@@ -20,13 +20,31 @@ struct FDamageInfo
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 attack;
+	int32 attackRating;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 defense;
+	int32 attackBonus;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 damage;
+	int32 attackRolled;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 defenseRating;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 defenseBonus;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 defenseRolled;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 damageRating;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 damageBonus;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
+	int32 damageRolled;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool isCritical;
@@ -37,7 +55,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName damageType;
 
-	FDamageInfo() {}
+	FDamageInfo();
 	FDamageInfo(const RPGDamageInfo& damageInfo);
 };
 
@@ -59,7 +77,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	FName healingType;
 
-	FHealInfo() {}
+	FHealInfo();
 	FHealInfo(const RPGHealInfo& healInfo);
 };
 
