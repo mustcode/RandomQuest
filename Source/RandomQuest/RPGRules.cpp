@@ -152,6 +152,12 @@ bool RPGRules::MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prereq
 
 bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill) const
 {
+	FName resourceNeeded;
+	return CanUseSkill(character, skill, resourceNeeded);
+}
+
+bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill, FName& resourceNeeded) const
+{
 	ensure(character != nullptr);
 	ensure(skill != nullptr);
 
@@ -163,7 +169,17 @@ bool RPGRules::CanUseSkill(RPGCharacter* character, RPGSkill* skill) const
 	int currentPHY = character->GetAttribute(PHY)->GetValue();
 	int currentMNT = character->GetAttribute(MNT)->GetValue();
 
-	return currentPHY >= PHYCost && currentMNT >= MNTCost;
+	if (currentPHY < PHYCost)
+	{
+		resourceNeeded = PHY;
+		return false;
+	}
+	if (currentMNT < MNTCost)
+	{
+		resourceNeeded = MNT;
+		return false;
+	}
+	return true;
 }
 
 void RPGRules::DeductSkillCost(RPGCharacter* character, RPGSkill* skill)

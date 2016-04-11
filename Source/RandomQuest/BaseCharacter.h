@@ -95,7 +95,7 @@ public:
 	void Init(UCharacterObject* characterObject);
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
-	bool TryUseSkill(FName name, AActor* target);
+	bool TryUseSkill(FName name, AActor* target, FName& resourceNeeded);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RPG)
 	TArray<FSkill> GetSkills() const;

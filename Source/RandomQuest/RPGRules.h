@@ -30,6 +30,7 @@ public:
 	void RandomizeCommonTraits(RPGCharacter* character, TArray<RPGTrait*>& traits);
 	bool MeetPrerequisite(RPGCharacter* character, RPGPrerequisite* prerequisite) const;
 	bool CanUseSkill(RPGCharacter* character, RPGSkill* skill) const;
+	bool CanUseSkill(RPGCharacter* character, RPGSkill* skill, FName& resourceNeeded) const;
 	void DeductSkillCost(RPGCharacter* character, RPGSkill* skill);
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty, int& result) const;
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;

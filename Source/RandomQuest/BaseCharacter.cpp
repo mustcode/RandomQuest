@@ -57,14 +57,14 @@ void ABaseCharacter::Init(UCharacterObject* characterObject)
 	character = characterObject;
 }
 
-bool ABaseCharacter::TryUseSkill(FName name, AActor* target)
+bool ABaseCharacter::TryUseSkill(FName name, AActor* target, FName& resourceNeeded)
 {
 	ensure(!IsDead());
 	auto worldData = GetWorldData();
 	RPGRules* rules = worldData->GetRules();
 	RPGSkill* skill = worldData->GetSkill(name);
 	ensure(rules && skill);
-	if (!rules->CanUseSkill(&character->character, skill))
+	if (!rules->CanUseSkill(&character->character, skill, resourceNeeded))
 		return false;
 	character->character.SetActiveSkill(skill);
 	rules->DeductSkillCost(&character->character, skill);
