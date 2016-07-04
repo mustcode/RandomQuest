@@ -14,9 +14,11 @@
 #include "RPGItemInstance.h"
 #include "RPGCombatRating.h"
 #include "RPGDamageInfo.h"
+#include "RPGCombatTile.h"
 
 RPGRules::RPGRules()
 {
+	RPGCombatTile::UnitTests();
 }
 
 RPGRules::~RPGRules()
