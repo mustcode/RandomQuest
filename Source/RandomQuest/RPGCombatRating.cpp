@@ -4,11 +4,5 @@
 #include "RPGCombatRating.h"
 
 RPGCombatRating::RPGCombatRating()
-	: attack(0)
-	, attackBonus(0)
-	, defense(0)
-	, defenseBonus(0)
-	, damage(0)
-	, damageBonus(0)
 {
 }

@@ -222,124 +222,9 @@ int RPGRules::ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int am
 	return amount;
 }
 
-void RPGRules::CalculateCombatRating(RPGCombatRating* combatRating)
-{
-	ensure(combatRating != nullptr);
-	ensure(combatRating->character != nullptr);
-
-	combatRating->attack = 0;
-	combatRating->attackBonus = 0;
-	combatRating->defense = 0;
-	combatRating->defenseBonus = 0;
-	combatRating->damage = 0;
-	combatRating->damageBonus = 0;
-
-	auto character = combatRating->character;
-	for (auto trait : character->GetTraits())
-	{
-		for (auto prop : trait->GetProperties())
-		{
-			if (prop.Key == "AttackModifier")
-				combatRating->attack += prop.Value.value;
-			else if (prop.Key == "AttackModifierFromAttribute")
-				combatRating->attack += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-			else if (prop.Key == "AttackBonusModifier")
-				combatRating->attackBonus += prop.Value.value;
-			else if (prop.Key == "AttackBonusModifierFromAttribute")
-				combatRating->attackBonus += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-
-			else if (prop.Key == "DefenseModifier")
-				combatRating->defense += prop.Value.value;
-			else if (prop.Key == "DefenseModifierFromAttribute")
-				combatRating->defense += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-			else if (prop.Key == "DefenseBonusModifier")
-				combatRating->defenseBonus += prop.Value.value;
-			else if (prop.Key == "DefenseBonusModifierFromAttribute")
-				combatRating->defenseBonus += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-
-			else if (prop.Key == "DamageModifier")
-				combatRating->damage += prop.Value.value;
-			else if (prop.Key == "DamageModifierFromAttribute")
-				combatRating->damage += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-			else if (prop.Key == "DamageBonusModifier")
-				combatRating->damageBonus += prop.Value.value;
-			else if (prop.Key == "DamageBonusModifierFromAttribute")
-				combatRating->damageBonus += character->GetAttribute(prop.Value.key)->GetValue() - prop.Value.value;
-		}
-	}
-
-	auto equipments = combatRating->equipments;
-	TArray<RPGItem*> weapons;
-	for (auto item : equipments)
-	{
-		RPGItem* rpgItem = item->GetItem();
-		combatRating->defense += rpgItem->GetProtection();
-		combatRating->damage += rpgItem->GetDamage();
-
-		FName itemCategory = rpgItem->GetCategory();
-		if (itemCategory == "Weapon")
-		{
-			combatRating->attack += GetAttackValueFromWeapon(character, rpgItem);
-			weapons.Add(rpgItem);
-		}
-
-		FName itemType = rpgItem->GetType();
-		FName itemSubType = rpgItem->GetSubType();
-		for (auto trait : character->GetTraits())
-		{
-			for (auto prop : trait->GetProperties())
-			{
-				if (prop.Key == "AttackModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->attack += prop.Value.value;
-				else if (prop.Key == "AttackModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->attack += prop.Value.value;
-				else if (prop.Key == "AttackBonusModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->attackBonus += prop.Value.value;
-				else if (prop.Key == "AttackBonusModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->attackBonus += prop.Value.value;
-
-				else if (prop.Key == "DefenseModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->defense += prop.Value.value;
-				else if (prop.Key == "DefenseModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->defense += prop.Value.value;
-				else if (prop.Key == "DefenseBonusModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->defenseBonus += prop.Value.value;				
-				else if (prop.Key == "DefenseBonusModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->defenseBonus += prop.Value.value;
-
-				else if (prop.Key == "DamageModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->damage += prop.Value.value;
-				else if (prop.Key == "DamageModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->damage += prop.Value.value;
-				else if (prop.Key == "DamageBonusModifierFromItemType" && itemType == prop.Value.key)
-					combatRating->damageBonus += prop.Value.value;
-				else if (prop.Key == "DamageBonusModifierFromItemSubType" && itemSubType == prop.Value.key)
-					combatRating->damageBonus += prop.Value.value;
-			}
-		}
-
-		int weaponsLimit = HasTraitWithProperty(character->GetTraits(), "DualWeapons") ? 2 : 1;
-		if (weapons.Num() > weaponsLimit)
-		{
-			for (auto weapon : weapons)
-			{
-				if (IsLightWeapon(weapon))
-					continue;
-				if (IsHeavyWeapon(weapon))
-				{
-					combatRating->attack -= 10;
-					continue;
-				}
-				combatRating->attack -= 3;
-				continue;
-			}
-		}
-	}
-}
-
 int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon) const
 {
-	ensure(weapon->GetCategory() == "Weapon");
+	ensure(IsWeapon(weapon));
 
 	for (auto trait : weapon->GetTraits())
 	{
@@ -370,48 +255,33 @@ int RPGRules::GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon)
 	return 0;
 }
 
+bool RPGRules::IsWeapon(RPGItem* item) const
+{
+	return item->GetCategory() == "Weapon";
+}
+
 bool RPGRules::IsLightWeapon(RPGItem* weapon) const
 {
-	ensure(weapon->GetCategory() == "Weapon");
+	ensure(IsWeapon(weapon));
 	return HasTraitWithProperty(weapon->GetTraits(), "Light");
 }
 
 bool RPGRules::IsHeavyWeapon(RPGItem* weapon) const
 {
-	ensure(weapon->GetCategory() == "Weapon");
+	ensure(IsWeapon(weapon));
 	return HasTraitWithProperty(weapon->GetTraits(), "Heavy");
 }
 
-void RPGRules::NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, RPGDamageInfo* damageInfo)
+bool RPGRules::IsMeleeWeapon(RPGItem* weapon) const
 {
-	int attack, defense;
-	do
-	{
-		attack = RPGDice::Roll(FMath::Max(attacker->attack, 1), D6, 4) + attacker->attackBonus;
-		defense = RPGDice::Roll(FMath::Max(defender->defense, 1), D6, 4) + defender->defenseBonus;
-	} while (attack == defense);
+	ensure(IsWeapon(weapon));
+	return HasTraitWithProperty(weapon->GetTraits(), "Melee");
+}
 
-	damageInfo->attackRating = attacker->attack;
-	damageInfo->attackBonus = attacker->attackBonus;
-	damageInfo->attackRolled = attack;
-
-	damageInfo->defenseRating = defender->defense;
-	damageInfo->defenseBonus = defender->defenseBonus;
-	damageInfo->defenseRolled = defense;
-	
-	damageInfo->damageRating = attacker->damage;
-	damageInfo->damageBonus = attacker->damageBonus;
-	damageInfo->damageRolled = 0;
-
-	damageInfo->isCritical = false;
-	damageInfo->isFumbled = false;
-	damageInfo->damageType = attacker->damageType;
-
-	if (attack < defense)
-		return;
-
-	int damage = RPGDice::Roll(FMath::Max(attacker->damage, 1), D6, 4) + attacker->damageBonus;
-	damageInfo->damageRolled = ApplyDamage(attacker->character, defender->character, damage, attacker->damageType, damageInfo->isCritical, damageInfo->isFumbled);
+bool RPGRules::IsRangedWeapon(RPGItem* weapon) const
+{
+	ensure(IsWeapon(weapon));
+	return HasTraitWithProperty(weapon->GetTraits(), "Ranged");
 }
 
 bool RPGRules::IsDead(RPGCharacter* character) const

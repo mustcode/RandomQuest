@@ -9,7 +9,7 @@ struct RANDOMQUEST_API RPGHealInfo
 {
 	RPGHealInfo();
 
-	int healAmount;
+	int amount;
 	bool isCritical;
 	bool isFumbled;
 	FName healingType;

@@ -167,7 +167,7 @@ void ABaseCharacter::ApplyHealing(ABaseCharacter* healer, int amount, FName heal
 
 	FHealInfo healInfo;
 	healInfo.healingType = healingType;
-	healInfo.healAmount = rules->ApplyHealing(&healer->character->character, &character->character, amount, healingType, healInfo.isCritical, healInfo.isFumbled);
+	healInfo.amount = rules->ApplyHealing(&healer->character->character, &character->character, amount, healingType, healInfo.isCritical, healInfo.isFumbled);
 	OnHealed(healer, healInfo);
 }
 
@@ -180,40 +180,9 @@ void ABaseCharacter::ApplyDamage(ABaseCharacter* originator, int amount, FName d
 
 	FDamageInfo damageInfo;
 	damageInfo.damageType = damageType;
-	damageInfo.damageRolled = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, damageInfo.isCritical, damageInfo.isFumbled);
+	damageInfo.amount = rules->ApplyDamage(&originator->character->character, &character->character, amount, damageType, damageInfo.isCritical, damageInfo.isFumbled);
 	OnDamaged(originator, damageInfo);
 	PostDamagedLogic(world);
-}
-
-FDamageInfo ABaseCharacter::NormalAttack(ABaseCharacter* defender)
-{
-	auto world = GetWorldData();
-	ensure(world != nullptr);
-	auto rules = world->GetRules();
-	ensure(rules != nullptr);
-	auto attacker = this;
-	auto rpgAttacker = &attacker->character->character;
-	auto rpgDefender = &defender->character->character;
-
-	RPGCombatRating attackerCombatRating;
-	attackerCombatRating.character = rpgAttacker;
-	for (auto item : attacker->GetEquipments())
-		attackerCombatRating.equipments.Add(&item->item);
-
-	RPGCombatRating defenderCombatRating;
-	defenderCombatRating.character = rpgDefender;
-	for (auto item : defender->GetEquipments())
-		defenderCombatRating.equipments.Add(&item->item);
-
-	rules->CalculateCombatRating(&attackerCombatRating);
-	rules->CalculateCombatRating(&defenderCombatRating);
-
-	RPGDamageInfo rpgDamageInfo;
-	rules->NormalAttack(&attackerCombatRating, &defenderCombatRating, &rpgDamageInfo);
-	FDamageInfo damageInfo(rpgDamageInfo);
-	defender->OnDamaged(attacker, damageInfo);
-	defender->PostDamagedLogic(world);
-	return damageInfo;
 }
 
 void ABaseCharacter::EquipItem(UItemInstanceObject* item)
@@ -306,47 +275,28 @@ void ABaseCharacter::PostDamagedLogic(UWorldDataInstance* world)
 }
 
 FDamageInfo::FDamageInfo()
-	: attackRating(0)
-	, attackBonus(0)
-	, attackRolled(0)
-	, defenseRating(0)
-	, defenseBonus(0)
-	, defenseRolled(0)
-	, damageRating(0)
-	, damageBonus(0)
-	, damageRolled(0)
+	: amount(0)
 	, isCritical(false)
 	, isFumbled(false)
 {}
 
 FDamageInfo::FDamageInfo(const RPGDamageInfo& damageInfo)
 {
-	attackRating = damageInfo.attackRating;
-	attackBonus = damageInfo.attackBonus;
-	attackRolled = damageInfo.attackRolled;
-
-	defenseRating = damageInfo.defenseRating;
-	defenseBonus = damageInfo.defenseBonus;
-	defenseRolled = damageInfo.defenseRolled;
-
-	damageRating = damageInfo.damageRating;
-	damageBonus = damageInfo.damageBonus;
-	damageRolled = damageInfo.damageRolled;
-	
+	amount = damageInfo.amount;	
 	isCritical = damageInfo.isCritical;
 	isFumbled = damageInfo.isFumbled;
 	damageType = damageInfo.damageType;
 }
 
 FHealInfo::FHealInfo()
-	: healAmount(0)
+	: amount(0)
 	, isCritical(false)
 	, isFumbled(false)
 {}
 
 FHealInfo::FHealInfo(const RPGHealInfo& healInfo)
 {
-	healAmount = healInfo.healAmount;
+	amount = healInfo.amount;
 	isCritical = healInfo.isCritical;
 	isFumbled = healInfo.isFumbled;
 	healingType = healInfo.healingType;

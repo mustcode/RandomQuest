@@ -36,11 +36,12 @@ public:
 	bool AbilityTest(RPGCharacter* character, FName ability, int difficulty) const;
 	int ApplyHealing(RPGCharacter* healer, RPGCharacter* receiver, int amount, FName healingType, bool& isCritical, bool& isFumbled);
 	int ApplyDamage(RPGCharacter* instigator, RPGCharacter* victim, int amount, FName damageType, bool& isCritical, bool& isFumbled);
-	void CalculateCombatRating(RPGCombatRating* combatRating);
 	int GetAttackValueFromWeapon(RPGCharacter* character, RPGItem* weapon) const;
+	bool IsWeapon(RPGItem* item) const;
 	bool IsLightWeapon(RPGItem* weapon) const;
 	bool IsHeavyWeapon(RPGItem* weapon) const;
-	void NormalAttack(RPGCombatRating* attacker, RPGCombatRating* defender, RPGDamageInfo* damageInfo);
+	bool IsMeleeWeapon(RPGItem* weapon) const;
+	bool IsRangedWeapon(RPGItem* weapon) const;
 	bool IsDead(RPGCharacter* character) const;
 	void UpdateCharacter(float deltaSeconds, RPGCharacter* character);
 	void SetDefaultFreeEquipSlot(RPGEquipSlot* equipSlot);

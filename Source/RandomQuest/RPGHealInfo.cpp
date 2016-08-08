@@ -4,7 +4,7 @@
 #include "RPGHealInfo.h"
 
 RPGHealInfo::RPGHealInfo()
-	: healAmount(0)
+	: amount(0)
 	, isCritical(false)
 	, isFumbled(false)
 {

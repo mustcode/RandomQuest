@@ -20,31 +20,7 @@ struct FDamageInfo
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 attackRating;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 attackBonus;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 attackRolled;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 defenseRating;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 defenseBonus;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 defenseRolled;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 damageRating;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 damageBonus;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 damageRolled;
+	int32 amount;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool isCritical;
@@ -66,7 +42,7 @@ struct FHealInfo
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
-	int32 healAmount;
+	int32 amount;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = RPG)
 	bool isCritical;
@@ -135,9 +111,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = RPG)
 	void ApplyDamage(ABaseCharacter* originator, int32 amount, FName damageType);
-
-	UFUNCTION(BlueprintCallable, Category = RPG)
-	FDamageInfo NormalAttack(ABaseCharacter* defender);
 
 	UFUNCTION(BlueprintNativeEvent, Category = RPG)
 	void OnHealed(ABaseCharacter* healer, const FHealInfo& healInfo);
