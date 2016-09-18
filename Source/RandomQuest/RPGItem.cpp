@@ -116,14 +116,14 @@ bool RPGItem::HasTrait(RPGTrait* trait) const
 	return traits.Contains(trait);
 }
 
-bool RPGItem::HasTrait(FName name) const
+bool RPGItem::HasTrait(FName traitName) const
 {
-	return traits.ContainsByPredicate([&](RPGTrait* trait) { return trait->GetName() == name; });
+	return traits.ContainsByPredicate([&](RPGTrait* trait) { return trait->GetName() == traitName; });
 }
 
-RPGTrait* RPGItem::GetTrait(FName name) const
+RPGTrait* RPGItem::GetTrait(FName traitName) const
 {
-	auto result = traits.FindByPredicate([&](RPGTrait* trait) { return trait->GetName() == name; });
+	auto result = traits.FindByPredicate([&](RPGTrait* trait) { return trait->GetName() == traitName; });
 	return (result != nullptr) ? *result : nullptr;
 }
 
@@ -145,14 +145,14 @@ bool RPGItem::HasSkill(RPGSkill* skill) const
 	return skills.Contains(skill);
 }
 
-bool RPGItem::HasSkill(FName name) const
+bool RPGItem::HasSkill(FName skillName) const
 {
-	return skills.ContainsByPredicate([&](RPGSkill* skill) { return skill->GetName() == name; });
+	return skills.ContainsByPredicate([&](RPGSkill* skill) { return skill->GetName() == skillName; });
 }
 
-RPGSkill* RPGItem::GetSkill(FName name) const
+RPGSkill* RPGItem::GetSkill(FName skillName) const
 {
-	auto result = skills.FindByPredicate([&](RPGSkill* skill) { return skill->GetName() == name; });
+	auto result = skills.FindByPredicate([&](RPGSkill* skill) { return skill->GetName() == skillName; });
 	return (result != nullptr) ? *result : nullptr;
 }
 

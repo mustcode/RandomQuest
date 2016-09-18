@@ -33,23 +33,23 @@ FName RPGTrait::GetName() const
 	return name;
 }
 
-void RPGTrait::SetProperty(FName name, Property value)
+void RPGTrait::SetProperty(FName propertyName, Property value)
 {
-	if (properties.Contains(name))
-		properties[name] = value;
+	if (properties.Contains(propertyName))
+		properties[propertyName] = value;
 	else
-		properties.Add(name, value);
+		properties.Add(propertyName, value);
 }
 
-RPGTrait::Property RPGTrait::GetProperty(FName name) const
+RPGTrait::Property RPGTrait::GetProperty(FName propertyName) const
 {
-	ensure(properties.Contains(name));
-	return properties[name];
+	ensure(properties.Contains(propertyName));
+	return properties[propertyName];
 }
 
-bool RPGTrait::HasProperty(FName name) const
+bool RPGTrait::HasProperty(FName propertyName) const
 {
-	return properties.Contains(name);
+	return properties.Contains(propertyName);
 }
 
 const TMap<FName, RPGTrait::Property>& RPGTrait::GetProperties() const

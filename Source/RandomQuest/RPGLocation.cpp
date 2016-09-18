@@ -56,11 +56,11 @@ bool RPGLocation::HasParent() const
 	return parent != nullptr;
 }
 
-bool RPGLocation::HasChild(const FName& name) const
+bool RPGLocation::HasChild(const FName& locationName) const
 {
 	for (auto child : children)
 	{
-		if (child->name == name)
+		if (child->name == locationName)
 			return true;
 	}
 	return false;
@@ -76,17 +76,17 @@ bool RPGLocation::IsParentOf(RPGLocation* child) const
 	return false;
 }
 
-void RPGLocation::AddGate(const FName& name)
+void RPGLocation::AddGate(const FName& gateName)
 {
-	ensure(!HasGate(name));
-	gates.Add(Gate(name));
+	ensure(!HasGate(gateName));
+	gates.Add(Gate(gateName));
 }
 
-bool RPGLocation::HasGate(const FName& name) const
+bool RPGLocation::HasGate(const FName& gateName) const
 {
 	for (auto gate : gates)
 	{
-		if (gate.name == name)
+		if (gate.name == gateName)
 			return true;
 	}
 	return false;

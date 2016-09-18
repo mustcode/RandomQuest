@@ -115,9 +115,7 @@ RPGTrait* UGameDataComponent::CreateTrait(const FTrait& trait)
 
 RPGOccupation* UGameDataComponent::CreateOccupation(const FOccupation& occupation)
 {
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
-
 	RPGOccupation* rpgOccupation = new RPGOccupation(occupation.name);
 	for (auto pref : occupation.statPreferences)
 		rpgOccupation->SetStatPreference(pref.attribute, pref.weight);
@@ -132,9 +130,7 @@ RPGOccupation* UGameDataComponent::CreateOccupation(const FOccupation& occupatio
 
 RPGRace* UGameDataComponent::CreateRace(const FRace& race)
 {
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
-
 	RPGRace* rpgRace = new RPGRace(race.name);
 	for (auto trait : race.traits)
 		rpgRace->AddTrait(wdi->GetTrait(trait));
@@ -143,9 +139,7 @@ RPGRace* UGameDataComponent::CreateRace(const FRace& race)
 
 RPGPrerequisite* UGameDataComponent::CreatePrerequisite(FName name, const FPrerequisite& prerequisite)
 {
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
-
 	RPGPrerequisite* rpgPrerequisite = new RPGPrerequisite(name);
 	for (auto trait : prerequisite.requiredTraits)
 	{
@@ -185,7 +179,6 @@ RPGEquipSlot* UGameDataComponent::CreateEquipSlot(const FEquipSlot& equipSlot)
 RPGItem* UGameDataComponent::CreateItem(const FItem& item)
 {
 	RPGItem* rpgItem = new RPGItem(item.displayName, item.description, item.name, item.category, item.type, item.subtype, item.equipSlot, item.size, item.weight, item.damage, item.protection, item.durability, item.value, item.isUnique, item.isQuestItem);
-	UWorldDataInstance* wdi = Cast<UWorldDataInstance>(GetOwner()->GetGameInstance());
 	ensure(wdi != nullptr);
 	for (auto trait : item.traits)
 		rpgItem->AddTrait(wdi->GetTrait(trait));
